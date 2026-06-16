@@ -1,0 +1,11 @@
+{
+    "name": "flyn-audio-processor",
+    "version": "1.0.0",
+    "description": "FLYN WebRTC audio processor Lambda — STT → LLM → TTS pipeline",
+    "main": "index.js",
+    "scripts": {
+        "package": "zip -r function.zip index.js package.json node_modules/",
+        "deploy": "aws lambda update-function-code --function-name flyn-audio-processor --zip-file fileb://function.zip"
+    },
+    "dependencies": {}
+}

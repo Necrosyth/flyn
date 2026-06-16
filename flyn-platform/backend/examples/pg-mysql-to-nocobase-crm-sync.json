@@ -1,0 +1,221 @@
+{
+    "id": "pg-mysql-to-nocobase-crm-sync",
+    "name": "Enterprise Customer Sync — PostgreSQL + MySQL → NocoBase CRM",
+    "version": 1,
+    "tenantId": "example-tenant",
+
+    "compiled_nodes": [
+
+        {
+            "id": "trigger_1",
+            "type": "trigger",
+            "name": "Manual Trigger",
+            "config": {
+                "trigger_type": "manual",
+                "description": "Manually kick off the enterprise customer sync to NocoBase CRM"
+            },
+            "position": { "x": 100, "y": 300 }
+        },
+
+        {
+            "id": "split_1",
+            "type": "split",
+            "name": "Fetch from Both DBs in Parallel",
+            "config": {
+                "paths": ["pg_path", "mysql_path"]
+            },
+            "position": { "x": 320, "y": 300 }
+        },
+
+        {
+            "id": "pg_ai_1",
+            "type": "postgresql",
+            "name": "PostgreSQL — AI: Get Enterprise Customers",
+            "config": {
+                "connectionString": "${secrets.POSTGRESQL_URI}",
+                "useAiQuery": true,
+                "aiQueryPrompt": "From the customers table, fetch all rows where account_status is 'active' and plan is 'enterprise'. Return the columns: id, name, email, phone, company, account_status, plan, created_at.",
+                "table": "customers",
+                "limit": 500
+            },
+            "position": { "x": 560, "y": 160 }
+        },
+
+        {
+            "id": "mysql_ai_1",
+            "type": "mysql",
+            "name": "MySQL — AI: Get Order Revenue per Customer",
+            "config": {
+                "connectionString": "${secrets.MYSQL_URI}",
+                "useAiQuery": true,
+                "aiQueryPrompt": "From the orders table, compute total_orders (COUNT) and total_revenue (SUM of amount) for each customer_id. Only include customer_ids that have at least one order. Return columns: customer_id, total_orders, total_revenue, last_order_date (MAX of created_at).",
+                "table": "orders",
+                "limit": 500
+            },
+            "position": { "x": 560, "y": 440 }
+        },
+
+        {
+            "id": "join_1",
+            "type": "join",
+            "name": "Wait for Both DB Results",
+            "config": {
+                "waitFor": ["pg_ai_1", "mysql_ai_1"],
+                "strategy": "all"
+            },
+            "position": { "x": 800, "y": 300 }
+        },
+
+        {
+            "id": "merge_1",
+            "type": "merge",
+            "name": "Merge Customer + Order Data",
+            "config": {
+                "leftSourceId": "pg_ai_1",
+                "leftPath": "result",
+                "leftKey": "id",
+                "rightSourceId": "mysql_ai_1",
+                "rightPath": "result",
+                "rightKey": "customer_id",
+                "joinType": "left",
+                "computedFields": "lead_score = Math.min(100, Math.round(right.total_revenue / 1000))\ntotal_orders = right.total_orders\ntotal_revenue = right.total_revenue\nlast_order_date = right.last_order_date"
+            },
+            "position": { "x": 1040, "y": 300 }
+        },
+
+        {
+            "id": "loop_1",
+            "type": "loop",
+            "name": "For Each Customer",
+            "config": {
+                "collection": "{{merge_1.result}}",
+                "itemVariable": "customer",
+                "continueOnError": true
+            },
+            "position": { "x": 1280, "y": 300 }
+        },
+
+        {
+            "id": "crm_create_1",
+            "type": "crm",
+            "name": "NocoBase CRM — Upsert Contact",
+            "config": {
+                "operation": "create_contact",
+                "entityData": "{\"name\": \"{{customer.name}}\", \"email\": \"{{customer.email}}\", \"phone\": \"{{customer.phone}}\", \"company\": \"{{customer.company}}\", \"status\": \"customer\", \"source\": \"enterprise-sync\", \"score\": {{customer.lead_score}}, \"tags\": [\"enterprise\", \"active\"], \"notes\": \"Synced via flow. Orders: {{customer.total_orders}} | Revenue: ${{customer.total_revenue}} | Last order: {{customer.last_order_date}}\"}"
+            },
+            "position": { "x": 1520, "y": 300 }
+        },
+
+        {
+            "id": "end_1",
+            "type": "end",
+            "name": "Sync Complete",
+            "config": {
+                "message": "Enterprise customers synced to NocoBase CRM successfully"
+            },
+            "position": { "x": 1760, "y": 300 }
+        }
+
+    ],
+
+    "compiled_edges": [
+        {
+            "id": "e1",
+            "source": "trigger_1",
+            "target": "split_1"
+        },
+        {
+            "id": "e2",
+            "source": "split_1",
+            "target": "pg_ai_1",
+            "sourceHandle": "pg_path"
+        },
+        {
+            "id": "e3",
+            "source": "split_1",
+            "target": "mysql_ai_1",
+            "sourceHandle": "mysql_path"
+        },
+        {
+            "id": "e4",
+            "source": "pg_ai_1",
+            "target": "join_1"
+        },
+        {
+            "id": "e5",
+            "source": "mysql_ai_1",
+            "target": "join_1"
+        },
+        {
+            "id": "e6",
+            "source": "join_1",
+            "target": "merge_1"
+        },
+        {
+            "id": "e7",
+            "source": "merge_1",
+            "target": "loop_1"
+        },
+        {
+            "id": "e8",
+            "source": "loop_1",
+            "target": "crm_create_1",
+            "sourceHandle": "loop_body"
+        },
+        {
+            "id": "e9",
+            "source": "crm_create_1",
+            "target": "loop_1",
+            "sourceHandle": "next_iteration"
+        },
+        {
+            "id": "e10",
+            "source": "loop_1",
+            "target": "end_1",
+            "sourceHandle": "loop_complete"
+        }
+    ],
+
+    "execution_plan": {
+        "startNodeId": "trigger_1",
+        "endNodeIds": ["end_1"],
+        "nodeOrder": [
+            "trigger_1",
+            "split_1",
+            "pg_ai_1",
+            "mysql_ai_1",
+            "join_1",
+            "merge_1",
+            "loop_1",
+            "crm_create_1",
+            "end_1"
+        ],
+        "parallelPaths": [
+            {
+                "splitNodeId": "split_1",
+                "paths": [
+                    { "nodes": ["pg_ai_1"] },
+                    { "nodes": ["mysql_ai_1"] }
+                ],
+                "joinNodeId": "join_1"
+            }
+        ]
+    },
+
+    "metadata": {
+        "createdAt": "2026-03-02T00:00:00.000Z",
+        "updatedAt": "2026-03-02T00:00:00.000Z",
+        "createdBy": "system",
+        "description": "Fetches active enterprise customers from PostgreSQL and their order stats from MySQL using AI-generated SQL queries. Merges both datasets and pushes each customer as a contact into NocoBase CRM with a computed lead score.",
+        "tags": [
+            "example",
+            "postgresql",
+            "mysql",
+            "ai-query",
+            "crm",
+            "nocobase",
+            "data-sync",
+            "parallel"
+        ]
+    }
+}

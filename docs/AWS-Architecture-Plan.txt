@@ -1,0 +1,323 @@
+FLYN / PulseBridge — AWS Backend Architecture Plan (2026-01-06)
+
+Scope
+- Frontend and backend hosted separately. Frontend via static hosting/CDN. Backend on AWS with multi-tenant SaaS, telephony (Twilio first), AI orchestration (multi-provider), serverless GPU options for STT/TTS, and Chatwoot per-tenant strategy.
+- Aligned with: docs/Core_Vision.txt, docs/Advanced Telephony.md, docs/Technical Product Requirements Document (PRD).txt, docs/PRICING STRUCTURE.txt.
+- Current backend stack in repo: NestJS (`flyn-platform/backend`), modules: `tenants`, `firebase`, `chatwoot` (see `src/app.module.ts`).
+
+Goals & Principles
+1) Multi-tenant isolation by `organization_id` at API and DB layers (RLS + claims).
+2) Event-driven, scalable, fault-tolerant; prefer managed services.
+3) Cost-safe by plan (usage metering & entitlement gating as per PRICING STRUCTURE.txt).
+4) Bring-your-own AI provider routing; optional AWS-native fallbacks.
+5) Telephony-grade reliability for inbound/outbound calls and media pipelines.
+6) Clean DevEx: repeatable IaC, blue/green deployments, strong observability.
+
+High-Level Multi-Account Layout
+- AWS Organizations with separate accounts:
+  - account-dev: CI/CD playground, lower quotas.
+  - account-staging: pre-prod, mirrors prod topology.
+  - account-prod: production workloads.
+- Regions: primary us-east-1; optional eu-central-1 for EU data residency. Use region tags in resource naming.
+
+Network Topology (per account)
+- VPC (10.0.0.0/16), 3 AZs.
+  - Public subnets (for ALB/NLB, NatGW)
+  - Private subnets (ECS/EKS, RDS/ElastiCache)
+  - Isolated subnets (internal services, OpenSearch)
+- 1 NAT Gateway per AZ (optimize later with centralized NAT if cost-pressured).
+- VPC Endpoints (Gateway + Interface): S3, DynamoDB, SQS, SNS, ECR, Secrets Manager, CloudWatch Logs, STS.
+- AWS WAF + AWS Shield on CloudFront/ALB.
+
+Ingress & Edge
+- Frontend: CloudFront -> S3 static website (separate hosting)-> can prefer cloudfare pages too.
+- Backend API & Webhooks: CloudFront (optional) -> ALB -> ECS Fargate services (NestJS API, Workers).
+- WebSockets for realtime: Amazon API Gateway (WebSocket APIs) -> ECS service (NestJS gateway) via private NLB + VPC Link.
+- Dedicated webhook subdomain for external providers (Twilio/Meta): API Gateway REST -> Lambda or ALB -> ECS (validate provider signatures, rate-limit with WAF).
+- Route 53 DNS zones per env; ACM for TLS certs.
+
+Compute & Services (Backend)
+- Container Registry: ECR for all images (api, worker, chatwoot, provisioner, summarizer, etc.).
+- Orchestration: ECS on Fargate (no servers) for:
+  - api-service (NestJS): stateless HTTP, behind ALB.
+  - worker-service: consumes SQS jobs, executes workflows, sends emails/WhatsApp, etc.
+  - chatwoot-cluster: base multi-tenant Chatwoot (Rails + Sidekiq) with dedicated RDS + ElastiCache.
+  - provisioner-service: tenant provisioning, Chatwoot automation, infrastructure hooks.
+- GPU/AI paths:
+  - Preferred real-time STT/TTS via managed providers (Deepgram/ElevenLabs/OpenAI Realtime) for lowest latency.
+  - Optional self-hosted models via Amazon SageMaker:
+    - Serverless Inference endpoints for batch/offline (summaries, diarization, QA).
+    - Real-Time Inference endpoints with GPU (g5/g6) for steady workloads; auto scaling min=0..N; warm pools recommended.
+  - For custom LLMs or embeddings at scale: Amazon Bedrock (managed), or EKS GPU nodes (Karpenter) when bespoke runtime is required.
+
+Data Layer
+- Primary DB: Amazon Aurora PostgreSQL Serverless v2 (Multi-AZ) with RDS Proxy.
+  - Enforce row-level security (RLS) by `organization_id`.
+  - Connection pooling via RDS Proxy to protect Aurora from Lambda/ECS burst.
+- Caching/Queues: Amazon ElastiCache for Redis (Multi-AZ) for:
+  - BullMQ job queues (if retained) and short-lived caches.
+- Durable queues and decoupling: SQS (FIFO for idempotent operations like billing or metering; Standard for high-throughput tasks).
+- Object Storage: Amazon S3
+  - s3://pb-prod-recordings (call recordings, Twilio media fetches)
+  - s3://pb-prod-transcripts (STT output, summaries)
+  - s3://pb-prod-attachments (uploads)
+  - s3://pb-prod-logs (structured logs & archives via Firehose)
+  - All buckets: SSE-KMS, bucket policies, lifecycle to IA/Glacier; CRR for multi-region if enabled.
+- Search/Analytics:
+  - Operational search: Amazon OpenSearch (optional, for full-text across interactions & transcripts).
+  - Data lake: Firehose -> S3; Athena for ad-hoc; Redshift Serverless for BI; QuickSight dashboards.
+- Usage Metering & Entitlements (per PRICING STRUCTURE.txt):
+  - Authoritative store in Postgres (plan, entitlements, tenant overrides) to align with app logic.
+  - High-rate counters in DynamoDB (usage_counters) with atomic increments and TTL snapshots to reduce DB write pressure; periodic ETL to Postgres for reconciliation.
+
+Messaging, Events, and Orchestration
+- Event bus: Amazon EventBridge — canonical domain events (contact.created, call.ended, whatsapp.message.received, workflow.run.completed, etc.).
+- Background processing:
+  - SQS + ECS workers for bulk tasks (campaign sends, RAG ingestion, AI batch summaries).
+  - Step Functions for longer-running orchestrations:
+    - Tenant provisioning (create Chatwoot account, seed data, keys)
+    - Call recording post-processing (STT -> summary -> sentiment -> CRM notes)
+    - Data export pipelines
+- Cron/schedules: EventBridge Scheduler.
+
+Identity, Auth, and Multitenancy
+- End-user auth: Amazon Cognito (User Pools + Hosted UI + SAML/OIDC SSO for Enterprise).
+- Service-to-service: IAM Roles for Tasks (ECS/Lambda) with least privilege.
+- JWT structure: include `organization_id`, role, plan keys for API guards.
+- DB isolation: Postgres RLS per `organization_id`; ensure every query goes through scoped views.
+- Rate limits: WAF rate-based rules; API Gateway usage plans (if used) + per-tenant token buckets in Redis.
+
+Telephony Architecture (Twilio-first; Chime optional)
+- Inbound/Outbound Calls:
+  - Twilio webhook -> API Gateway REST (WAF, IP allowlist) -> Lambda (signature verify) -> enqueue SQS -> ECS api/worker handles call control via TwiML.
+  - Media streams (for live AI): Twilio Media Streams -> secure WebSocket endpoint (API Gateway WS) -> ECS realtime service.
+- Real-time STT/TTS pipelines:
+  - Managed: Deepgram (STT) + ElevenLabs/Polly (TTS) for sub-250ms latency.
+  - Self-hosted (optional): SageMaker Realtime endpoints (WhisperX/FastPitch-like). Warm pools + Provisioned concurrency to avoid cold starts.
+- Recordings:
+  - Twilio records; post-call webhook triggers Lambda to fetch recording to S3 -> EventBridge to launch STT+summary pipeline -> store results + attach to `interactions`.
+- Compliance:
+  - Recording controls per plan (30/90/365 days) with S3 Lifecycle and legal hold.
+  - STIR/SHAKEN support via provider; call identity flags in CRM timeline.
+- Optional AWS-native path: Amazon Chime SDK Voice + SIP media apps for future Twilio independence.
+
+Chatwoot Strategy (Per-tenant Requirements)
+- Default (pooled, cost-efficient):
+  - One multi-tenant Chatwoot cluster on ECS Fargate: web (Rails), worker (Sidekiq), ingress (ALB), RDS Postgres, ElastiCache Redis.
+  - Tenants map to Chatwoot Accounts; use API to auto-provision inboxes, channels, users per `organization_id`.
+  - Single cluster per region; logical isolation at Chatwoot account level.
+- Enterprise (dedicated):
+  - Provision dedicated Chatwoot stack per tenant via Step Functions + CDK (ECS services, new RDS/Redis, per-tenant subdomain inbox.org-domain.com).
+  - Secrets isolated in Secrets Manager; optional VPC peering for data-plane isolation.
+- Provisioning flow:
+  1) `TenantsService` emits event organization.created
+  2) EventBridge -> Step Functions (ProvisionTenant)
+  3) Tasks: create Chatwoot account/inboxes via Chatwoot API, seed webhooks, map SSO, store tokens in Secrets Manager
+  4) Emit organization.provisioned
+
+API & Application Layer (NestJS)
+- Services split by responsibility (as per Core_Vision): Auth, Tenants, Contacts/CRM, Communication Orchestrator, Telephony, AI Orchestrator, Automation Engine, Billing/Entitlements, Audit.
+- Deployment model v1 (modular monolith):
+  - api-service (HTTP + WebSocket clients via API GW WS)
+  - worker-service (SQS consumers, BullMQ if desired)
+- Evolution path (optional microservices): carve out Automation Engine (long-running), AI Orchestrator (provider routing), and Telephony Realtime as separate ECS services.
+
+Secrets & Config
+- AWS Secrets Manager: API keys (OpenAI, Anthropic, Deepgram, ElevenLabs, WhatsApp Cloud API, Twilio), DB creds (use IAM auth for Aurora where possible).
+- AWS AppConfig / Parameter Store: feature flags, non-secret config, per-plan thresholds.
+- CI injects runtime env via task definitions referencing secrets directly.
+
+Observability & SRE
+- Logging: structured JSON to CloudWatch Logs; subscription filters -> Firehose -> S3 -> Athena for queries; optional OpenSearch for live search.
+- Tracing: AWS Distro for OpenTelemetry (ADOT) sidecars -> X-Ray; propagate trace IDs across ECS/Lambda.
+- Metrics/Alarms: CloudWatch metrics + composite alarms (API 5xx, queue backlogs, latency p95, STT/TTS error rates, AI provider failover counts).
+- Uptime & Synthetic tests: CloudWatch Synthetics canaries for public endpoints and webhook flows.
+- Cost monitoring: AWS Budgets + Cost Anomaly Detection, alerts to Slack via SNS.
+
+Security & Compliance
+- TLS everywhere; CloudFront/ALB with modern ciphers.
+- KMS CMKs per data domain (db, logs, objects). S3 default encryption + bucket policies (no public ACLs).
+- GuardDuty, Inspector, Macie enabled; IAM Access Analyzer.
+- Principle of least privilege; short-lived credentials via IRSA (if EKS) or Task Roles (ECS).
+- Data residency: partition tenants by region; Aurora Global Database or distinct regional clusters; CRR on S3; per-region keys.
+- GDPR/CCPA support: right to be forgotten flows; audit logs of changes.
+
+Usage Metering & Entitlements (Implementation Notes)
+- Enforcement order for paid actions:
+  1) BillingGuard: tenant.status == active
+  2) EntitlementGuard: entitled(feature_key)
+  3) UsageGuard: usage < limit
+  4) Reserve usage (atomic increment)
+  5) Execute
+- Storage model:
+  - entitlements in Postgres: plans, plan_entitlements, tenant_entitlements (overrides).
+  - usage_counters in DynamoDB (metric_key, period, used, limit) with conditional updates.
+  - nightly ETL to Postgres for analytics integrity.
+- Admin UI shows live usage bars via API from DynamoDB + plan caps from Postgres.
+
+CI/CD & IaC
+- IaC: AWS CDK (TypeScript) modules:
+  - network (VPC, subnets, endpoints)
+  - data (RDS, ElastiCache, S3, OpenSearch)
+  - compute (ECS clusters/services, task defs, autoscaling)
+  - ingress (CloudFront, ALB/NLB, API Gateway, WAF)
+  - observability (CloudWatch dashboards/alarms, ADOT)
+  - security (KMS, Secrets, GuardDuty, Macie)
+- Pipelines: GitHub Actions
+  - build -> test -> docker build/push ECR -> CDK synth/diff -> CDK deploy (staged) -> smoke tests -> blue/green cutover (ALB target groups).
+- Rollbacks: automatic via deploy health checks; retain N previous task definitions.
+
+Telephony Real-Time Flow (Reference)
+1) Inbound call -> Twilio -> webhook to API GW -> Lambda validates -> create call session -> respond TwiML.
+2) For AI assist: Twilio Media Streams -> API GW WS -> ECS realtime service.
+3) STT: Deepgram streaming or SageMaker Realtime (if self-hosted) -> partial transcripts -> agent.
+4) TTS: ElevenLabs/Polly -> audio stream back to Twilio media.
+5) Post-call: Twilio recording webhook -> S3 -> EventBridge -> Step Functions (transcribe if needed, summarize, sentiment, CRM write).
+
+Chatwoot Integration (Reference)
+- Central cluster per region:
+  - ECS services: chatwoot-web, chatwoot-worker; ALB; RDS (db.chatwoot), ElastiCache (redis).
+  - Provisioner uses Chatwoot Admin API to create Accounts/Inboxes per organization.
+  - Webhook subscriptions routed to API Gateway -> ECS api-service.
+- Dedicated (enterprise) path (optional):
+  - Step Functions spawns per-tenant ECS services, RDS instance, Redis, Route 53 subdomain, and returns `chatwoot_base_url` + access tokens.
+
+GPU/AI Strategy (Serverless “GPU” Sessions)
+- Real-time conversational latency target: <250ms end-to-end.
+- Recommended primary path: managed providers (Deepgram/ElevenLabs/OpenAI Realtime) to avoid cold starts.
+- Self-hosted (when required):
+  - SageMaker Serverless (batch) for summaries/QA/diarization.
+  - SageMaker Realtime (GPU) with autoscaling and warm instances for lower latency (not strictly serverless, but managed). Scale-to-zero is limited; prefer minimal Provisioned Concurrency.
+  - For extreme control: EKS with Karpenter + g5/g6 node groups; scale to zero possible for nodes, with trade-offs in cold starts.
+
+Data Model Alignment
+- Maintain `interactions` table for all omni-channel events (voice, WhatsApp, SMS, email, social) with org scoping.
+- Store transcripts and analyses as S3 objects with DB metadata (urls, hashes, timestamps, ai_agent_id, workflow_id).
+
+Disaster Recovery
+- RDS: Aurora Global Database (optional), otherwise cross-region read replica + plan to promote.
+- S3: CRR with Multi-Region Access Points for recordings and transcripts.
+- Route 53 health checks and failover routing; cross-region ECS cluster warm standby (minimal desired count) if RTO demands.
+- RTO: <= 60 minutes, RPO: <= 15 minutes (tune per plan).
+
+Cost Controls (Top Wins)
+- ECS Fargate Spot for non-critical workers.
+- Scale worker-service on SQS depth; api-service on ALB 5xx/latency.
+- Reduce NAT Gateway egress via VPC Endpoints; batch external calls via workers.
+- S3 Intelligent-Tiering + lifecycle; logs to S3 with low-cost storage classes.
+- OpenSearch only if absolutely needed (start with Postgres + trigram indices for search; move when required).
+
+Domains & Subdomains (Example)
+- api.prod.yourdomain.com (ALB -> ECS api-service)
+- ws.prod.yourdomain.com (API GW WebSocket)
+- hooks.prod.yourdomain.com (API GW REST for provider webhooks)
+- inbox.prod.yourdomain.com (Chatwoot pooled)
+- <tenant>.inbox.prod.yourdomain.com (dedicated enterprise Chatwoot)
+
+Security Runbooks
+- Key rotation: Secrets Manager rotation for DB/API keys; IAM Access Analyzer findings triaged weekly.
+- Incident handling: WAF blocklists, API GW usage plan throttles, temporary plan caps enforced by EntitlementGuard.
+- PII handling: Macie scans S3; automatic redaction in logs; encrypt-at-rest with KMS; narrow IAM policies.
+
+Implementation Phases (90-Day Plan)
+Phase 1 (Weeks 1–4):
+- Stand up VPC, ECS cluster, Aurora, ElastiCache, S3, ALB, API GW (webhooks), Secrets, WAF.
+- Containerize NestJS api-service + worker-service; CI/CD with CDK; RDS Proxy.
+- EventBridge + SQS wired; basic Entitlement/Usage guards.
+- Twilio inbound/outbound basic; recordings to S3; post-call summary via managed STT/TTS (Deepgram/Polly) stored to DB.
+
+Phase 2 (Weeks 5–8):
+- Chatwoot pooled cluster; provisioning flow (Step Functions) from `TenantsService`.
+- API Gateway WebSocket for inbox/live updates; frontend subscribe.
+- AI Orchestrator service for multi-provider routing; fallbacks; token accounting.
+- Observability: ADOT, X-Ray, dashboards/alarms; cost budgets.
+
+Phase 3 (Weeks 9–12):
+- Optional SageMaker endpoints for self-hosted Whisper/voice; Step Functions for batch speech analytics.
+- Advanced automation engine (workflows) offloaded to workers + Step Functions where long-running.
+- EU region footprint; data residency routing; CRR for S3; Aurora regional read replicas.
+
+Appendix A — Resource Naming
+- pb-<env>-<component>-<suffix>
+  - Example: pb-prod-aurora-core, pb-prod-ecs-api, pb-prod-s3-recordings.
+
+Appendix B — IAM Least Privilege Patterns
+- ECS task roles per service scoped to exact S3 buckets, queues, and secrets.
+- Lambda roles: minimal access for webhook validation and SQS enqueue only.
+
+Appendix C — Diagrams (Mermaid)
+
+High-Level (Edge -> App -> Data)
+```mermaid
+flowchart TD
+  CF[CloudFront] --> ALB(ALB - Backend API)
+  CF --> S3F[S3 - Frontend]
+  ALB --> ECSAPI[ECS Fargate - api-service]
+  APIGWWS[API GW WebSocket] --> ECSRT[ECS Fargate - realtime]
+  APIGWREST[API GW REST - Webhooks] --> L01[Lambda validate] --> SQS[SQS]
+  SQS --> ECSWRK[ECS Fargate - worker-service]
+  ECSAPI --> RDS[(Aurora Postgres + RDS Proxy)]
+  ECSWRK --> RDS
+  ECSAPI --> REDIS[(ElastiCache Redis)]
+  ECSWRK --> REDIS
+  ECSWRK --> S3REC[(S3 Recordings/Transcripts)]
+  ECSWRK --> EVB[EventBridge]
+  subgraph AI Providers
+    DG[Deepgram STT]
+    EL[ElevenLabs TTS]
+    OA[OpenAI]
+    SM[SageMaker Endpoints]
+  end
+  ECSRT <--> DG
+  ECSRT <--> EL
+  ECSWRK <--> SM
+  EVB --> SFN[Step Functions]
+```
+
+Telephony Media Flow (Twilio)
+```mermaid
+sequenceDiagram
+  participant Tw as Twilio
+  participant APIR as API GW REST
+  participant L as Lambda (validate)
+  participant S as SQS
+  participant A as ECS api-service
+  participant WS as API GW WS
+  participant RT as ECS realtime
+  Tw->>APIR: webhook (call start)
+  APIR->>L: verify signature
+  L->>S: enqueue call session
+  S->>A: process call control (TwiML)
+  Tw-->>WS: media streams (bi-directional)
+  WS-->>RT: websocket frames
+  RT-->>DG: STT streaming
+  RT-->>EL: TTS streaming
+  Tw->>APIR: recording complete webhook
+  APIR->>L: validate
+  L->>S: enqueue post-call job
+  S->>A: fetch recording -> S3 -> summarize -> CRM
+```
+
+Chatwoot Pooled Cluster
+```mermaid
+flowchart LR
+  U[Users/Agents] --> CF
+  CF --> ALBIN(ALB - inbox)
+  ALBIN --> CWWEB[ECS chatwoot-web]
+  CWWEB --> CWDB[(RDS Chatwoot)]
+  CWWEB --> CWREDIS[(ElastiCache Redis)]
+  CWWEB --> CWWRK[ECS chatwoot-worker]
+  CWWEB <---> API[ECS api-service]
+  API <--> APIGWREST
+```
+
+Notes Tied to Repo
+- Backend entrypoint: `flyn-platform/backend/src/main.ts` with global prefix `api`.
+- Modules found: `tenants`, `firebase`, `chatwoot` in `src/app.module.ts`.
+  - Replace Firebase admin uses with Cognito/SecretsManager where possible; retain Firebase only if needed for mobile OTP flows (bridge via dedicated module).
+- NGINX currently proxies `/api` and `/` (see `flyn-platform/nginx/nginx.conf`). In AWS split hosting:
+  - Frontend via CloudFront/S3
+  - Backend via ALB/API Gateway — no NGINX needed in production.
+- `flyn-platform/chatwoot.env` variables should be moved to Secrets Manager and CDK-managed envs.
+
+This plan balances cost, reliability, and speed-to-market while aligning with your product vision: multi-tenant omni-channel operations with AI-first telephony and a clean path to enterprise-grade isolation when required.

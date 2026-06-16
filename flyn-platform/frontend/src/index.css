@@ -1,0 +1,678 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+ * FLYN Platform — Design System
+ * ============================================================================
+ * Dark-first enterprise theme with light mode support.
+ * Fonts: Satoshi (body), Epilogue (headings), JetBrains Mono (data)
+ * ========================================================================= */
+
+@layer base {
+
+  /* --------------------------------------------------------------------------
+   * DARK MODE (Default)
+   * A deep, cool-neutral dark with muted indigo as the primary accent.
+   * ----------------------------------------------------------------------- */
+  :root {
+    color-scheme: dark;
+
+    /* Core surfaces — near-zero saturation for true neutral dark */
+    --background: 220 5% 7%;
+    --foreground: 210 10% 92%;
+
+    --card: 220 5% 10%;
+    --card-foreground: 210 10% 92%;
+
+    --popover: 220 5% 12%;
+    --popover-foreground: 210 10% 92%;
+
+    /* Primary — Muted Indigo (enterprise-grade, not neon) */
+    --primary: 242 58% 62%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: 220 5% 16%;
+    --secondary-foreground: 210 10% 80%;
+
+    /* Muted */
+    --muted: 220 5% 14%;
+    --muted-foreground: 215 8% 55%;
+
+    /* Accent — Subdued Cyan */
+    --accent: 193 70% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders & Inputs */
+    --border: 220 5% 17%;
+    --input: 220 5% 17%;
+    --ring: 242 58% 62%;
+
+    --radius: 0.625rem;
+
+    /* Flyn brand tokens */
+    --flyn-purple: 242 58% 62%;
+    --flyn-purple-deep: 248 56% 52%;
+    --flyn-cyan: 193 70% 48%;
+    --flyn-cyan-light: 193 60% 62%;
+    --flyn-dark: 220 5% 7%;
+    --flyn-gradient: linear-gradient(135deg, hsl(242 58% 62%) 0%, hsl(220 68% 54%) 50%, hsl(193 70% 48%) 100%);
+    --flyn-gradient-subtle: linear-gradient(135deg, hsl(242 58% 62% / 0.08) 0%, hsl(193 70% 48% / 0.04) 100%);
+    --flyn-shadow: 0 4px 24px -4px hsl(0 0% 0% / 0.35);
+    --flyn-shadow-lg: 0 12px 48px -12px hsl(0 0% 0% / 0.5);
+
+    /* Sidebar — true neutral charcoal, slightly deeper than main bg */
+    --sidebar-background: 220 4% 6%;
+    --sidebar-foreground: 210 10% 88%;
+    --sidebar-primary: 242 58% 62%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 4% 12%;
+    --sidebar-accent-foreground: 210 10% 92%;
+    --sidebar-border: 220 4% 11%;
+    --sidebar-ring: 242 58% 62%;
+    --sidebar-muted: 215 8% 48%;
+
+    /* Chart colors */
+    --chart-1: 242 58% 62%;
+    --chart-2: 193 70% 48%;
+    --chart-3: 160 60% 45%;
+    --chart-4: 38 80% 55%;
+    --chart-5: 0 72% 51%;
+
+    /* Status tokens */
+    --status-active: 160 60% 45%;
+    --status-active-bg: 160 60% 45% / 0.12;
+    --status-pending: 38 80% 55%;
+    --status-pending-bg: 38 80% 55% / 0.12;
+    --status-closed: 215 15% 50%;
+    --status-closed-bg: 215 15% 50% / 0.12;
+
+    /* Channel tokens */
+    --channel-whatsapp: 142 70% 45%;
+    --channel-email: 217 70% 55%;
+    --channel-facebook: 221 44% 41%;
+    --channel-sms: 25 80% 55%;
+    --channel-web: 242 58% 62%;
+
+    /* Message tokens */
+    --message-incoming: 220 5% 16%;
+    --message-outgoing: 242 38% 24%;
+
+    /* React Flow tokens (CSS-variable based for white-label) */
+    --flow-bg: 220 4% 5%;
+    --flow-surface: 220 5% 10%;
+    --flow-border: 220 5% 20%;
+    --flow-handle: 215 8% 35%;
+    --flow-handle-hover: 242 58% 62%;
+    --flow-edge: 215 8% 32%;
+    --flow-edge-active: 242 58% 62%;
+    --flow-selection: 242 58% 62%;
+    --flow-text: 210 10% 68%;
+    --flow-controls-bg: 220 5% 10%;
+    --flow-minimap-bg: 220 4% 5%;
+  }
+
+  /* --------------------------------------------------------------------------
+   * LIGHT MODE
+   * Clean, airy whites with the same indigo accent system.
+   * ----------------------------------------------------------------------- */
+  .light {
+    color-scheme: light;
+
+    --background: 0 0% 98%;
+    --foreground: 222 14% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 14% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 14% 12%;
+
+    --primary: 242 52% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 95%;
+    --secondary-foreground: 222 14% 35%;
+
+    --muted: 220 14% 95%;
+    --muted-foreground: 215 12% 45%;
+
+    --accent: 193 62% 42%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 242 52% 55%;
+
+    /* Flyn brand tokens — light variants */
+    --flyn-purple: 242 52% 55%;
+    --flyn-purple-deep: 248 50% 48%;
+    --flyn-cyan: 193 62% 42%;
+    --flyn-cyan-light: 193 55% 58%;
+    --flyn-dark: 222 14% 12%;
+    --flyn-gradient: linear-gradient(135deg, hsl(242 52% 55%) 0%, hsl(220 60% 50%) 50%, hsl(193 62% 42%) 100%);
+    --flyn-gradient-subtle: linear-gradient(135deg, hsl(242 52% 55% / 0.06) 0%, hsl(193 62% 42% / 0.03) 100%);
+    --flyn-shadow: 0 4px 24px -4px hsl(220 14% 12% / 0.07);
+    --flyn-shadow-lg: 0 12px 48px -12px hsl(220 14% 12% / 0.10);
+
+    /* Sidebar — stays dark in light mode, but with purple/indigo tint */
+    --sidebar-background: 248 32% 12%;
+    --sidebar-foreground: 210 18% 90%;
+    --sidebar-primary: 242 52% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 248 28% 18%;
+    --sidebar-accent-foreground: 210 18% 94%;
+    --sidebar-border: 248 24% 16%;
+    --sidebar-ring: 242 52% 55%;
+    --sidebar-muted: 245 16% 52%;
+
+    /* Chart colors */
+    --chart-1: 242 52% 55%;
+    --chart-2: 193 62% 42%;
+    --chart-3: 160 60% 40%;
+    --chart-4: 38 75% 50%;
+    --chart-5: 0 84% 55%;
+
+    /* Status tokens */
+    --status-active: 160 60% 40%;
+    --status-active-bg: 160 60% 40% / 0.10;
+    --status-pending: 38 75% 50%;
+    --status-pending-bg: 38 75% 50% / 0.10;
+    --status-closed: 215 12% 55%;
+    --status-closed-bg: 215 12% 55% / 0.10;
+
+    /* Channel tokens */
+    --channel-whatsapp: 142 70% 38%;
+    --channel-email: 217 65% 48%;
+    --channel-facebook: 221 44% 38%;
+    --channel-sms: 25 75% 48%;
+    --channel-web: 242 52% 55%;
+
+    /* Message tokens */
+    --message-incoming: 220 14% 95%;
+    --message-outgoing: 242 40% 92%;
+
+    /* React Flow tokens — light */
+    --flow-bg: 0 0% 98%;
+    --flow-surface: 0 0% 100%;
+    --flow-border: 220 13% 88%;
+    --flow-handle: 215 12% 65%;
+    --flow-handle-hover: 242 52% 55%;
+    --flow-edge: 215 12% 75%;
+    --flow-edge-active: 242 52% 55%;
+    --flow-selection: 242 52% 55%;
+    --flow-text: 222 14% 35%;
+    --flow-controls-bg: 0 0% 100%;
+    --flow-minimap-bg: 220 14% 96%;
+  }
+
+  /* Force-dark scope — apply to any element that should always render in dark
+     mode regardless of the user's theme preference (e.g. intentionally dark
+     plugin UIs like TelegramPlugin, ChurchCMS). */
+  .force-dark {
+    --background: 220 5% 7%;
+    --foreground: 210 10% 92%;
+    --card: 220 5% 10%;
+    --card-foreground: 210 10% 92%;
+    --popover: 220 5% 12%;
+    --popover-foreground: 210 10% 92%;
+    --primary: 242 58% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 5% 16%;
+    --secondary-foreground: 210 10% 80%;
+    --muted: 220 5% 14%;
+    --muted-foreground: 215 8% 55%;
+    --accent: 193 70% 48%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 5% 17%;
+    --input: 220 5% 17%;
+    --ring: 242 58% 62%;
+    background-color: hsl(220 5% 7%);
+    color: hsl(210 10% 92%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * BASE STYLES
+ * ----------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Ultra-smooth scrolling — momentum + GPU acceleration */
+  html,
+  body,
+  main,
+  [data-smooth-scroll] {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;          /* iOS momentum */
+  }
+
+  /* Lenis smooth-scroll integration */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;                      /* Lenis takes over */
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling {
+    /* Reduce paint cost during active scroll */
+    pointer-events: none;
+  }
+
+  * {
+    @apply border-border;
+    /* GPU-accelerate all scroll containers for buttery frames */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Satoshi', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;                         /* prevent horizontal jank */
+    overscroll-behavior-y: none;                /* kill rubber-band bounce */
+    text-rendering: optimizeSpeed;              /* lighter paint during scroll */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Epilogue', system-ui, sans-serif;
+    @apply tracking-tight;
+  }
+
+  /* Tabular numbers for data-heavy UI */
+  .font-data, [data-numeric] {
+    font-family: 'JetBrains Mono', 'Satoshi', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  /* Signature font stack — elegant and fluid */
+  .font-signature {
+    font-family: 'Mrs Saint Delafield', 'Cedarville Cursive', 'Dancing Script', 'Cursive', cursive;
+    @apply font-normal;
+  }
+}
+
+/* ============================================================================
+ * COMPONENT STYLES
+ * ========================================================================= */
+@layer components {
+
+  /* Card variants --------------------------------------------------------- */
+  .flyn-card {
+    @apply bg-card rounded-lg border border-border;
+    box-shadow: var(--flyn-shadow);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .flyn-card-interactive {
+    @apply bg-card rounded-lg border border-border cursor-pointer;
+    box-shadow: var(--flyn-shadow);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .flyn-card-interactive:hover {
+    @apply border-primary/30;
+    box-shadow: var(--flyn-shadow-lg);
+  }
+
+  /* Gradient utilities ---------------------------------------------------- */
+  .flyn-gradient-bg {
+    background-image: var(--flyn-gradient) !important;
+    background-color: transparent !important;
+  }
+
+  .flyn-gradient-text {
+    background: var(--flyn-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Button gradient ------------------------------------------------------- */
+  .flyn-button-gradient {
+    background-image: var(--flyn-gradient) !important;
+    background-color: transparent !important;
+    @apply text-white font-medium;
+    transition: box-shadow 0.2s ease, opacity 0.15s ease;
+  }
+
+  .flyn-button-gradient:hover {
+    box-shadow: var(--flyn-shadow-lg);
+    opacity: 0.92;
+  }
+
+  /* Input ------------------------------------------------------------------ */
+  .flyn-input {
+    @apply bg-background border border-input rounded-lg px-4 py-3;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .flyn-input:focus {
+    @apply border-primary ring-2 ring-primary/20 outline-none;
+  }
+}
+
+/* ============================================================================
+ * UTILITY STYLES
+ * ========================================================================= */
+@layer utilities {
+
+  /* Animations ------------------------------------------------------------ */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes blinkRed {
+    0%, 100% { 
+      background-image: var(--flyn-gradient) !important;
+      box-shadow: 0 0 0px rgba(239, 68, 68, 0);
+    }
+    50% { 
+      background-image: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+    }
+  }
+
+  .animate-blink-red {
+    animation: blinkRed 1.5s infinite ease-in-out;
+  }
+
+  /* Scrollbar — theme-aware ----------------------------------------------- */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 0.3);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.5);
+    border-radius: 3px;
+    border: 1px solid hsl(var(--border));
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+
+  /* For Firefox */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.5) hsl(var(--muted) / 0.3);
+  }
+
+  /* React Flow panel scrollbar -------------------------------------------- */
+  .nowheel {
+    /* Recognized by React Flow to prevent zoom on scroll */
+  }
+  
+  .nowheel::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .nowheel::-webkit-scrollbar-track {
+    background: hsl(var(--flow-surface) / 0.5);
+    border-radius: 3px;
+  }
+
+  .nowheel::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+
+  .nowheel::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* ========================================================================
+   * React Flow Theme — CSS-variable based for white-label support
+   * ====================================================================== */
+
+  /* Override React Flow's own CSS custom properties with our design tokens */
+  .react-flow {
+    --xy-background-color: hsl(var(--background)) !important;
+    --xy-node-background-color: hsl(var(--card)) !important;
+    --xy-node-color: hsl(var(--card-foreground)) !important;
+    --xy-node-border: 1px solid hsl(var(--border)) !important;
+    --xy-node-border-radius: var(--radius) !important;
+    --xy-node-box-shadow: var(--flyn-shadow) !important;
+    --xy-handle-background-color: hsl(var(--muted-foreground)) !important;
+    --xy-handle-border-color: hsl(var(--border)) !important;
+    --xy-edge-label-background-color: hsl(var(--card)) !important;
+    --xy-edge-label-color: hsl(var(--card-foreground)) !important;
+    --xy-selection-background-color: hsl(var(--flow-selection) / 0.08) !important;
+    --xy-selection-border: 1px dashed hsl(var(--flow-selection)) !important;
+    --xy-controls-button-background-color: hsl(var(--flow-controls-bg)) !important;
+    --xy-controls-button-background-color-hover: hsl(var(--flow-border)) !important;
+    --xy-controls-button-color: hsl(var(--flow-text)) !important;
+    --xy-controls-button-color-hover: hsl(var(--foreground)) !important;
+    --xy-controls-button-border-color: hsl(var(--flow-border)) !important;
+    --xy-minimap-background-color: hsl(var(--flow-minimap-bg)) !important;
+    --xy-minimap-mask-background-color: hsl(var(--background) / 0.8) !important;
+    --xy-minimap-node-background-color: hsl(var(--muted-foreground)) !important;
+    --xy-attribution-background-color: transparent !important;
+    --xy-background-pattern-dots-color: hsl(var(--border)) !important;
+    --xy-resize-background-color: hsl(var(--primary)) !important;
+  }
+
+  /* Controls Panel */
+  .react-flow__controls {
+    background: hsl(var(--flow-controls-bg)) !important;
+    border: 1px solid hsl(var(--flow-border)) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 40px -10px hsl(0 0% 0% / 0.35) !important;
+    overflow: hidden;
+  }
+
+  .react-flow__controls-button {
+    background: hsl(var(--flow-controls-bg)) !important;
+    border: none !important;
+    border-bottom: 1px solid hsl(var(--flow-border)) !important;
+    color: hsl(var(--flow-text)) !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .react-flow__controls-button:last-child {
+    border-bottom: none !important;
+  }
+
+  .react-flow__controls-button:hover {
+    background: hsl(var(--flow-border)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .react-flow__controls-button svg {
+    fill: currentColor !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+  }
+
+  /* MiniMap */
+  .react-flow__minimap {
+    background: hsl(var(--flow-minimap-bg)) !important;
+    border: 1px solid hsl(var(--flow-border)) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+  }
+
+  /* Edges */
+  .react-flow__edge-path {
+    stroke: hsl(var(--flow-edge)) !important;
+    stroke-width: 2 !important;
+  }
+
+  .react-flow__edge.selected .react-flow__edge-path,
+  .react-flow__edge:hover .react-flow__edge-path {
+    stroke: hsl(var(--flow-edge-active)) !important;
+    stroke-width: 3 !important;
+  }
+
+  /* Connection Line */
+  .react-flow__connection-line {
+    stroke: hsl(var(--flow-edge-active)) !important;
+    stroke-width: 2 !important;
+    stroke-dasharray: 5, 5 !important;
+  }
+
+  /* Handles */
+  .react-flow__handle {
+    width: 10px !important;
+    height: 10px !important;
+    background: hsl(var(--flow-handle)) !important;
+    border: 2px solid hsl(var(--flow-surface)) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .react-flow__handle:hover {
+    background: hsl(var(--flow-handle-hover)) !important;
+    transform: scale(1.3) !important;
+  }
+
+  /* Selection Box */
+  .react-flow__selection {
+    background: hsl(var(--flow-selection) / 0.08) !important;
+    border: 1px dashed hsl(var(--flow-selection)) !important;
+  }
+
+  /* Attribution — Hidden */
+  .react-flow__attribution {
+    display: none !important;
+  }
+
+  /* Node Selection State */
+  .react-flow__node.selected {
+    box-shadow: 0 0 0 2px hsl(var(--flow-selection)), 0 10px 40px -10px hsl(var(--flow-selection) / 0.3) !important;
+  }
+
+  /* Panel overlays */
+  .react-flow__panel {
+    margin: 12px !important;
+  }
+
+  /* ========================================================================
+   * Mobile Utilities
+   * ====================================================================== */
+  
+  /* Support for modern phone bottom notches/bars */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .safe-area-mb {
+    margin-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* Optimize touch targets for buttons on mobile */
+  @media (max-width: 768px) {
+    button, a.button {
+      @apply min-h-[44px] min-w-[44px];
+    }
+    
+    input, select, textarea {
+      font-size: 16px !important; /* Prevent iOS auto-zoom on focus */
+    }
+  }
+
+  /* Responsive font adjustments */
+  @media (max-width: 640px) {
+    h1 { @apply text-3xl; }
+    h2 { @apply text-2xl; }
+    h3 { @apply text-xl; }
+  }
+}
+
+/* ── Appearance: Compact Density ─────────────────────────────────────────── */
+.compact * {
+  --compact: 1;
+}
+.compact .p-4 { padding: 0.5rem !important; }
+.compact .p-5 { padding: 0.75rem !important; }
+.compact .p-6 { padding: 1rem !important; }
+.compact .px-4 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+.compact .px-6 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+.compact .py-3 { padding-top: 0.375rem !important; padding-bottom: 0.375rem !important; }
+.compact .py-4 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+.compact .gap-4 { gap: 0.5rem !important; }
+.compact .gap-6 { gap: 0.75rem !important; }
+.compact .space-y-4 > * + * { margin-top: 0.5rem !important; }
+.compact .space-y-6 > * + * { margin-top: 0.75rem !important; }
+.compact .text-sm { font-size: 0.8125rem !important; }
+
+/* ── Appearance: High Contrast ───────────────────────────────────────────── */
+.high-contrast {
+  --border: 210 40% 50%;
+  --muted-foreground: 215 20% 75%;
+}
+.high-contrast * {
+  border-color: hsl(210, 40%, 50%) !important;
+  outline-color: hsl(210, 40%, 50%);
+}
+.high-contrast p, .high-contrast span, .high-contrast label {
+  color: hsl(var(--foreground)) !important;
+}
+.high-contrast .text-muted-foreground {
+  color: hsl(215, 20%, 75%) !important;
+}
+
+/* ── Appearance: Reduce Animations ──────────────────────────────────────── */
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

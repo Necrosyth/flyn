@@ -1,0 +1,164 @@
+{
+  "_comment": "Flow 1 — Seed All 4 Modules. Import via the visual builder → Import JSON button.",
+  "nodes": [
+    {
+      "id": "trigger_1",
+      "type": "trigger",
+      "name": "Manual Trigger",
+      "position": { "x": 60, "y": 320 },
+      "config": {
+        "trigger_type": "manual",
+        "event_name": "seed_all_modules",
+        "description": "Manually trigger to seed demo data into HR, Church, Coaches and Freelancer modules stored in NocoBase"
+      }
+    },
+
+    {
+      "id": "hr_1",
+      "type": "hr",
+      "name": "HR — Create Employee",
+      "position": { "x": 380, "y": 60 },
+      "config": {
+        "operation": "create_employee",
+        "entityData": "{\"name\":\"Tanner Wakefield\",\"email\":\"tanner.wakefield@company.com\",\"phone\":\"+1-555-0101\",\"department\":\"engineering\",\"position\":\"Project Manager\",\"start_date\":\"2025-01-15\",\"notes\":\"Seeded via visual builder flow\"}"
+      }
+    },
+
+    {
+      "id": "hr_2",
+      "type": "hr",
+      "name": "HR — Create Employee 2",
+      "position": { "x": 380, "y": 200 },
+      "config": {
+        "operation": "create_employee",
+        "entityData": "{\"name\":\"Jordan Chan\",\"email\":\"jordan.chan@company.com\",\"phone\":\"+1-555-0102\",\"department\":\"marketing\",\"position\":\"Senior Developer\",\"start_date\":\"2025-03-01\",\"notes\":\"Seeded via visual builder flow\"}"
+      }
+    },
+
+    {
+      "id": "church_1",
+      "type": "church",
+      "name": "Church — Add Leader",
+      "position": { "x": 380, "y": 360 },
+      "config": {
+        "operation": "add_member",
+        "entityData": "{\"name\":\"Sarah Johnson\",\"email\":\"sarah.johnson@church.org\",\"phone\":\"+1-555-0201\",\"membership_type\":\"leader\",\"notes\":\"Discipleship stage: Leader | Ministry Tier: Core Team\"}"
+      }
+    },
+
+    {
+      "id": "church_2",
+      "type": "church",
+      "name": "Church — Add Member",
+      "position": { "x": 380, "y": 500 },
+      "config": {
+        "operation": "add_member",
+        "entityData": "{\"name\":\"Michael Chen\",\"email\":\"michael.chen@church.org\",\"phone\":\"+1-555-0202\",\"membership_type\":\"member\",\"notes\":\"Discipleship stage: Regular | Ministry Tier: Volunteer\"}"
+      }
+    },
+
+    {
+      "id": "coaches_1",
+      "type": "coaches",
+      "name": "Coaches — Add Client",
+      "position": { "x": 380, "y": 640 },
+      "config": {
+        "operation": "add_client",
+        "entityData": "{\"name\":\"David Lee\",\"email\":\"david.lee@coachees.com\",\"phone\":\"+1-555-0301\",\"program\":\"executive\",\"goals\":\"Improve leadership presence and strategic decision-making within 6 months\",\"notes\":\"Seeded via visual builder flow\"}"
+      }
+    },
+
+    {
+      "id": "coaches_2",
+      "type": "coaches",
+      "name": "Coaches — Add Client 2",
+      "position": { "x": 380, "y": 780 },
+      "config": {
+        "operation": "add_client",
+        "entityData": "{\"name\":\"Sarah Chen\",\"email\":\"sarah.chen@coachees.com\",\"phone\":\"+1-555-0302\",\"program\":\"career\",\"goals\":\"Transition into senior product management role\",\"notes\":\"High-priority client — needs extra attention\"}"
+      }
+    },
+
+    {
+      "id": "freelancer_1",
+      "type": "freelancer",
+      "name": "Freelancer — Create Project",
+      "position": { "x": 380, "y": 920 },
+      "config": {
+        "operation": "create_project",
+        "entityData": "{\"title\":\"Website Redesign\",\"client_name\":\"TechCorp Inc\",\"client_email\":\"pm@techcorp.com\",\"budget\":\"5000\",\"deadline\":\"2026-03-30\",\"status\":\"active\",\"description\":\"Full redesign of the corporate website with modern UI/UX, mobile-first approach and CMS integration\"}"
+      }
+    },
+
+    {
+      "id": "freelancer_2",
+      "type": "freelancer",
+      "name": "Freelancer — Create Project 2",
+      "position": { "x": 380, "y": 1060 },
+      "config": {
+        "operation": "create_project",
+        "entityData": "{\"title\":\"Mobile App MVP\",\"client_name\":\"StartupXYZ\",\"client_email\":\"cto@startupxyz.io\",\"budget\":\"12000\",\"deadline\":\"2026-05-15\",\"status\":\"active\",\"description\":\"React Native MVP for on-demand delivery startup — iOS and Android\"}"
+      }
+    },
+
+    {
+      "id": "church_event_1",
+      "type": "church",
+      "name": "Church — Create Event",
+      "position": { "x": 700, "y": 360 },
+      "config": {
+        "operation": "create_event",
+        "entityData": "{\"title\":\"Sunday Morning Service\",\"date\":\"2026-03-08\",\"time\":\"10:00\",\"location\":\"Main Hall\",\"event_type\":\"service\",\"description\":\"Weekly Sunday morning worship service — open to all members and visitors\"}"
+      }
+    },
+
+    {
+      "id": "coaches_session_1",
+      "type": "coaches",
+      "name": "Coaches — Schedule Session",
+      "position": { "x": 700, "y": 640 },
+      "config": {
+        "operation": "create_session",
+        "entityData": "{\"clientId\":\"{{coaches_1.client._id}}\",\"date\":\"2026-03-10\",\"time\":\"14:00\",\"duration\":60,\"session_type\":\"one_on_one\",\"agenda\":\"Initial strategy session — review goals, set milestones, establish accountability framework\"}"
+      }
+    },
+
+    {
+      "id": "freelancer_invoice_1",
+      "type": "freelancer",
+      "name": "Freelancer — Create Invoice",
+      "position": { "x": 700, "y": 920 },
+      "config": {
+        "operation": "create_invoice",
+        "entityData": "{\"projectId\":\"{{freelancer_1.project._id}}\",\"amount\":\"2500\",\"due_date\":\"2026-03-20\",\"description\":\"50% deposit — Website Redesign Phase 1 kickoff\",\"status\":\"sent\"}"
+      }
+    },
+
+    {
+      "id": "end_1",
+      "type": "end",
+      "name": "Done — All Modules Seeded",
+      "position": { "x": 980, "y": 560 },
+      "config": {}
+    }
+  ],
+  "edges": [
+    { "id": "e_trigger_hr1",        "source": "trigger_1",        "target": "hr_1" },
+    { "id": "e_trigger_hr2",        "source": "trigger_1",        "target": "hr_2" },
+    { "id": "e_trigger_church1",    "source": "trigger_1",        "target": "church_1" },
+    { "id": "e_trigger_church2",    "source": "trigger_1",        "target": "church_2" },
+    { "id": "e_trigger_coaches1",   "source": "trigger_1",        "target": "coaches_1" },
+    { "id": "e_trigger_coaches2",   "source": "trigger_1",        "target": "coaches_2" },
+    { "id": "e_trigger_fl1",        "source": "trigger_1",        "target": "freelancer_1" },
+    { "id": "e_trigger_fl2",        "source": "trigger_1",        "target": "freelancer_2" },
+
+    { "id": "e_church1_event",      "source": "church_1",         "target": "church_event_1" },
+    { "id": "e_coaches1_session",   "source": "coaches_1",        "target": "coaches_session_1" },
+    { "id": "e_fl1_invoice",        "source": "freelancer_1",     "target": "freelancer_invoice_1" },
+
+    { "id": "e_hr1_end",            "source": "hr_2",             "target": "end_1" },
+    { "id": "e_church2_end",        "source": "church_event_1",   "target": "end_1" },
+    { "id": "e_coaches2_end",       "source": "coaches_session_1","target": "end_1" },
+    { "id": "e_fl2_end",            "source": "freelancer_invoice_1","target": "end_1" }
+  ]
+}

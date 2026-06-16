@@ -1,0 +1,353 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER & AUTH
+// ============================================================================
+
+model User {
+  id                    String      @id @default(cuid())
+  email                 String      @unique
+  password              String?
+  name                  String?
+  avatar                String?
+  role                  UserRole    @default(USER)
+  emailVerified         DateTime?
+  twoFactorEnabled      Boolean     @default(false)
+  twoFactorSecret       String?
+  
+  // Relations
+  projects              BuilderProject[]
+  sessions              Session[]
+  accounts              Account[]
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  DEVELOPER
+}
+
+// ============================================================================
+// BUILDER
+// ============================================================================
+
+model BuilderProject {
+  id                    String      @id @default(cuid())
+  name                  String
+  description           String?
+  slug                  String      @unique
+  thumbnail             String?
+  
+  // Builder mode
+  mode                  BuilderMode @default(WEBSITE)
+  
+  // Ownership
+  userId                String
+  user                  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  pages                 BuilderPage[]
+  components            BuilderComponent[]
+  deployments           Deployment[]
+  codeGenerations       CodeGeneration[]
+  
+  // Metadata
+  isPublic              Boolean     @default(false)
+  isTemplate            Boolean     @default(false)
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@index([userId])
+  @@index([mode])
+}
+
+enum BuilderMode {
+  WEBSITE
+  COMMUNITY
+  MARKETPLACE
+  MEMBERSHIP
+  BLANK
+  APP
+}
+
+model BuilderPage {
+  id                    String      @id @default(cuid())
+  projectId             String
+  project               BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  name                  String
+  slug                  String
+  description           String?
+  
+  // Relations
+  components            BuilderComponent[]
+  
+  // Content
+  content               Json        @default("{}")
+  
+  // SEO
+  seoMetadata           Json?
+  
+  // Status
+  status                PageStatus  @default(DRAFT)
+  
+  // CMS Integration
+  cmsPageId             String?
+  cmsSyncedAt           DateTime?
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@unique([projectId, slug])
+  @@index([projectId])
+  @@index([status])
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model BuilderComponent {
+  id                    String      @id @default(cuid())
+  projectId             String
+  project               BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  pageId                String
+  page                  BuilderPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  
+  name                  String
+  type                  String
+  
+  // Component data
+  props                 Json        @default("{}")
+  styles                Json        @default("{}")
+  content               Json        @default("{}")
+  
+  // Hierarchy
+  parentId              String?
+  children              BuilderComponent[] @relation("ComponentHierarchy")
+  parent                BuilderComponent? @relation("ComponentHierarchy", fields: [parentId], references: [id])
+  
+  // CMS Integration
+  cmsComponentId        String?
+  cmsSyncedAt           DateTime?
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@index([projectId])
+  @@index([pageId])
+  @@index([parentId])
+}
+
+// ============================================================================
+// CMS
+// ============================================================================
+
+model CMSCollection {
+  id                    String      @id @default(cuid())
+  projectId             String
+  
+  name                  String
+  displayName           String
+  description           String?
+  
+  // Schema
+  fields                CMSField[]
+  entries               CMSEntry[]
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@unique([projectId, name])
+  @@index([projectId])
+}
+
+model CMSField {
+  id                    String      @id @default(cuid())
+  collectionId          String
+  collection            CMSCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  
+  name                  String
+  type                  String
+  required              Boolean     @default(false)
+  description           String?
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@unique([collectionId, name])
+}
+
+model CMSEntry {
+  id                    String      @id @default(cuid())
+  collectionId          String
+  collection            CMSCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  
+  data                  Json
+  status                CMSStatus   @default(DRAFT)
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@index([collectionId])
+  @@index([status])
+}
+
+enum CMSStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// ============================================================================
+// DEPLOYMENT & CODE GENERATION
+// ============================================================================
+
+model Deployment {
+  id                    String      @id @default(cuid())
+  projectId             String
+  project               BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  platform              DeploymentPlatform
+  domain                String?
+  customDomain          String?
+  
+  status                DeploymentStatus @default(PENDING)
+  deploymentUrl         String?
+  
+  environment           Json        @default("{}")
+  config                Json        @default("{}")
+  
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  @@index([projectId])
+  @@index([status])
+}
+
+enum DeploymentPlatform {
+  CLOUDFLARE_PAGES
+  VERCEL
+  AWS_AMPLIFY
+  NETLIFY
+  HEROKU
+  DOCKER
+  CUSTOM
+}
+
+enum DeploymentStatus {
+  PENDING
+  DEPLOYING
+  SUCCESS
+  FAILED
+}
+
+model CodeGeneration {
+  id                    String      @id @default(cuid())
+  projectId             String
+  project               BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  framework             CodeFramework
+  code                  String
+  
+  createdAt             DateTime    @default(now())
+  
+  @@index([projectId])
+}
+
+enum CodeFramework {
+  NEXTJS
+  VUE
+  HTML
+  SVELTE
+  ANGULAR
+  PHP
+  PYTHON
+  GO
+  RUBY
+  REACT_NATIVE
+  IOS
+  ANDROID
+}
+
+// ============================================================================
+// LOGGING & TRACKING
+// ============================================================================
+
+model CMSSyncLog {
+  id                    String      @id @default(cuid())
+  projectId             String
+  
+  status                SyncStatus  @default(PENDING)
+  action                String
+  error                 String?
+  
+  timestamp             DateTime    @default(now())
+  
+  @@index([projectId])
+  @@index([status])
+}
+
+model PreviewSyncLog {
+  id                    String      @id @default(cuid())
+  projectId             String
+  pageId                String?
+  
+  status                SyncStatus  @default(SUCCESS)
+  message               String?
+  
+  timestamp             DateTime    @default(now())
+  
+  @@index([projectId])
+}
+
+enum SyncStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+

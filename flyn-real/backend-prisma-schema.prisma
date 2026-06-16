@@ -1,0 +1,115 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String?
+  name          String?
+  role          String    @default("USER")
+  
+  projects      BuilderProject[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model BuilderProject {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  slug          String    @unique
+  mode          String    @default("WEBSITE")
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  pages         BuilderPage[]
+  components    BuilderComponent[]
+  deployments   Deployment[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([userId])
+}
+
+model BuilderPage {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  name          String
+  slug          String
+  content       Json      @default("{}")
+  status        String    @default("DRAFT")
+  
+  components    BuilderComponent[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@unique([projectId, slug])
+  @@index([projectId])
+}
+
+model BuilderComponent {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  pageId        String
+  page          BuilderPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  
+  name          String
+  type          String
+  props         Json      @default("{}")
+  styles        Json      @default("{}")
+  content       Json      @default("{}")
+  
+  parentId      String?
+  children      BuilderComponent[] @relation("ComponentHierarchy")
+  parent        BuilderComponent? @relation("ComponentHierarchy", fields: [parentId], references: [id])
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([projectId])
+  @@index([pageId])
+  @@index([parentId])
+}
+
+model Deployment {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  platform      String
+  domain        String?
+  status        String    @default("PENDING")
+  deploymentUrl String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@index([projectId])
+  @@index([status])
+}
+
+model CMSSyncLog {
+  id            String    @id @default(cuid())
+  projectId     String
+  status        String    @default("PENDING")
+  action        String
+  error         String?
+  timestamp     DateTime  @default(now())
+  
+  @@index([projectId])
+  @@index([status])
+}

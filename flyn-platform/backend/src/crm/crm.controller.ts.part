@@ -1,0 +1,19 @@
+        return { success: true, contactId: id, updatesApplied: updates, aiNotes, totalUpdates: Object.keys(updates).length };
+    }
+
+    /**
+     * POST /api/crm/contacts/sanitize
+     * AI-powered contact sanitization (preprocessing)
+     */
+    @Post('contacts/sanitize')
+    async sanitizeContacts(@Body() body: { contacts: any[] }) {
+        this.logger.log(`Sanitizing ${body.contacts?.length} contacts via AI...`);
+        try {
+            const sanitized = await this.crmService.sanitizeContacts(body.contacts);
+            return { success: true, contacts: sanitized };
+        } catch (error) {
+            this.logger.error(`Sanitization endpoint failed: \${(error as Error).message}`);
+            return { success: false, error: (error as Error).message, contacts: body.contacts };
+        }
+    }
+}

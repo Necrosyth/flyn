@@ -1,0 +1,376 @@
+## Temporal - *Execution Semantics* (NOT graph, NOT UI)
+
+Temporal is **not a visual workflow system**. It is a **durable execution runtime**.
+
+### What Temporal CONTAINS (conceptually)
+
+From Temporal docs & architecture, it contains:
+
+### A. Workflow Instance (Core Concept)
+
+- A **long-lived workflow instance**
+- Has a unique workflow ID
+- Persists state automatically
+- Can run for **days, months, years**
+
+In PulseBridge terms:
+
+```tsx
+workflow_run
+
+```
+
+---
+
+### B. Deterministic Execution Model
+
+- Workflow code **must be deterministic**
+- State is reconstructed from event history
+- No side effects inside workflow logic
+
+For PulseBridge:
+
+- Your **workflow runtime must be replayable**
+- Node transitions must be deterministic
+- Side effects move to executors
+
+---
+
+### C. Activities (Side-Effect Isolation)
+
+Temporal separates:
+
+- **Workflow logic** (pure)
+- **Activities** (side effects: API calls, DB writes)
+
+For PulseBridge:
+
+```
+Workflow runtime  →  Node executors
+
+```
+
+---
+
+### D. Signals (WAIT / RESUME)
+
+Temporal supports:
+
+- External signals to resume workflows
+- Human input
+- External events
+- Timers
+
+👉 This directly maps to:
+
+- WhatsApp reply
+- Call ended
+- Approval click
+- Payment success
+
+---
+
+### E. Timers & Delays
+
+- Durable timers
+- No cron hacks
+- Survive crashes & restarts
+
+👉 For PulseBridge:
+
+- Delay nodes
+- SLA timers
+- Follow-up reminders
+
+---
+
+### F. Retries, Timeouts, Backoff
+
+- Per activity retry policy
+- Per workflow timeout
+- Automatic backoff
+
+👉 For PulseBridge:
+
+- Node-level retry
+- Action-specific failure handling
+
+---
+
+### What Temporal DOES NOT contain
+
+❌ Visual graph
+
+❌ Node editor
+
+❌ Domain semantics
+
+❌ AI confidence logic
+
+---
+
+### What you TAKE from Temporal
+
+✅ Workflow-run lifecycle
+
+✅ WAIT / RESUME semantics
+
+✅ Durable execution
+
+✅ Retry & timeout model
+
+---
+
+## 2️⃣ n8n — *Node Execution Model* (NOT durable runtime)
+
+n8n is a **node-based automation system** with **short-lived execution**.
+
+### What n8n CONTAINS
+
+### A. Node Definition Contract
+
+Each node defines:
+
+- Inputs
+- Outputs
+- Config schema
+- Execute function
+
+👉 PulseBridge equivalent:
+
+```tsx
+interfaceNodeExecutor {
+execute(input, context):NodeResult
+}
+
+```
+
+---
+
+### B. Node Isolation
+
+- Each node executes independently
+- Clear input/output contract
+- Execution metadata tracked
+
+👉 PulseBridge:
+
+- Node-level audit logs
+- Node retries
+- Node error state
+
+---
+
+### C. Execution Context
+
+- Shared execution context object
+- Variables passed between nodes
+
+👉 PulseBridge:
+
+```json
+workflow_run.context
+
+```
+
+---
+
+### D. Error Handling Per Node
+
+- Continue on fail
+- Stop workflow
+- Fallback logic
+
+👉 PulseBridge:
+
+- Per-node failure policies
+- Escalation paths
+
+---
+
+### E. Node Registry
+
+- Nodes are registered centrally
+- Each node type maps to an executor
+
+👉 PulseBridge:
+
+```tsx
+NodeExecutorRegistry.get(type)
+
+```
+
+---
+
+### What n8n DOES NOT contain
+
+❌ True WAIT / RESUME from external events
+
+❌ Long-running durability
+
+❌ Human approval semantics
+
+❌ AI confidence gating
+
+---
+
+### What you TAKE from n8n
+
+✅ Node execution contract
+
+✅ Executor registry pattern
+
+✅ Node-level logging & metadata
+
+---
+
+## 3️⃣ bpmn-engine — *Graph Traversal & State Tokens*
+
+bpmn-engine is **about moving through a graph correctly**.
+
+### What bpmn-engine CONTAINS
+
+### A. Token-Based Graph Execution
+
+- Tokens move through nodes
+- Supports:
+    - Parallel paths
+    - Joins
+    - Conditional routing
+
+👉 PulseBridge:
+
+- Multiple next nodes
+- Parallel campaigns
+- Split testing
+
+---
+
+### B. Condition Evaluation
+
+- Edge conditions decide next path
+- Evaluated after node execution
+
+👉 PulseBridge:
+
+- AI confidence ≥ threshold
+- Language == Arabic
+- Tag exists
+
+---
+
+### C. Node Completion Semantics
+
+- Node must complete before token moves
+- Supports WAIT-like states internally
+
+👉 PulseBridge:
+
+- Node completion required before transition
+
+---
+
+### D. Execution State Tracking
+
+- Tracks active tokens
+- Tracks completed nodes
+
+👉 PulseBridge:
+
+- workflow_node_runs
+- current_nodes[]
+
+---
+
+### What bpmn-engine DOES NOT contain
+
+❌ Durable persistence across crashes
+
+❌ External event resumption
+
+❌ SaaS multi-tenancy
+
+❌ AI/human semantics
+
+---
+
+### What you TAKE from bpmn-engine
+
+✅ Graph traversal logic
+
+✅ Conditional routing
+
+✅ Parallel branch handling
+
+---
+
+## 🔑 Summary Table (Very Important)
+
+| System | Contains | You Use It For |
+| --- | --- | --- |
+| **Temporal** | Durable runtime, WAIT/RESUME, retries | Execution semantics |
+| **n8n** | Node execution contracts | Node executor design |
+| **bpmn-engine** | Graph traversal logic | Flow routing |
+
+None of them alone is sufficient.
+
+Together, they give you **everything**.
+
+
+
+for dashboards:
+
+🥇 1️4 NocoBase (BEST FIT for you)
+
+GitHub: https://github.com/nocobase/nocobase
+
+Why this is PERFECT for your case
+
+NocoBase is:
+
+A database-driven admin OS
+
+NOT a CRM
+
+NOT an ERP
+
+It gives:
+
+Tables (define any entity)
+
+Relations
+
+Forms
+ curl -I --max-time 10 http://localhost:8080 && curl -s http://localhost:8080 | grep -o 'index-[^"]*\.js' | 
+Filters
+
+Dashboards
+
+Buttons
+
+Plugin system
+
+What you do with it
+
+Create minimal tables:
+
+contacts
+
+employees
+
+tasks
+
+approvals
+
+workflow_runs
+
+Then:
+
+Add a button → triggers your workflow engine
+
+Show workflow status back in tables
+
+Key point
+
+NocoBase does ZERO business logic by default
+👉 Your workflow engine becomes the brain

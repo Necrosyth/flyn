@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Inspector</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --border: #334155;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+        h1 { margin: 0; font-size: 1.5rem; }
+        .stats { color: var(--text-secondary); font-size: 0.9rem; }
+        button {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+        .request-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border);
+        }
+        .method {
+            background-color: var(--accent);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-right: 12px;
+        }
+        .timestamp { font-family: monospace; color: var(--text-secondary); }
+        .card-body { padding: 20px; }
+        .section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            margin-top: 16px;
+        }
+        .section-title:first-child { margin-top: 0; }
+        pre {
+            background-color: #0f1520;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 0;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #a5b4fc;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Webhook Inspector</h1>
+                <div class="stats">Listening on http://localhost:3100/post</div>
+            </div>
+            <button onclick="clearRequests()">Clear History</button>
+        </header>
+
+        <div id="request-list">
+            <div class="empty-state">Waiting for requests...</div>
+        </div>
+    </div>
+
+    <script>
+        let lastReceivedId = 0;
+
+        function formatJSON(obj) {
+            return JSON.stringify(obj, null, 2);
+        }
+
+        function createRequestCard(req) {
+            const date = new Date(req.timestamp);
+            const timeStr = date.toLocaleTimeString() + '.' + date.getMilliseconds().toString().padStart(3, '0');
+            
+            return `
+                <div class="request-card">
+                    <div class="card-header">
+                        <div>
+                            <span class="method">${req.method}</span>
+                            <span class="timestamp">${timeStr}</span>
+                        </div>
+                        <span class="timestamp">ID: ${req.id}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-title">Body</div>
+                        <pre>${formatJSON(req.body)}</pre>
+                        
+                        <div class="section-title">Headers</div>
+                        <pre>${formatJSON(req.headers)}</pre>
+
+                        ${Object.keys(req.query).length ? `
+                        <div class="section-title">Query Parameters</div>
+                        <pre>${formatJSON(req.query)}</pre>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function fetchRequests() {
+            try {
+                const response = await fetch('/api/requests');
+                const requests = await response.json();
+                
+                const list = document.getElementById('request-list');
+                
+                if (requests.length === 0) {
+                    list.innerHTML = '<div class="empty-state">Waiting for requests...</div>';
+                    return;
+                }
+
+                // If content changed significantly or first load
+                const currentHtml = list.innerHTML;
+                const newHtml = requests.map(createRequestCard).join('');
+                
+                // Simple diff check to avoid unnecessary DOM updates if using a framework, 
+                // but direct replacement is fine for this simple tool
+                if (!currentHtml.includes(requests[0]?.id)) {
+                   list.innerHTML = newHtml;
+                }
+            } catch (error) {
+                console.error('Error fetching requests:', error);
+            }
+        }
+
+        async function clearRequests() {
+            try {
+                await fetch('/api/requests', { method: 'DELETE' });
+                fetchRequests();
+            } catch (error) {
+                console.error('Error clearing requests:', error);
+            }
+        }
+
+        // Poll every 2 seconds
+        setInterval(fetchRequests, 2000);
+        fetchRequests();
+    </script>
+</body>
+</html>

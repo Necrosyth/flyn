@@ -1,0 +1,33 @@
+- Tech Stack
+    1. **Automation Engine is the core brain**
+        - Deterministic execution
+        - Event-driven
+        - Plugin-based
+    2. **Workflow builder is declarative**
+        - UI builds intent
+        - Compiler generates executable graph
+    3. **Execution semantics are centralized**
+        - wait / resume
+        - approval
+        - retries
+        - branching
+    4. **Domain logic is fully pluggable**
+        - voice
+        - CRM
+        - AI
+        - HR
+    5. **AI agents are executors, not orchestrators**
+    6. **Telephony is an event source, not a workflow engine**
+    
+    ---
+    
+    | Layer | Tech |
+    | --- | --- |
+    | UI | React + xyflow |
+    | API | NestJS + TS |
+    | DB | PostgreSQL |
+    | Cache / Queue | Redis + BullMQ |
+    | Orchestration | Custom engine |
+    | AI | OpenAI + Anthropic |
+    | Voice | Twilio |
+    | Infra | Docker + NGINX |

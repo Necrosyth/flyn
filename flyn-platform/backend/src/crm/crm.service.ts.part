@@ -1,0 +1,46 @@
+        return { contacts: contacts.length, deals: deals.length, activities: 10 };
+    }
+
+    // ─── AI Sanitization ────────────────────────────────────────────────
+    async sanitizeContacts(contacts: any[]): Promise<any[]> {
+        if (!this.ai.isAvailable()) {
+            this.logger.warn('AI Provider not available for sanitization');
+            return contacts;
+        }
+
+        const prompt = `You are a data cleaning expert. Sanitize and format these contact records for the FLYN platform.
+Rules:
+1. Phone numbers should be in E.164 format (e.g., +1234567890).
+2. Email addresses should be valid and lowercase.
+3. Fix common typos in names and companies.
+4. If a field is clearly invalid, leave it as is or try to fix it logically.
+5. Return ONLY a JSON array of the sanitized records.
+
+Contacts to sanitize:
+\${JSON.stringify(contacts, null, 2)}`;
+
+        const schema = {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    name: { type: 'string' },
+                    email: { type: 'string' },
+                    phone: { type: 'string' },
+                    company: { type: 'string' },
+                    status: { type: 'string' },
+                    tags: { type: 'array', items: { type: 'string' } },
+                    source: { type: 'string' },
+                }
+            }
+        };
+
+        try {
+            const resp = await this.ai.generateStructured<any[]>(prompt, schema);
+            return resp.data;
+        } catch (error) {
+            this.logger.error(`AI Sanitization failed: \${(error as Error).message}`);
+            return contacts;
+        }
+    }
+}

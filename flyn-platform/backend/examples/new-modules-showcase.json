@@ -1,0 +1,310 @@
+{
+    "id": "new-modules-showcase",
+    "name": "New Modules Showcase — HR + Church + Coaches + Freelancer + VAPI",
+    "version": 1,
+    "tenantId": "demo-tenant",
+
+    "compiled_nodes": [
+
+        {
+            "id": "trigger_1",
+            "type": "trigger",
+            "name": "Manual Start",
+            "config": {
+                "trigger_type": "manual",
+                "description": "Kick off the new modules demo flow manually"
+            },
+            "position": { "x": 80, "y": 400 }
+        },
+
+        {
+            "id": "hr_1",
+            "type": "hr",
+            "name": "HR — Create Employee",
+            "config": {
+                "operation": "create_employee",
+                "op_fields": {
+                    "name": "Sara Ahmed",
+                    "email": "sara.ahmed@company.com",
+                    "phone": "+918595526994",
+                    "department": "engineering",
+                    "position": "Full-Stack Developer",
+                    "start_date": "2026-03-04",
+                    "notes": "New hire from referral program"
+                }
+            },
+            "position": { "x": 300, "y": 400 }
+        },
+
+        {
+            "id": "hr_attendance",
+            "type": "hr",
+            "name": "HR — Log First Day Check-In",
+            "config": {
+                "operation": "log_attendance",
+                "op_fields": {
+                    "employeeId": "{{hr_1.employee._id}}",
+                    "type": "check_in",
+                    "notes": "First day check-in — onboarding"
+                }
+            },
+            "position": { "x": 520, "y": 400 }
+        },
+
+        {
+            "id": "split_1",
+            "type": "split",
+            "name": "Split — Church & Coaches in Parallel",
+            "config": {
+                "paths": ["church_path", "coaches_path"]
+            },
+            "position": { "x": 740, "y": 400 }
+        },
+
+        {
+            "id": "church_1",
+            "type": "church",
+            "name": "Church — Add as Member",
+            "config": {
+                "operation": "add_member",
+                "op_fields": {
+                    "name": "Sara Ahmed",
+                    "email": "sara.ahmed@company.com",
+                    "phone": "+918595526994",
+                    "membership_type": "member",
+                    "notes": "Employee added as church member on joining"
+                }
+            },
+            "position": { "x": 960, "y": 200 }
+        },
+
+        {
+            "id": "church_2",
+            "type": "church",
+            "name": "Church — Record Welcome Donation",
+            "config": {
+                "operation": "record_donation",
+                "op_fields": {
+                    "memberId": "{{church_1.member._id}}",
+                    "amount": 50,
+                    "donation_type": "offering",
+                    "notes": "Welcome tithe — first service"
+                }
+            },
+            "position": { "x": 1180, "y": 200 }
+        },
+
+        {
+            "id": "coaches_1",
+            "type": "coaches",
+            "name": "Coaches — Enroll as Executive Client",
+            "config": {
+                "operation": "add_client",
+                "op_fields": {
+                    "name": "Sara Ahmed",
+                    "email": "sara.ahmed@company.com",
+                    "phone": "+918595526994",
+                    "program": "executive",
+                    "goals": "Grow into a team-lead role within 6 months",
+                    "notes": "Enrolled in company-sponsored executive coaching plan"
+                }
+            },
+            "position": { "x": 960, "y": 600 }
+        },
+
+        {
+            "id": "coaches_2",
+            "type": "coaches",
+            "name": "Coaches — Schedule Assessment Session",
+            "config": {
+                "operation": "create_session",
+                "op_fields": {
+                    "clientId": "{{coaches_1.client._id}}",
+                    "date": "2026-03-10",
+                    "time": "2:00 PM",
+                    "duration": 60,
+                    "session_type": "assessment",
+                    "agenda": "Initial goal-setting and strengths assessment for Sara executive coaching program"
+                }
+            },
+            "position": { "x": 1180, "y": 600 }
+        },
+
+        {
+            "id": "coaches_progress",
+            "type": "coaches",
+            "name": "Coaches — Log First Progress Entry",
+            "config": {
+                "operation": "log_progress",
+                "op_fields": {
+                    "clientId": "{{coaches_1.client._id}}",
+                    "milestone": "Onboarding complete — baseline set",
+                    "rating": 7,
+                    "notes": "Strong technical base. Communication skills to be developed."
+                }
+            },
+            "position": { "x": 1400, "y": 600 }
+        },
+
+        {
+            "id": "join_1",
+            "type": "join",
+            "name": "Wait — Church & Coaches Done",
+            "config": {
+                "waitFor": ["church_2", "coaches_progress"],
+                "strategy": "all"
+            },
+            "position": { "x": 1620, "y": 400 }
+        },
+
+        {
+            "id": "freelancer_1",
+            "type": "freelancer",
+            "name": "Freelancer — Create Client Project",
+            "config": {
+                "operation": "create_project",
+                "op_fields": {
+                    "title": "E-Commerce Platform Revamp",
+                    "client_name": "Dubai Retail Group",
+                    "client_email": "cto@dubairetail.ae",
+                    "budget": 22000,
+                    "deadline": "2026-07-01",
+                    "description": "Full revamp of the retail e-commerce platform including mobile-first UI and payment integration"
+                }
+            },
+            "position": { "x": 1840, "y": 400 }
+        },
+
+        {
+            "id": "freelancer_2",
+            "type": "freelancer",
+            "name": "Freelancer — Log Kickoff Hours",
+            "config": {
+                "operation": "log_time",
+                "op_fields": {
+                    "projectId": "{{freelancer_1.project._id}}",
+                    "hours": 6,
+                    "description": "Discovery call, requirements doc, and initial architecture planning",
+                    "date": "2026-03-04",
+                    "billable": true
+                }
+            },
+            "position": { "x": 2060, "y": 400 }
+        },
+
+        {
+            "id": "freelancer_3",
+            "type": "freelancer",
+            "name": "Freelancer — Generate Advance Invoice",
+            "config": {
+                "operation": "create_invoice",
+                "op_fields": {
+                    "projectId": "{{freelancer_1.project._id}}",
+                    "amount": 6600,
+                    "due_date": "2026-03-20",
+                    "description": "30% advance — Phase 1: Discovery & Architecture",
+                    "status": "sent"
+                }
+            },
+            "position": { "x": 2280, "y": 400 }
+        },
+
+        {
+            "id": "hr_crm_sync",
+            "type": "hr",
+            "name": "HR — Sync Employee to CRM",
+            "config": {
+                "operation": "sync_to_crm",
+                "op_fields": {
+                    "employeeId": "{{hr_1.employee._id}}"
+                }
+            },
+            "position": { "x": 2500, "y": 260 }
+        },
+
+        {
+            "id": "coaches_crm_sync",
+            "type": "coaches",
+            "name": "Coaches — Sync Client to CRM",
+            "config": {
+                "operation": "sync_to_crm",
+                "op_fields": {
+                    "clientId": "{{coaches_1.client._id}}"
+                }
+            },
+            "position": { "x": 2500, "y": 540 }
+        },
+
+        {
+            "id": "vapi_1",
+            "type": "vapi",
+            "name": "VAPI — Automated Welcome Call",
+            "config": {
+                "vapi_action": "create_call",
+                "phoneNumberId": "c984cfd1-b922-4197-9dff-f01b0558e32d",
+                "customerNumber": "+918595526994",
+                "assistantId": "6e11c029-9f52-4dad-a355-b5aa48652450"
+            },
+            "position": { "x": 2720, "y": 400 }
+        },
+
+        {
+            "id": "end_1",
+            "type": "end",
+            "name": "Done",
+            "config": {},
+            "position": { "x": 2940, "y": 400 }
+        }
+
+    ],
+
+    "edges": [
+        { "id": "e1",  "source": "trigger_1",        "target": "hr_1" },
+        { "id": "e2",  "source": "hr_1",              "target": "hr_attendance" },
+        { "id": "e3",  "source": "hr_attendance",     "target": "split_1" },
+        { "id": "e4",  "source": "split_1",           "target": "church_1",         "sourceHandle": "church_path" },
+        { "id": "e5",  "source": "split_1",           "target": "coaches_1",        "sourceHandle": "coaches_path" },
+        { "id": "e6",  "source": "church_1",          "target": "church_2" },
+        { "id": "e7",  "source": "coaches_1",         "target": "coaches_2" },
+        { "id": "e8",  "source": "coaches_2",         "target": "coaches_progress" },
+        { "id": "e9",  "source": "church_2",          "target": "join_1" },
+        { "id": "e10", "source": "coaches_progress",  "target": "join_1" },
+        { "id": "e11", "source": "join_1",            "target": "freelancer_1" },
+        { "id": "e12", "source": "freelancer_1",      "target": "freelancer_2" },
+        { "id": "e13", "source": "freelancer_2",      "target": "freelancer_3" },
+        { "id": "e14", "source": "freelancer_3",      "target": "hr_crm_sync" },
+        { "id": "e15", "source": "freelancer_3",      "target": "coaches_crm_sync" },
+        { "id": "e16", "source": "hr_crm_sync",       "target": "vapi_1" },
+        { "id": "e17", "source": "coaches_crm_sync",  "target": "vapi_1" },
+        { "id": "e18", "source": "vapi_1",            "target": "end_1" }
+    ],
+
+    "execution_plan": {
+        "startNodeId": "trigger_1",
+        "endNodeIds": ["end_1"],
+        "nodeOrder": [
+            "trigger_1", "hr_1", "hr_attendance", "split_1",
+            "church_1", "coaches_1", "church_2", "coaches_2", "coaches_progress",
+            "join_1", "freelancer_1", "freelancer_2", "freelancer_3",
+            "hr_crm_sync", "coaches_crm_sync", "vapi_1", "end_1"
+        ],
+        "parallelPaths": [
+            {
+                "splitNodeId": "split_1",
+                "paths": [
+                    { "nodes": ["church_1", "church_2"] },
+                    { "nodes": ["coaches_1", "coaches_2", "coaches_progress"] }
+                ],
+                "joinNodeId": "join_1"
+            }
+        ]
+    },
+
+    "metadata": {
+        "createdAt": "2026-03-04T00:00:00.000Z",
+        "updatedAt": "2026-03-04T00:00:00.000Z",
+        "createdBy": "system",
+        "description": "Showcases HR, Church, Coaches, Freelancer, and VAPI nodes. Uses op_fields format so all fields pre-fill in the visual builder. Converted to entityData automatically at runtime.",
+        "tags": ["example", "hr", "church", "coaches", "freelancer", "vapi", "new-modules", "showcase"]
+    }
+}

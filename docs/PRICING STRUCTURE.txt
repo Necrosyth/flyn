@@ -1,0 +1,1242 @@
+﻿Below is a cost-safe, conversion-optimized Free Trial strategy tailored for FLYN as a centralized SaaS. This is designed to show real value, avoid variable infrastructure costs, and push a natural upgrade without friction.
+This is written so you can hand it directly to product, finance, and engineering.
+FLYN AI — Free Trial Feature Strategy (Zero Cost Leakage)
+Core Principle (Non-Negotiable)
+Free users should experience the workflow, not the infrastructure.
+ Anything that triggers third-party costs, AI inference, or telecom minutes is gated.
+🎯 Objectives of the Free Plan
+● Let users understand the product flow
+
+● Let them configure and simulate
+
+● Let them see the power
+
+● Not let them generate real costs
+
+● Create clear upgrade moments
+
+🟢 FEATURES INCLUDED IN FREE TRIAL (SAFE & EFFECTIVE)
+1️⃣ Full UI Access (Read + Configure)
+● Access all primary modules:
+
+○ Inbox
+○ CRM
+○ Automations
+○ AI Agents
+○ Telephony (UI only)
+○ Dashboard
+
+● No artificial UI locks (critical for trust)
+💡 Users must feel “this is real software”, not a demo.
+2️⃣ Sandbox Inbox (No External Delivery)
+● Unified Inbox UI fully usable
+● Preloaded sample conversations
+● Ability to:
+○ Reply (simulated)
+○ Tag
+○ Assign
+○ Trigger workflows
+● Messages do not leave FLYN
+Cost: Zero
+3️⃣ CRM (Unlimited Local Data)
+● Create:
+○ Contacts
+○ Deals
+○ Pipelines
+● Full filtering, sorting, tagging
+● Timeline view populated from sandbox events
+Cost: Zero
+4️⃣ Automation Builder (Simulation Mode)
+● Full workflow builder
+● All triggers visible
+● All actions selectable
+● Run in “dry-run / preview” mode
+● Visual execution path shown
+Cost: Zero
+5️⃣ AI Agents — Prompt Studio Only
+● Create AI agents
+● Define prompts
+● Test with static inputs
+● No live AI inference
+● Pre-generated AI outputs for demo
+
+Cost: Near-zero
+6️⃣ Telephony — UI + Call Flow Builder
+● Dialer UI visible
+● IVR builder enabled
+● Call routing flows configurable
+● No real calls
+● Simulated call logs + recordings
+Cost: Zero
+7️⃣ Dashboard (Executive Snapshot)
+● KPIs populated from demo data
+● Real-time visuals (simulated)
+● Shows what will happen when live
+Cost: Zero
+8️⃣ Branding & White-Label Preview
+● Upload logo
+● Set brand colors
+● Preview white-label UI
+● Custom domain preview (non-live)
+Cost: Zero
+9️⃣ API / Dev Portal (Read-Only)
+● View:
+○ API docs
+○ Webhooks
+○ SDK examples
+● No live tokens issued
+Cost: Zero
+🔒 FEATURES RESTRICTED UNTIL UPGRADE (Cost-Control Gates)
+            Feature                   Why It’s Gated
+Real WhatsApp / SMS             Carrier costs
+Voice calls                     Telecom minutes
+Live AI inference               Token usage
+Web chat widget                 Traffic & infra
+External integrations           Support & security
+Webhooks                        Infrastructure load
+Production API keys             Abuse risk
+
+🧠 Upgrade Triggers (Designed, Not Forced)
+Every restricted action should show:
+“This feature goes live once you upgrade.”
+Examples:
+● Send WhatsApp → Upgrade modal
+● Activate AI agent → Upgrade modal
+● Publish workflow → Upgrade modal
+● Place call → Upgrade modal
+No hard stops — just clear value framing.
+🧩 Optional Trial Enhancers (If You Want)
+These cost little but increase conversion:
+✔ 7–14 day trial timer
+ ✔ “Unlock all features for 3 conversations” (controlled)
+ ✔ AI summaries pre-generated
+ ✔ Interactive onboarding checklist
+🔑 Strategic Outcome
+            Metric                  Result
+Infrastructure cost            Near-zero
+Time to value                  Immediate
+Product understanding          High
+Upgrade intent                 Natural
+Abuse risk                     None
+
+Internal One-Liner for Alignment
+“Free is for understanding the flow. Paid is for sending messages.”
+FLYN AI — Pricing & Plan Architecture (Final)
+🔑 Core Pricing Philosophy
+Charge for activation and outcomes, not for curiosity.
+● Free = understand the system
+● Paid = send messages, make calls, run AI
+● Higher tiers = scale, control, intelligence
+🆓 FREE TRIAL — Explore Mode
+Purpose: Product understanding
+ Cost to FLYN: Near-zero
+ Duration: 7–14 days
+Included
+● Full UI access
+● Sandbox Inbox
+● CRM (unlimited local data)
+● Automation builder (simulation only)
+● AI Agent Studio (prompt-only)
+● Telephony UI + IVR builder (no calls)
+● Dashboard (demo data)
+● Branding preview
+● Read-only API docs
+🚫 No real messages, calls, or AI inference
+💼 STARTER — Go Live
+Target: Small teams, first-time adopters
+ Mindset: “Let me start talking to customers”
+Included
+● All Free features +
+● Live channels enabled
+○ WhatsApp
+○ SMS
+○ Email
+● Limited AI usage
+○ AI summaries
+○ Reply suggestions
+● Telephony (basic)
+○ Inbound & outbound calls
+○ Call logs
+
+● CRM (live data)
+● Basic workflows (published)
+● Web chat widget
+● Standard support
+Limits (Important)
+● Message caps
+● AI usage caps
+● Single region
+● No advanced analytics
+💡 This tier activates value but enforces natural ceilings.
+🚀 GROWTH — Scale Operations
+Target: Scaling businesses, ops teams
+ Mindset: “Automate and optimize”
+Included
+● Everything in Starter +
+● Higher message & call volumes
+● Advanced Automations
+○ Multi-step workflows
+○ Conditional logic
+● AI Agents live
+○ Deployed to Inbox
+○ Intent detection
+○ Auto-triage
+● Advanced Telephony
+○ IVR
+○ Call routing
+○ Call recordings
+● Analytics & performance dashboards
+● Multi-user roles & permissions
+● Priority support
+💡 This is your most popular plan.
+🧠 PRO / BUSINESS — Intelligence Layer
+Target: Enterprises, regulated orgs
+ Mindset: “Control, insight, and leverage”
+Included
+● Everything in Growth +
+● Advanced AI
+○ Sentiment analysis
+○ Conversation scoring
+○ AI quality assurance
+● Omnichannel Inbox
+○ Instagram
+○ Facebook Messenger
+○ Telegram
+
+● SLA-backed uptime
+● Multi-region support
+● Advanced analytics & exports
+● Audit logs
+● Custom branding & domains
+● Webhooks + API access
+
+💡 This is where FLYN becomes mission-critical.
+🏢 ENTERPRISE — Operating System
+Target: Large orgs, telcos, platforms
+ Mindset: “FLYN runs our customer ops”
+Included
+● Everything in Pro +
+● Dedicated infrastructure (logical or physical)
+● Custom concurrency limits
+● Advanced telephony (high-volume)
+● AI governance controls
+● BYOK (optional)
+● SSO (SAML / SCIM)
+● Dedicated CSM
+● Custom SLAs
+● Custom integrations
+● On-prem AI (future)
+💡 Priced via custom contracts.
+💰 ADD-ONS (Revenue Multipliers)
+These apply across tiers (except Free):
+● Extra message bundles
+● AI token packs
+● Additional phone numbers
+● Call recording storage
+● Extra agents / seats
+● Premium channels (Apple Business Chat, WeChat)
+● Vertical modules (HR, Church, Courses)
+🔐 Cost-Control Safeguards (Engineering Rules)
+● Hard caps per plan
+● Soft warnings at 80%
+● Auto-throttle on overuse
+● Prepaid bundles only
+● No unlimited AI or calls on low tiers
+🧭 Upgrade Triggers (UX-Driven)
+Examples:
+● Hit message cap → “Upgrade to Growth”
+● Activate AI Agent → “Available on Growth+”
+● Enable Instagram DM → “Available on Pro”
+● Export analytics → “Upgrade to Pro”
+No dark patterns. Just clarity.
+🧠 Internal Positioning Summary
+Free lets you see it
+ Starter lets you use it
+ Growth lets you scale it
+ Pro lets you control it
+ Enterprise lets you run on it
+
+Below is the exact feature-flag matrix per tier for FLYN AI. This is engineering-ready, cost-safe, and designed for clean entitlements, metering, and upsell.
+Below is the clean, final, production-grade update of your FLYN AI Feature Flags by Plan (Source of Truth) — fully aligned with:
+● Unified Inbox expansion (all channels you listed)
+● WhatsApp available to all plans but usage-limited
+● Stripe / Twilio / HubSpot / Intercom-grade entitlement logic
+● Zero-cost Free plan philosophy
+● Forward-compatible billing + enforcement model
+This is engineering-ready, billing-safe, and UX-consistent.
+FLYN AI — Feature Flags by Plan (Source of Truth)
+Core Philosophy (unchanged, enforced)
+● UI visible ≠ capability enabled
+● Anything that incurs variable cost is flag-gated
+● Free plan uses simulation + preview everywhere
+● Usage is enforced by meters, not hidden paywalls
+● WhatsApp is universal, but strictly capped
+
+🆓 FREE — Explore Mode
+Goal: Experience full product flow with zero variable cost
+Tenant
+ui.full_access = true
+sandbox.mode = true
+tenant.live_mode = false
+Unified Inbox (Preview + Simulation)
+inbox.view = true
+inbox.send.simulated = true
+inbox.send.live = false
+Channels (All Visible, All Simulated)
+channels.whatsapp = true          # simulated, demo numbers only
+channels.sms = false
+channels.mms = false
+channels.voice = false
+channels.email = false
+channels.telegram = false
+channels.facebook = false
+channels.instagram = false
+channels.webchat = false
+channels.teams = false
+channels.slack = false
+channels.apple_business_chat = false
+channels.google_business_messages = false
+channels.twitter_x = false
+channels.tiktok = false
+channels.linkedin = false
+CRM
+crm.contacts = true
+crm.deals = true
+crm.pipelines = true
+crm.import = false
+crm.export = false
+Automations
+automation.builder = true
+automation.publish = false
+automation.simulate = true
+AI
+ai.agent.builder = true
+ai.agent.deploy = false
+ai.inference.live = false
+ai.responses.demo = true
+Telephony
+telephony.ui = true
+telephony.ivr.builder = true
+telephony.calls.live = false
+telephony.recordings = false
+Dashboard
+dashboard.view = true
+dashboard.data.demo = true
+dashboard.realtime = false
+Branding
+branding.preview = true
+branding.custom_domain = false
+API / Dev
+api.docs.readonly = true
+api.keys.issue = false
+webhooks.create = false
+💼 STARTER — Go Live
+Goal: Enable real conversations with strict caps
+Tenant
+tenant.live_mode = true
+regions.multi = false
+Unified Inbox & Channels
+channels.whatsapp = true          # limited usage
+channels.sms = true
+channels.mms = false
+channels.email = true
+channels.voice = true
+channels.webchat = true
+channels.telegram = false
+channels.facebook = false
+channels.instagram = false
+channels.social = false
+Usage Caps
+messages.monthly_cap = low
+calls.minutes_cap = low
+ai.tokens.monthly_cap = low
+whatsapp.conversations_cap = low
+CRM
+crm.live_data = true
+crm.import = true
+crm.export = false
+Automations
+automation.publish = true
+automation.steps.max = limited
+automation.conditions.advanced = false
+AI
+ai.summaries = true
+ai.reply_suggestions = true
+ai.agent.deploy = false
+Telephony
+telephony.inbound = true
+telephony.outbound = true
+telephony.recordings = false
+telephony.ivr.deploy = false
+Analytics
+analytics.basic = true
+analytics.advanced = false
+Branding
+branding.basic = true
+branding.custom_domain = false
+🚀 GROWTH — Scale Ops
+Goal: Automation + AI + operational leverage
+Channels
+channels.whatsapp = true
+channels.sms = true
+channels.mms = true
+channels.email = true
+channels.voice = true
+channels.webchat = true
+channels.telegram = true
+channels.social = limited         # FB / IG limited
+Usage Caps
+messages.monthly_cap = medium
+calls.minutes_cap = medium
+ai.tokens.monthly_cap = medium
+whatsapp.conversations_cap = medium
+Automations
+automation.steps.max = high
+automation.conditions.advanced = true
+automation.branching = true
+automation.webhooks = false
+AI
+ai.agent.deploy = true
+ai.intent_detection = true
+ai.auto_triage = true
+ai.sentiment = false
+Telephony
+telephony.ivr.deploy = true
+telephony.routing.advanced = true
+telephony.recordings = true
+Analytics
+analytics.performance = true
+analytics.funnels = true
+Team
+users.roles = true
+users.permissions.advanced = true
+🧠 PRO / BUSINESS — Intelligence & Control
+Goal: Deep omnichannel + governance
+Channels (Full Omnichannel)
+channels.instagram = true
+channels.facebook = true
+channels.telegram = true
+channels.apple_business_chat = optional
+channels.google_business_messages = true
+channels.twitter_x = true
+channels.tiktok = true
+channels.linkedin = sales_only
+channels.teams = true
+channels.slack = true
+Usage Caps
+messages.monthly_cap = high
+calls.minutes_cap = high
+ai.tokens.monthly_cap = high
+whatsapp.conversations_cap = high
+AI
+ai.sentiment = true
+ai.conversation_scoring = true
+ai.qa = true
+ai.agent.multichannel = true
+Analytics
+analytics.advanced = true
+analytics.export = true
+analytics.custom_reports = true
+Compliance & Control
+audit.logs = true
+data.retention.controls = true
+regions.multi = true
+Branding
+branding.custom_domain = true
+branding.full_white_label = true
+API
+api.keys.issue = true
+webhooks.create = true
+rate_limits.standard = true
+🏢 ENTERPRISE — Operating System
+Goal: Mission-critical deployment
+Infrastructure
+infra.dedicated = true
+concurrency.custom = true
+AI
+ai.byok = optional
+ai.on_prem = optional
+ai.governance.policies = true
+Security
+sso.saml = true
+scim = true
+audit.logs.extended = true
+Telephony
+telephony.high_volume = true
+telephony.custom_routes = true
+API
+rate_limits.custom = true
+integrations.custom = true
+Support
+sla.custom = true
+csm.dedicated = true
+🔐 Global Safety Flags (All Plans)
+abuse.protection = true
+rate_limit.enforced = true
+usage.alerts.80pct = true
+auto_throttle.on_cap = true
+One-Line Internal Rule (Immutable)
+If it costs money to execute, it must be flag-gated and meter-enforced.
+
+FLYN AI — Billing & Entitlement Architecture
+1️⃣ Core Design Principles (Non-Negotiable)
+1. Entitlements ≠ Billing
+
+○ Billing answers “who pays and how much”
+○ Entitlements answer “what can this tenant do right now”
+
+2. Every request checks entitlements
+
+○ UI visibility is cosmetic
+○ Backend enforcement is mandatory
+
+3. Usage is metered independently
+
+○ Billing reads usage
+○ Entitlements gate execution
+
+2️⃣ Core Data Model (Canonical)
+Tenants
+tenants
+- id
+- organization_id
+- plan_id
+- status (trial | active | past_due | suspended)
+- region
+- created_at
+
+Plans
+plans
+- id
+- name (FREE, STARTER, GROWTH, PRO, ENTERPRISE)
+- billing_cycle (monthly | yearly)
+- is_public
+
+Plan Entitlements
+plan_entitlements
+- plan_id
+- feature_key
+- value (boolean | integer | string)
+
+Example:
+feature_key = "channels.whatsapp"
+value = true
+
+Tenant Overrides (Enterprise / Promotions)
+tenant_entitlements
+- tenant_id
+- feature_key
+- value
+- expires_at (nullable)
+This allows:
+● Enterprise custom deals
+● Temporary unlocks
+● Manual sales overrides
+
+3️⃣ Subscription & Billing Model
+Subscriptions
+subscriptions
+- id
+- tenant_id
+- plan_id
+- billing_provider (stripe)
+- provider_subscription_id
+- status
+- trial_ends_at
+- current_period_end
+
+Invoices (Optional Mirror)
+invoices
+- id
+- tenant_id
+- amount
+- status
+- period_start
+- period_end
+
+Stripe (or equivalent) remains source of truth
+ Your DB mirrors for enforcement + UX
+4️⃣ Usage Metering (Critical)
+Usage Buckets
+usage_counters
+- tenant_id
+- metric_key
+- period (YYYY-MM)
+- used
+- limit
+
+Standard Metrics
+       Metric Key                   Description
+messages.sent            WhatsApp, SMS, email
+calls.minutes            Voice usage
+ai.tokens                AI inference
+webchat.sessions         Widget sessions
+
+Atomic Usage Increment (MANDATORY)
+Every cost-driving action must:
+1. Check entitlement
+2. Check usage limit
+3. Increment atomically
+4. Execute action
+
+if !entitled("channels.whatsapp"):
+  deny()
+
+if usage_exceeded("messages.sent"):
+  throttle()
+
+increment_usage("messages.sent", +1)
+send_message()
+
+5️⃣ Entitlement Resolution Logic (How the System Thinks)
+Resolution Order
+1. Tenant override (highest priority)
+2. Plan entitlement
+3. Default = false
+function entitled(feature_key, tenant_id):
+    if tenant_override exists:
+        return override.value
+    if plan_entitlement exists:
+        return plan.value
+    return false
+
+6️⃣ Middleware Enforcement Layer (MANDATORY)
+Global Request Guard
+All API routes that cost money must pass through:
+BillingGuard
+UsageGuard
+PlanStatusGuard
+
+Example: Send WhatsApp Message
+BillingGuard:
+  ensure tenant.status == active
+
+EntitlementGuard:
+  ensure entitled("channels.whatsapp")
+
+UsageGuard:
+  ensure usage < cap
+
+Proceed
+7️⃣ Free Trial → Paid Upgrade Flow
+Free Trial
+● tenant.status = trial
+● tenant.live_mode = false
+● Usage counters disabled
+● Sandbox only
+Upgrade Event
+1. Stripe checkout success
+2. Webhook received
+3. Update:
+tenant.status = active
+tenant.plan_id = selected_plan
+tenant.live_mode = true
+4. Initialize usage counters
+5. Unlock entitlements instantly
+
+⚡ No migration. No data loss. No re-onboarding.
+8️⃣ Downgrade / Past Due Handling (Important)
+Graceful Degradation
+      State                         Behavior
+past_due         Read-only, no sends
+suspended        Login allowed, execution blocked
+downgraded       Features removed, data preserved
+Never delete data. Ever.
+9️⃣ Add-Ons & Bundles (Revenue Layer)
+Add-On Model
+addons
+- id
+- feature_key
+- quantity
+Example:
+● +10,000 messages
+● +1 AI agent
+● +5 phone numbers
+Usage caps = plan cap + add-ons
+1️⃣0️⃣ Enterprise Contracts (Sales-Friendly)
+Enterprise customers get:
+● Custom tenant_entitlements
+● Custom caps
+● Optional unlimited flags (carefully)
+No new code required.
+1️⃣1️⃣ UX Rules (Billing Transparency)
+● Show usage bars everywhere
+● Warn at 80%
+● Hard stop at 100%
+● Clear upgrade CTA
+“You’ve used 8,200 / 10,000 messages”
+This increases trust and upgrades.
+1️⃣2️⃣ Internal Golden Rules
+1. Never trust the frontend
+2. Every paid action is server-gated
+3. Usage is immutable once counted
+4. Entitlements are data, not logic
+5. Sales overrides never touch core code
+
+
+FLYN AI — Usage Metering Model (Definitive)
+0️⃣ Core Rule (Non-Negotiable)
+If it creates variable cost, it must be metered before execution.
+ No exceptions. No retroactive counting.
+1️⃣ What We Meter (Canonical Metrics)
+A) Messaging
+messages.sent
+Includes:
+● WhatsApp
+● SMS
+● MMS
+● Email (outbound)
+● Social DMs (Instagram, Facebook, Telegram)
+Unit: 1 message
+ Charged when: Message is accepted for delivery (not when delivered)
+B) Voice
+calls.minutes
+Includes:
+● Inbound calls
+● Outbound calls
+● AI voice sessions
+Unit: 1 minute (rounded up)
+ Charged when: Call ends (final duration known)
+C) AI
+ai.tokens
+Includes:
+● AI summaries
+● AI replies
+● AI agents (chat & voice)
+● Sentiment analysis
+● QA scoring
+Unit: Token
+ Charged when: Inference completes
+D) Web Chat
+webchat.sessions
+Includes:
+● Visitor chat sessions
+● AI or human
+Unit: 1 session
+ Session definition:
+ Starts when user opens chat → expires after inactivity (e.g. 30 mins)
+E) Storage (Optional – Pro+)
+storage.gb
+Includes:
+● Call recordings
+● Media files
+● Transcripts
+Unit: GB / month
+2️⃣ What We Do NOT Meter
+🚫 Login
+ 🚫 Viewing inbox
+ 🚫 CRM data entry
+ 🚫 Workflow configuration
+ 🚫 Sandbox actions
+ 🚫 Reading analytics
+These are fixed-cost or near-zero.
+3️⃣ Metering Period & Reset Logic
+Billing Period
+● Monthly
+● Resets on:
+○ Subscription cycle start
+○ Upgrade (pro-rated recalculation)
+Reset Rules
+FREE → no counters
+STARTER+ → counters reset monthly
+No rollovers unless explicitly sold as add-ons.
+4️⃣ Usage Counter Schema (Final)
+usage_counters
+- id
+- tenant_id
+- metric_key
+- period (YYYY-MM)
+- used
+- limit
+- hard_limit
+- created_at
+- updated_at
+Notes
+● limit = plan cap + add-ons
+● hard_limit = absolute ceiling (abuse protection)
+
+5️⃣ Atomic Metering Flow (MANDATORY)
+Every cost-driving action follows this sequence:
+1. Check tenant status == active
+2. Check entitlement(feature)
+3. Check usage < limit
+4. Reserve usage (atomic increment)
+5. Execute action
+6. Finalize usage (if needed)
+Example — Send WhatsApp Message
+if !entitled("channels.whatsapp"):
+  deny
+if usage(messages.sent) >= limit:
+  throttle
+increment(messages.sent, +1)
+send_message()
+
+
+6️⃣ Voice Metering (Special Handling)
+Call Lifecycle
+1. Call starts → provisional session
+2. Call ends → duration calculated
+3. Minutes rounded UP
+4. Increment calls.minutes
+minutes = ceil(duration_seconds / 60)
+increment(calls.minutes, minutes)
+
+If limit exceeded mid-call:
+● Allow call to finish
+● Block next call
+● Prompt upgrade
+7️⃣ AI Token Metering (Critical)
+Token Accounting
+● Count:
+
+○ Prompt tokens
+○ Completion tokens
+● Apply provider-specific normalization
+total_tokens = prompt_tokens + completion_tokens
+increment(ai.tokens, total_tokens)
+Protection Rules
+● Hard per-request token cap
+● Per-tenant rate limit
+● Burst throttling
+8️⃣ Web Chat Session Metering
+if new_session:
+  increment(webchat.sessions, +1)
+Session auto-expiry after inactivity.
+9️⃣ Soft Limits vs Hard Limits
+Soft Limit (80%)
+● Warning banner
+● Email notification
+● UI badge
+Hard Limit (100%)
+● Block execution
+● Show upgrade modal
+● No silent failures
+🔟 Overages Policy (Recommended)
+Default
+● No auto-overages
+● Execution stops at cap
+Optional (Pro+)
+● Prepaid bundles
+● Manual top-ups
+● Explicit consent only
+
+Never surprise-bill.
+1️⃣1️⃣ Add-On Integration
+Add-ons increase limit, not logic.
+limit = plan_limit + addon_quantity
+No special-case code.
+1️⃣2️⃣ Abuse & Fraud Protection
+● Max requests per minute
+● Max AI tokens per request
+● Message velocity limits
+● Phone number reputation checks
+Triggered independently of billing.
+1️⃣3️⃣ Observability & Auditing
+Every increment logs:
+tenant_id
+metric
+delta
+source (API / UI / Workflow)
+timestamp
+This protects you during disputes.
+1️⃣4️⃣ UX Transparency Rules
+Every tenant sees:
+● Live usage bars
+● Remaining quota
+● Reset date
+● Upgrade CTA
+Example:
+“You’ve used 4,210 / 5,000 messages. Resets in 12 days.”
+1️⃣5️⃣ Internal Golden Rules
+1. Meter before execution
+2. Never decrement usage
+3. Never guess usage
+4. No unlimited unless Enterprise
+5. Usage ≠ billing ≠ entitlements
+Final Internal Summary
+Usage is a first-class system, not a billing afterthought.
+This model scales from:
+● 10 customers → 100,000 customers
+● SMB → Telco
+● Text → Voice → AI
+Without rewrites.
+FLYN AI — Pricing Page Copy (Final)
+Hero Section
+Headline
+All-in-One Business Automation Platform
+Sub-headline
+Run calls, messages, CRM, automations, and AI agents — all in one unified platform.
+CTA
+● Start Free Trial
+● No credit card required
+Updated Plan Overview
+All plans include Unified Inbox + CRM + Automation UI — but features are unlocked progressively by plan.
+The goal is: users always feel the product is real and useful, but they upgrade for power & scale (not just UI visibility).
+🅾️ Free Trial — Explore Mode
+Great for: testing core UI and workflows
+ Live data: ✗ (sandbox only)
+Included
+● Sandbox Unified Inbox (local conversations, no live sending)
+● CRM (contacts & deals)
+● Basic Workflow Builder (simulation)
+● AI Prompt Studio (UI only)
+● Telephony UI / IVR builder (no real calls)
+● Branding preview
+● Analytics (demo dashboard)
+Live channels disabled
+● WhatsApp, SMS, Voice, Email delivery, Web Chat, Social channels
+
+📌 Ideal to show full “engine” before any cost drivers
+💼 Starter — Live Communications Begins
+Great for: first-time go-live teams
+ Live channels: ✔ WhatsApp & SMS basic + Email
+Includes
+● Unified two-way Inbox (live WhatsApp + SMS + Email)
+● CRM with contacts, deals, timeline
+● Auto-import of WhatsApp chats
+● Shared team inbox w/ assignment
+● Basic Automation builder
+● Web Chat widget
+● Basic analytics
+● Reply templates
+● AI summaries & reply suggestions
+Limits
+● Channel caps (message/call minutes)
+● Single WhatsApp number
+● Basic reporting
+🧠 Starter = get live and start communicating in mission-critical channels
+🚀 Growth — Scale Engagement
+Great for: teams with higher volume and automation needs
+ Live channels: Starter + Web Chat, Team inbox across channels
+Includes everything in Starter, plus
+● Multi-number WhatsApp support
+● Fast routing & team assignment
+● Voice calls (PSTN / VoIP) (basic minutes cap)
+● Advanced inbox filters (by channel, agent, tag)
+● Advanced workflow builder (conditions/branches)
+● AI Agents deployed live (chat & voice triage)
+● Call logs & recordings
+● Real-time dashboards & performance KPIs
+● CRM automation rules
+📌 This is still your primary go-to growth tier.
+
+🧠 Pro / Business — Omnichannel + Intelligence
+Great for: mature teams and established operations
+ Channels: WhatsApp, SMS, Email, Web Chat, Instagram DM, Messenger, Telegram
+Includes everything in Growth, plus
+● Full Omnichannel UI (social + messaging)
+● WhatsApp template manager
+● AI sentient workflows (lead scoring, sentiment)
+● Advanced reporting & exports
+● Shared team dashboards
+● SLA & audit logs
+● Multi-region support
+● Custom domains + white-label
+● Webhooks & API access
+● Role-based permissions
+💡 Enterprise-grade visibility + governance
+🏢 Enterprise — Custom Scale & Performance
+Great for: large orgs & scaling platforms
+ Everything unlocked
+Includes everything in Pro, plus
+● Highest concurrency & channel limits
+● Dedicated infrastructure
+● Custom SSO / SCIM
+● BYOK for AI
+● Premium support & CSM
+● Enterprise SLAs
+● Custom integrations
+● Contractual usage limits
+📌 Tailored to the business — no one-size-fits-all
+
+Add-Ons (Available on Paid Plans)
+● Extra message bundles
+● Additional call minutes
+● AI token packs
+● Extra phone numbers
+● Call recording storage
+
+● Premium channels (Apple Business Chat, WeChat)
+● Vertical modules (AI Agent: HR Co-pilot, AI Agent: Church Engagement,AI Agent: Event Concierge, Courses,AI Agent: Coach Assistant,AI Agent: Social Media Manager,AI: Content Creator,AI: Sales & Support,AI: Front Desk / Receptionist,AI: Marketing Agent)
+Usage Transparency Section
+Clear. Predictable. Fair.
+● All usage tracked in real time
+● Live usage bars in dashboard
+● Alerts at 80% usage
+● Hard caps prevent surprise bills
+● Upgrade or add capacity anytime
+You always know what you’re using.
+FAQ (Short & Strategic)
+Do you charge per user?
+ No. We charge based on platform usage and value delivered.
+Can I switch plans anytime?
+ Yes. Upgrades are instant. Downgrades apply next billing cycle.
+Is my data used to train AI models?
+ No. Your data is isolated and never used for global training.
+Can I white-label FLYN?
+ Yes. Full white-label is available on Pro and Enterprise.
+Final CTA
+Start your free trial today
+See how conversations turn into outcomes.
+[ Start Free Trial ]
+ [ Talk to Sales ]
+Internal Positioning Line (Do Not Publish)
+“FLYN doesn’t sell seats.
+ It sells operational leverage.”
+FLYN AI — Pricing Comparison
+Plan Overview
+
+       Feature / Plan           Free Trial          Starter          Growth ⭐        Pro / Business        Enterprise
+Best For                    Evaluation & Demo  First Go-Live    Scaling OperationsOmnichannel Orgs     Large Enterprises
+                                                Teams
+Unified Inbox Engine        ✔ (Sandbox)        ✔ (Live)         ✔ (Live)          ✔ (Live)             ✔ (Live)
+Live Conversations          ❌ (Sandbox only)   ✅                ✅                 ✅                    ✅
+WhatsApp Business API       ✔ (Limited)        ✔                ✔                 ✔                    ✔
+CRM (Contacts, Deals,       Demo               Live             Live              Live                 Live
+ Timeline)
+AI Agents (Live)            ❌                  ❌                ✅                 Advanced             Unlimited
+Automation Builder          Simulation         Basic            Advanced          Advanced+            Custom
+Analytics & KPIs            Demo               Basic            Advanced          Advanced + Export    Custom
+White-Label / Custom Domain Preview            ❌                ❌                 ✅                    Full
+API & Webhooks              Docs Only          ❌                Limited           Full                 Full + Custom
+Support                     Docs               Standard         Priority          Priority             Dedicated + CSM
+
+Unified Inbox Coverage (Channel Access by Plan)
+All inboxes live inside one unified timeline, with shared routing, tagging, CRM context, AI, and analytics.
+ Plans control availability, concurrency, automation depth, and volume — not UI fragmentation.
+
+
+          Inbox / Channel              Free Trial        Starter            Growth             Pro          Enterprise
+WhatsApp Business API              ✔ (Very Limited)  ✔ (Limited)     ✔ (Higher Limits)   ✔ (High)       ✔ (Custom)
+SMS                                UI Only           ✔               ✔                   ✔              ✔
+MMS                                UI Only           ✔               ✔                   ✔              ✔
+Voice Calls (PSTN / VoIP)          UI Only           Basic           Advanced            Advanced       Carrier-Grade
+Email (IMAP / SMTP / API)          UI Only           ✔               ✔                   ✔              ✔
+Web Chat / Live Chat Widget        UI Only           ✔               ✔                   ✔              ✔
+Telegram                           ❌                 ❌               ❌                   ✔              ✔
+Facebook Messenger                 ❌                 ❌               ❌                   ✔              ✔
+Instagram Direct Messages          ❌                 ❌               ❌                   ✔              ✔
+Twitter / X DMs                    ❌                 ❌               ❌                   ✔              ✔
+TikTok Direct Messages             ❌                 ❌               ❌                   ✔              ✔
+LinkedIn Messaging (Sales Context) ❌                 ❌               ❌                   ✔              ✔
+Apple Business Chat                ❌                 ❌               ❌                   Add-on         Add-on
+Google Business Messages           ❌                 ❌               ❌                   ✔              ✔
+Microsoft Teams (External          ❌                 ❌               ❌                   ✔              ✔
+ Messaging)
+Slack Connect (External Channels)  ❌                 ❌               ❌                   ✔              ✔
+
+        Capability            Free       Starter      Growth       Pro      Enterprise
+Telephony UI              ✔           ✔            ✔            ✔        ✔
+Live calls minutes        ✗           Limited      Medium       High     Custom
+Call recordings           ✗           ✗            ✔            ✔        Custom
+IVR / routing             UI only     ✗            ✔            ✔        Custom
+
+AI & Intelligence
+
+              AI Capability                 Free Trial      Starter      Growth          Pro         Enterprise
+AI Reply Suggestions                     Preview         Limited      ✅            Advanced       Unlimited
+AI Conversation Summaries                Preview         Limited      ✅            Advanced       Unlimited
+Live AI Chat Agent                       ❌               ❌            ✅            Advanced       Custom
+Live AI Voice Agent                      ❌               ❌            Limited      Advanced       Custom
+Sentiment Analysis                       ❌               ❌            ❌            ✅              Advanced
+Conversation Scoring & QA                ❌               ❌            ❌            ✅              Advanced
+AI Governance & Controls                 ❌               ❌            ❌            ❌              ✅
+BYOK (AI Keys)                           ❌               ❌            ❌            ❌              Optional
+
+CRM & Automation
+
+                Feature                   Free Trial      Starter       Growth            Pro          Enterprise
+CRM (Contacts & Deals)                 Demo            Live         Live           Live             Live
+Pipelines                              Demo            1            Multiple       Unlimited        Unlimited
+Workflow Builder                       Simulation      Basic        Advanced       Advanced+        Custom
+Conditional Logic                      ❌               ❌            ✅              ✅                ✅
+Scheduled Automations                  ❌               Limited      ✅              ✅                ✅
+Webhooks                               ❌               ❌            Limited        Full             Full
+Role-Based Access Control              ❌               ❌            ✅              Advanced         Advanced
+
+
+Analytics, Security & Control
+
+             Feature                Free Trial     Starter       Growth           Pro         Enterprise
+Live Dashboards                  Demo            Basic       Advanced       Advanced       Custom
+KPI Builder                      ❌               ❌           Limited        Full           Custom
+Data Export                      ❌               ❌           ❌              ✅              Custom
+Audit Logs                       ❌               ❌           ❌              ✅              Advanced
+Multi-Region Support             ❌               ❌           ❌              ✅              Advanced
+SSO (SAML / SCIM)                ❌               ❌           ❌              ❌              ✅
+SLA                              ❌               ❌           ❌              ❌              Custom
+
+
+1️⃣ Core Design Principles (Non-Negotiable)
+FLYN usage indicators must:
+● ✅ Be visible but non-intrusive
+● ✅ Never surprise users with hard stops
+● ✅ Always show remaining value
+● ✅ Push upgrades before disruption
+● ✅ Feel consistent across WhatsApp, Voice, AI, Automations
+Mental model:
+“I always know where I stand — and upgrading feels like unlocking power, not fixing a problem.”
+2️⃣ What Needs Usage Meters (Canonical List)
+A. Messaging & Channels
+● WhatsApp messages
+● SMS / MMS
+● Email sends
+● Web Chat conversations
+● Social DMs (IG, FB, X, TikTok, LinkedIn)
+B. Voice & Telephony
+● Call minutes (inbound/outbound)
+● Concurrent calls
+● AI Voice minutes
+C. AI
+● AI tokens (chat + voice)
+● AI agent conversations
+● AI workflow executions
+D. Automation
+● Workflow runs
+● Active workflows
+● Concurrent automations
+3️⃣ Primary UI Pattern: Inline Usage Meter
+Where it lives
+● Unified Inbox header
+● Channel settings pages
+● Automation builder top bar
+● AI Agent configuration panel
+● Billing → Usage page
+Visual Style (Stripe-Inspired)
+WhatsApp Usage
+██████████░░░░░░░░░░  42%
+420 / 1,000 messages
+Resets in 12 days
+Color Logic (Critical)
+    Usage %           Color           Meaning
+0–69%          Indigo / Blue      Safe
+70–89%         Amber              Attention
+90–99%         Red                Action
+100%           Red + Lock         Hard limit
+
+Tailwind Example (Drop-in)
+<div class="space-y-2">
+  <div class="flex justify-between text-sm font-medium">
+    <span>WhatsApp Messages</span>
+    <span class="text-gray-500">420 / 1,000</span>
+  </div>
+
+  <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+    <div class="bg-indigo-600 h-2 rounded-full" style="width:42%"></div>
+  </div>
+
+  <p class="text-xs text-gray-500">
+    Resets in 12 days
+  </p>
+</div>
+
+4️⃣ Secondary Pattern: Soft Warning Banners (Non-Blocking)
+Trigger Points
+● 70%
+● 85%
+● 95%
+Placement
+● Top of inbox
+● Automation builder header
+● Voice call dashboard
+● AI agent overview
+Copy (Corporate, Calm, Upgrade-Oriented)
+70%
+“You’ve used 70% of your WhatsApp quota. You’re on track — monitor usage or upgrade to avoid interruptions.”
+85%
+“High usage detected. Upgrade your plan to maintain uninterrupted conversations.”
+95%
+“You’re nearing your plan limit. Some features may pause if usage exceeds allowance.”
+
+Banner UI Example
+<div class="flex items-center justify-between p-4 bg-amber-50 border border-amber-200 rounded-lg">
+  <div class="text-sm text-amber-800">
+    You’ve used <strong>85%</strong> of your WhatsApp message limit.
+  </div>
+  <button class="text-sm font-medium text-amber-900 underline">
+    Upgrade Plan
+  </button>
+</div>
+
+5️⃣ Hard-Limit Pattern (Graceful Degradation)
+Never break the product.
+Instead:
+
+      Feature                  At 100%
+WhatsApp           Pause outbound only
+SMS                Pause outbound
+Voice              New calls blocked
+AI                 Fallback to manual
+Automations        Queued (not dropped)
+
+UI Lock State
+🔒 Limit Reached
+Outbound WhatsApp messages are paused.
+Upgrade your plan to resume instantly.
+
+<div class="p-6 border border-red-300 bg-red-50 rounded-lg">
+  <h4 class="font-semibold text-red-800">Limit Reached</h4>
+  <p class="text-sm text-red-700 mt-1">
+    Outbound WhatsApp messages are paused until your quota resets or you upgrade.
+  </p>
+  <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-md">
+    Upgrade Now
+  </button>
+</div>
+
+6️⃣ Billing → Usage Dashboard (Executive View)
+Layout
+● Card per resource
+● Real-time usage
+● Reset date
+● Upgrade CTA
+[ WhatsApp ]
+██████████░░░░░  72%
+
+[ Voice Minutes ]
+████████████░░░  88%
+
+[ AI Tokens ]
+██████████████░  94%
+
+UX Rule
+● No percentages alone
+● Always show raw numbers
+● Always show reset cycle
+7️⃣ Smart Upgrade Nudges (Psychological Layer)
+Triggered when:
+● User attempts high-value action (campaign send, AI deploy, call blast)
+● Usage ≥ 80%
+Modal Copy (Best-Practice)
+Unlock uninterrupted conversations
+You’re approaching your current plan limit.
+ Upgrade to Growth or Pro to continue without restrictions.
+Buttons:
+● Upgrade Plan (Primary)
+● View Usage (Secondary)
+
+8️⃣ Engineering Logic (So Devs Don’t Guess)
+Usage Engine Should:
+● Be real-time
+● Be event-based
+● Support soft caps + hard caps
+
+● Emit signals:
+
+○ usage.warning.70
+○ usage.warning.85
+○ usage.warning.95
+○ usage.limit.reached
+This lets:
+● UI react consistently
+● Emails & in-app alerts fire
+● Sales triggers activate
+
+9️⃣ Why This Wins (Strategically)
+✔ Feels transparent like Stripe
+ ✔ Avoids rage-click upgrades
+ ✔ Trains users to monitor usage
+ ✔ Encourages proactive plan upgrades
+ ✔ Works across WhatsApp, Voice, AI, Automation
+ ✔ Scales cleanly for Enterprise contracts
+

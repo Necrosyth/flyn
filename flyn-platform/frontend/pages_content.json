@@ -1,0 +1,90 @@
+{
+  "homepage": {
+    "ogImageUrl": "",
+    "ogTitle": "Flyn — The AI-Powered All-in-One Business Platform",
+    "ogDescription": "Run your entire business from one platform. CRM, AI Agents, WhatsApp, Telegram, automation, website builder, HR, accounting, and more — all in one place. Starting at $49.99/mo per workspace."
+  },
+  "main": {
+    "pricing": [
+      {
+        "id": "free",
+        "name": "Free",
+        "description": "For individuals getting started",
+        "monthlyPrice": 0,
+        "yearlyPrice": 0,
+        "features": [
+          "Up to 100 messages/month",
+          "1 team member",
+          "Basic inbox",
+          "Email support"
+        ],
+        "highlighted": false,
+        "ctaText": "Get Started"
+      },
+      {
+        "id": "starter",
+        "name": "Starter",
+        "description": "For small teams starting out",
+        "monthlyPrice": 39,
+        "yearlyPrice": 374,
+        "features": [
+          "Up to 1,000 messages/month",
+          "2 team members",
+          "Standard channels",
+          "Basic AI tools",
+          "Usage Metering"
+        ],
+        "highlighted": false,
+        "ctaText": "Start Free Trial"
+      },
+      {
+        "id": "growth",
+        "name": "Growth",
+        "description": "For scaling operations",
+        "monthlyPrice": 89,
+        "yearlyPrice": 854,
+        "features": [
+          "Up to 5,000 messages/month",
+          "5 team members",
+          "All channels",
+          "AI Agents",
+          "Automation builder"
+        ],
+        "highlighted": true,
+        "ctaText": "Start Free Trial"
+      },
+      {
+        "id": "pro",
+        "name": "Pro",
+        "description": "For advanced intelligence",
+        "monthlyPrice": 169,
+        "yearlyPrice": 1622,
+        "features": [
+          "Up to 20,000 messages/month",
+          "Unlimited team members",
+          "Custom Branding",
+          "Advanced Analytics",
+          "Priority support"
+        ],
+        "highlighted": false,
+        "ctaText": "Start Free Trial"
+      },
+      {
+        "id": "enterprise",
+        "name": "Enterprise",
+        "description": "For large organizations",
+        "monthlyPrice": 0,
+        "yearlyPrice": 0,
+        "features": [
+          "Unlimited messages",
+          "White-labeling",
+          "SSO/SAML",
+          "Dedicated support",
+          "SLA guarantee"
+        ],
+        "highlighted": false,
+        "ctaText": "Contact Sales"
+      }
+    ]
+  }
+}

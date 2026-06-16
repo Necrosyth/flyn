@@ -1,0 +1,631 @@
+{
+    "common": {
+        "loading": "लोड हो रहा है...",
+        "save": "सहेजें",
+        "cancel": "रद्द करें",
+        "delete": "हटाएं",
+        "edit": "संपादित करें",
+        "back": "वापस",
+        "next": "अगला",
+        "continue": "जारी रखें",
+        "submit": "जमा करें",
+        "search": "खोजें",
+        "filter": "फ़िल्टर",
+        "viewAll": "सभी देखें",
+        "reset": "रीसेट",
+        "preview": "पूर्वावलोकन",
+        "exitPreview": "पूर्वावलोकन बंद करें",
+        "call": "कॉल",
+        "vsLastWeek": "पिछले हफ्ते की तुलना में",
+        "language": "भाषा",
+        "export": "निर्यात",
+        "all": "सभी",
+        "active": "सक्रिय",
+        "pending": "लंबित"
+    },
+    "auth": {
+        "welcomeBack": "वापसी पर स्वागत है",
+        "signInTo": "अपने {{appName}} वर्कस्पेस में साइन इन करें",
+        "email": "ईमेल",
+        "password": "पासवर्ड",
+        "signIn": "साइन इन",
+        "signingIn": "साइन इन हो रहा है...",
+        "noAccount": "खाता नहीं है?",
+        "getStarted": "शुरू करें",
+        "invalidCredentials": "अमान्य क्रेडेंशियल",
+        "loginFailed": "लॉगिन विफल। कृपया पुनः प्रयास करें।",
+        "createAccount": "अपना खाता बनाएं",
+        "startJourney": "Flyn के साथ अपनी यात्रा शुरू करें",
+        "companyName": "कंपनी का नाम",
+        "companyPlaceholder": "आपकी कंपनी",
+        "emailPlaceholder": "you@company.com",
+        "creatingAccount": "खाता बनाया जा रहा है...",
+        "signupFailed": "साइनअप विफल। कृपया पुनः प्रयास करें।",
+        "alreadyHaveAccount": "पहले से खाता है?",
+        "signInLink": "साइन इन करें",
+        "firebaseNotConfigured": "Firebase कॉन्फ़िगर नहीं है। VITE_FIREBASE_* env vars सेट करें (.env.example देखें) और डेव सर्वर पुनः प्रारंभ करें।"
+    },
+    "onboarding": {
+        "getStarted": "FLYN के साथ शुरू करें",
+        "setupSteps": "कुछ त्वरित चरणों के साथ अपना नया वर्कस्पेस सेट करें।",
+        "createWorkspace": "वर्कस्पेस बनाएं",
+        "workspaceDescription": "अपने वर्कस्पेस को एक नाम दें और अपना स्थानीय समय क्षेत्र निर्दिष्ट करें।",
+        "workspaceName": "वर्कस्पेस का नाम",
+        "workspacePlaceholder": "आपका वर्कस्पेस",
+        "timeZone": "समय क्षेत्र",
+        "chooseIndustry": "अपना उद्योग चुनें",
+        "industryDescription": "यह हमें सर्वोत्तम टेम्पलेट और ऑटोमेशन की सिफारिश करने में मदद करता है।",
+        "connectIntegrations": "इंटीग्रेशन कनेक्ट करें",
+        "integrationsDescription": "आप जो ऐप्स उपयोग करते हैं उन्हें लिंक करें। आप कभी भी और जोड़ सकते हैं।",
+        "chooseAgents": "AI एजेंट चुनें",
+        "agentsDescription": "अपने व्यापार गतिविधियों में सहायता के लिए AI एजेंट चुनें।",
+        "completeSetup": "सेटअप पूरा करें",
+        "skipForNow": "अभी के लिए छोड़ें",
+        "industries": {
+            "ecommerce": "ई-कॉमर्स",
+            "saas": "SaaS",
+            "realestate": "रियल एस्टेट",
+            "healthcare": "स्वास्थ्य सेवा",
+            "education": "शिक्षा",
+            "hospitality": "आतिथ्य",
+            "nonprofit": "गैर-लाभकारी",
+            "legal": "कानूनी",
+            "finance": "वित्त"
+        },
+        "agents": {
+            "emailAssistant": "ईमेल सहायक",
+            "emailAssistantDesc": "ईमेल प्रतिक्रियाओं और फॉलो-अप को स्वचालित करें",
+            "voiceAgent": "वॉइस एजेंट",
+            "voiceAgentDesc": "इनकमिंग कॉल संभालें और कॉलबैक शेड्यूल करें",
+            "chatBot": "चैट बॉट",
+            "chatBotDesc": "आपकी वेबसाइट पर 24/7 ग्राहक सहायता",
+            "schedulingAgent": "शेड्यूलिंग एजेंट",
+            "schedulingAgentDesc": "अपॉइंटमेंट और मीटिंग प्रबंधित करें",
+            "documentAgent": "डॉक्यूमेंट एजेंट",
+            "documentAgentDesc": "प्रस्ताव और अनुबंध बनाएं",
+            "crmAgent": "CRM एजेंट",
+            "crmAgentDesc": "संपर्क अपडेट करें और इंटरैक्शन ट्रैक करें"
+        }
+    },
+    "dashboard": {
+        "title": "डैशबोर्ड",
+        "sandboxSubtitle": "प्लेटफ़ॉर्म एक्सप्लोर करें — सभी क्रियाएं सिम्युलेटेड हैं।",
+        "welcomeSubtitle": "वापसी पर स्वागत है! यहां आपके व्यापार का सारांश है।",
+        "yourApps": "आपके ऐप्स",
+        "usageThisMonth": "इस महीने का उपयोग",
+        "stats": {
+            "activeConversations": "सक्रिय वार्तालाप",
+            "callsToday": "आज की कॉल",
+            "automationsRun": "ऑटोमेशन रन",
+            "responseTime": "प्रतिक्रिया समय"
+        },
+        "modules": {
+            "crm": "CRM",
+            "crmDesc": "संपर्क, सौदे और पाइपलाइन",
+            "events": "इवेंट्स",
+            "eventsDesc": "इवेंट प्रबंधन और RSVP",
+            "hr": "HR",
+            "hrDesc": "टीम और कर्मचारी प्रबंधन",
+            "church": "चर्च",
+            "churchDesc": "मिनिस्ट्री और मंडली उपकरण",
+            "coaches": "कोच",
+            "coachesDesc": "कोचिंग और क्लाइंट सत्र",
+            "freelancers": "फ्रीलांसर",
+            "freelancersDesc": "प्रोजेक्ट और इनवॉइसिंग"
+        },
+        "quickActions": {
+            "openInbox": "इनबॉक्स खोलें",
+            "startCall": "कॉल शुरू करें",
+            "aiAgents": "AI एजेंट",
+            "automations": "ऑटोमेशन"
+        }
+    },
+    "sidebar": {
+        "communication": "संचार",
+        "searchPlaceholder": "फीचर्स खोजें...",
+        "modules": "मॉड्यूल",
+        "intelligence": "इंटेलिजेंस",
+        "inbox": "इनबॉक्स",
+        "approvals": "अनुमोदन",
+        "dialer": "डायलर",
+        "dashboard": "डैशबोर्ड",
+        "crm": "CRM",
+        "events": "इवेंट्स",
+        "hr": "HR",
+        "church": "चर्च",
+        "coaches": "कोच",
+        "freelancers": "फ्रीलांसर",
+        "aiAgents": "AI एजेंट",
+        "automations": "ऑटोमेशन",
+        "whiteLabel": "व्हाइट लेबल",
+        "settings": "सेटिंग्स",
+        "logout": "लॉगआउट",
+        "aiMarketing": "AI मार्केटिंग",
+        "aiContent": "AI कंटेंट",
+        "aiSocial": "AI सोशल मीडिया",
+        "aiFrontDesk": "AI फ्रंट डेस्क / सपोर्ट",
+        "whatsappCrm": "WhatsApp CRM",
+        "telegram": "Telegram",
+        "developer": "डेवलपर",
+        "developerPortal": "डेवलपर पोर्टल",
+        "dataSources": "डेटा स्रोत",
+        "currentPlan": "वर्तमान योजना",
+        "exploreModeActive": "एक्सप्लोर मोड सक्रिय",
+        "lastSynced": "अंतिम सिंक {{time}} पहले",
+        "availableOn": "{{plan}}+ पर उपलब्ध",
+        "used": "{{percent}}% उपयोग",
+        "resources": "संसाधन",
+        "tasks": "कार्य",
+        "files": "फाइल हब",
+        "knowledge": "ज्ञान हब"
+    },
+    "settings": {
+        "title": "सेटिंग्स",
+        "subtitle": "अपनी वर्कस्पेस प्राथमिकताएं प्रबंधित करें",
+        "profile": "प्रोफ़ाइल",
+        "profileDesc": "अपनी खाता सेटिंग्स प्रबंधित करें",
+        "teamManagement": "टीम प्रबंधन",
+        "teamManagementDesc": "टीम सदस्यों और अनुमतियों को प्रबंधित करें",
+        "notifications": "सूचनाएं",
+        "notificationsDesc": "अलर्ट और अपडेट कॉन्फ़िगर करें",
+        "security": "सुरक्षा",
+        "securityDesc": "पासवर्ड और 2FA सेटिंग्स",
+        "appearance": "दिखावट",
+        "appearanceDesc": "थीम और डिस्प्ले विकल्प",
+        "integrations": "इंटीग्रेशन",
+        "integrationsDesc": "बाहरी सेवाएं कनेक्ट करें",
+        "billing": "बिलिंग",
+        "billingDesc": "योजनाएं और भुगतान विधियां",
+        "whiteLabel": "व्हाइट लेबल",
+        "whiteLabelDesc": "कस्टम ब्रांडिंग, रंग और डोमेन",
+        "quickSettings": "त्वरित सेटिंग्स",
+        "emailNotifications": "ईमेल सूचनाएं",
+        "emailNotificationsDesc": "ईमेल अपडेट प्राप्त करें",
+        "desktopNotifications": "डेस्कटॉप सूचनाएं",
+        "desktopNotificationsDesc": "ब्राउज़र सूचनाएं दिखाएं",
+        "aiSuggestions": "AI सुझाव",
+        "aiSuggestionsDesc": "AI-संचालित सिफारिशें सक्षम करें"
+    },
+    "billing": {
+        "title": "बिलिंग",
+        "subscription": "सब्सक्रिप्शन",
+        "invoices": "चालान",
+        "usage": "उपयोग",
+        "paymentMethod": "भुगतान विधि",
+        "upgradePlan": "योजना अपग्रेड करें",
+        "invoiceId": "चालान ID",
+        "date": "तारीख",
+        "status": "स्थिति",
+        "amount": "राशि",
+        "paid": "भुगतान हुआ",
+        "unpaid": "अवैतनिक",
+        "contacts": "संपर्क",
+        "perMonth": "/माह"
+    },
+    "team": {
+        "title": "टीम प्रबंधन",
+        "permissions": "भूमिका अनुमतियां",
+        "inviteUser": "उपयोगकर्ता आमंत्रित करें",
+        "inviteTeamMember": "टीम सदस्य आमंत्रित करें",
+        "inviteDescription": "अपने वर्कस्पेस में शामिल होने के लिए निमंत्रण भेजें।",
+        "emailAddress": "ईमेल पता",
+        "role": "भूमिका",
+        "teamLabel": "टीम",
+        "sendInvitation": "निमंत्रण भेजें",
+        "teamMembers": "टीम सदस्य",
+        "teams": "टीमें",
+        "accessCRM": "CRM एक्सेस",
+        "manageUsers": "उपयोगकर्ता प्रबंधित करें",
+        "editSettings": "सेटिंग्स संपादित करें",
+        "admin": "एडमिन",
+        "manager": "मैनेजर",
+        "member": "सदस्य",
+        "selectTeam": "टीम चुनें"
+    },
+    "aiAgents": {
+        "title": "AI एजेंट",
+        "subtitle": "अपने AI कार्यबल को कॉन्फ़िगर और प्रबंधित करें",
+        "createAgent": "एजेंट बनाएं",
+        "viewAgent": "एजेंट देखें",
+        "createNewAgent": "नया एजेंट बनाएं",
+        "createNewAgentDesc": "अपनी आवश्यकताओं के लिए कस्टम AI एजेंट बनाएं"
+    },
+    "whiteLabel": {
+        "title": "व्हाइट लेबल",
+        "subtitle": "अपने संगठन से मैच करने के लिए ब्रांडिंग कस्टमाइज़ करें",
+        "branding": "ब्रांडिंग",
+        "colors": "रंग",
+        "domain": "डोमेन",
+        "email": "ईमेल",
+        "logo": "लोगो",
+        "logoDesc": "अपने संगठन का लोगो अपलोड करें (PNG, SVG अनुशंसित)",
+        "clickToUploadLogo": "लोगो अपलोड करने के लिए क्लिक करें",
+        "removeLogo": "लोगो हटाएं",
+        "logoUploaded": "लोगो सफलतापूर्वक अपलोड हुआ",
+        "faviconUploaded": "फ़ेविकॉन सफलतापूर्वक अपलोड हुआ",
+        "brandingReset": "ब्रांडिंग डिफ़ॉल्ट पर रीसेट",
+        "exitPreview": "पूर्वावलोकन बंद करें",
+        "preview": "पूर्वावलोकन",
+        "appIdentity": "ऐप पहचान",
+        "appIdentityDesc": "अपने ऐप का नाम और टेक्स्ट ब्रांडिंग कॉन्फ़िगर करें",
+        "appName": "ऐप का नाम",
+        "logoText": "लोगो टेक्स्ट (जब कोई लोगो इमेज नहीं)",
+        "fontFamily": "फ़ॉन्ट फ़ैमिली",
+        "favicon": "फ़ेविकॉन",
+        "faviconDesc": "ब्राउज़र टैब आइकन (32x32 या 64x64 अनुशंसित)",
+        "uploadFavicon": "फ़ेविकॉन अपलोड करें",
+        "visibility": "दृश्यता",
+        "visibilityDesc": "ब्रांडिंग दृश्यता विकल्प नियंत्रित करें",
+        "showPoweredBy": "\"Powered by Flyn\" दिखाएं",
+        "showPoweredByDesc": "फ़ुटर में एट्रिब्यूशन दिखाएं",
+        "colorPresets": "रंग प्रीसेट",
+        "colorPresetsDesc": "एक प्रीसेट चुनें या अपने रंग कस्टमाइज़ करें",
+        "primaryColor": "प्राइमरी रंग",
+        "accentColor": "एक्सेंट रंग",
+        "sidebarBackground": "साइडबार बैकग्राउंड",
+        "livePreview": "लाइव पूर्वावलोकन",
+        "primaryButton": "प्राइमरी बटन",
+        "secondaryButton": "सेकेंडरी बटन",
+        "highlightedCard": "हाइलाइटेड कार्ड",
+        "sidebarPreview": "साइडबार पूर्वावलोकन",
+        "customDomain": "कस्टम डोमेन",
+        "customDomainDesc": "व्हाइट-लेबल एक्सेस के लिए अपना कस्टम डोमेन कॉन्फ़िगर करें",
+        "cnameInstruction": "सक्रिय करने के लिए अपने डोमेन का CNAME रिकॉर्ड हमारे सर्वर पर पॉइंट करें",
+        "dnsConfiguration": "DNS कॉन्फ़िगरेशन",
+        "type": "प्रकार",
+        "name": "नाम",
+        "value": "मान",
+        "domainGrowthPlan": "कस्टम डोमेन ग्रोथ प्लान और उससे ऊपर पर उपलब्ध हैं",
+        "emailBranding": "ईमेल ब्रांडिंग",
+        "emailBrandingDesc": "अपने वर्कस्पेस से भेजे गए ईमेल को कस्टमाइज़ करें",
+        "fromName": "प्रेषक का नाम",
+        "fromNameDesc": "प्राप्तकर्ता के इनबॉक्स में प्रेषक के नाम के रूप में दिखाई देता है",
+        "emailFooter": "ईमेल फ़ुटर टेक्स्ट",
+        "emailPreview": "ईमेल पूर्वावलोकन",
+        "emailHello": "नमस्ते,",
+        "emailPreviewText": "यह एक पूर्वावलोकन है कि आपके ब्रांडेड ईमेल कैसे दिखेंगे।",
+        "callToAction": "कॉल टू एक्शन",
+        "changesSaved": "परिवर्तन स्वचालित रूप से सहेजे गए"
+    },
+    "dialer": {
+        "title": "डायलर",
+        "subtitle": "AI-संचालित अंतर्दृष्टि के साथ कॉल करें और प्राप्त करें",
+        "enterPhoneNumber": "फ़ोन नंबर दर्ज करें",
+        "recentCalls": "हाल की कॉल",
+        "callInProgress": "कॉल जारी है",
+        "aiVoiceAgent": "AI वॉइस एजेंट",
+        "aiVoiceAgentDesc": "रीयल-टाइम ट्रांसक्रिप्शन और अंतर्दृष्टि के साथ AI-संचालित कॉल सहायता",
+        "aiAgentReady": "AI एजेंट • तैयार",
+        "outgoing": "आउटगोइंग",
+        "incoming": "इनकमिंग",
+        "missed": "मिस्ड"
+    },
+    "inbox": {
+        "title": "यूनिफाइड इनबॉक्स",
+        "subtitle": "आपकी सभी बातचीत एक जगह",
+        "searchPlaceholder": "बातचीत खोजें..."
+    },
+    "notFound": {
+        "title": "404",
+        "message": "उफ़! पेज नहीं मिला",
+        "goHome": "होम पर वापस जाएं"
+    },
+    "upgrade": {
+        "title": "अपग्रेड आवश्यक",
+        "description": "इस सुविधा के लिए उच्चतर योजना आवश्यक है।",
+        "upgradePlan": "योजना अपग्रेड करें",
+        "upgradeTo": "{{plan}} में अपग्रेड करें",
+        "featureAvailableOn": "यह सुविधा {{plan}} और उससे ऊपर पर उपलब्ध है। पूर्ण क्षमताओं को अनलॉक करने के लिए अपग्रेड करें।",
+        "planName": "{{plan}} योजना",
+        "customPricing": "कस्टम मूल्य निर्धारण",
+        "liveMessaging": "लाइव मैसेजिंग सक्षम",
+        "aiAutomation": "AI ऑटोमेशन और एजेंट",
+        "advancedAnalytics": "उन्नत एनालिटिक्स",
+        "maybeLater": "शायद बाद में",
+        "upgradeNow": "अभी अपग्रेड करें",
+        "noCharges": "आपकी योजना से अधिक कोई शुल्क नहीं। आप हमेशा नियंत्रण में हैं।"
+    },
+    "usageMeter": {
+        "messages": "संदेश",
+        "callMinutes": "कॉल मिनट",
+        "aiTokens": "AI टोकन",
+        "webchatSessions": "वेबचैट सत्र",
+        "storageGB": "स्टोरेज (GB)",
+        "whatsappConversations": "WhatsApp वार्तालाप",
+        "limitReached": "सीमा पूरी हुई — कार्य रुके हुए हैं",
+        "approachingLimit": "सीमा के करीब — अपग्रेड पर विचार करें",
+        "warningUsed": "80% उपयोग — अभी कोई कार्रवाई आवश्यक नहीं",
+        "runningNormally": "50% उपयोग — सामान्य रूप से चल रहा है"
+    },
+    "automations": {
+        "components": "घटक",
+        "dragToCanvas": "कैनवास पर खींचें",
+        "workflowBuilder": "वर्कफ़्लो बिल्डर",
+        "visualDesigner": "विज़ुअल ऑटोमेशन डिज़ाइनर",
+        "unsaved": "सहेजा नहीं गया",
+        "nodes": "नोड",
+        "connections": "कनेक्शन",
+        "stop": "रोकें",
+        "test": "परीक्षण",
+        "publish": "प्रकाशित करें",
+        "startBuilding": "निर्माण शुरू करें",
+        "startBuildingDesc": "अपना ऑटोमेशन वर्कफ़्लो बनाने के लिए बाएं पैनल से घटकों को खींचें",
+        "nodeAdded": "नोड जोड़ा गया",
+        "nodeAddedDesc": "{{label}} कैनवास में जोड़ा गया",
+        "validationFailed": "सत्यापन विफल",
+        "workflowSaved": "वर्कफ़्लो सहेजा गया",
+        "nodesSaved": "{{count}} नोड सहेजे गए",
+        "cannotPublish": "प्रकाशित नहीं किया जा सकता",
+        "publishedSuccessfully": "सफलतापूर्वक प्रकाशित",
+        "publishFailed": "प्रकाशन विफल",
+        "noNodes": "कोई नोड नहीं",
+        "addNodesToTest": "वर्कफ़्लो का परीक्षण करने के लिए नोड जोड़ें",
+        "testStopped": "परीक्षण रोका गया",
+        "testRunning": "परीक्षण चल रहा है",
+        "watchNodes": "नोड्स को क्रम में निष्पादित होते देखें"
+    },
+    "admin": {
+        "title": "मार्केटिंग और विकास डैशबोर्ड",
+        "subtitle": "लीड, अभियान, सामग्री और लैंडिंग पेज प्रबंधित करें — सब एक जगह",
+        "hero": "हीरो",
+        "pricing": "मूल्य निर्धारण",
+        "modules": "मॉड्यूल",
+        "contact": "संपर्क",
+        "stripe": "स्ट्राइप",
+        "overview": "अवलोकन",
+        "leads": "लीड",
+        "campaigns": "अभियान",
+        "onboarding": "ऑनबोर्डिंग",
+        "content": "सामग्री",
+        "aiAutomation": "AI और ऑटोमेशन",
+        "salesRevenue": "बिक्री और राजस्व"
+    },
+    "dashboardModule": {
+        "searchPlaceholder": "{{title}} खोजें..."
+    },
+    "crmDashboard": {
+        "subtitle": "संपर्क, सौदे और गतिविधियों का प्रबंधन करें",
+        "demoMode": "डेमो मोड",
+        "live": "लाइव",
+        "seedData": "डेमो डेटा सीड करें",
+        "refresh": "ताज़ा करें",
+        "addContact": "संपर्क जोड़ें",
+        "kpi": {
+            "totalContacts": "कुल संपर्क",
+            "qualifiedLeads": "योग्य लीड्स",
+            "leadsTotal": "{{count}} कुल लीड्स",
+            "dealsWonValue": "जीते गए सौदों का मूल्य",
+            "dealsClosed": "{{count}} सौदे बंद",
+            "conversionRate": "रूपांतरण दर",
+            "leadsToCustomers": "लीड्स → ग्राहक"
+        },
+        "pipeline": {
+            "title": "डील पाइपलाइन",
+            "summary": "{{count}} सौदे · {{value}} कुल",
+            "stages": {
+                "new": "नया",
+                "qualified": "योग्य",
+                "proposal": "प्रस्ताव",
+                "negotiation": "बातचीत",
+                "won": "जीता",
+                "lost": "हारा"
+            }
+        },
+        "sources": {
+            "title": "लीड स्रोत"
+        },
+        "contacts": {
+            "title": "संपर्क",
+            "total": "{{count}} कुल",
+            "searchPlaceholder": "संपर्क खोजें...",
+            "filterAll": "सभी स्थितियां",
+            "status": {
+                "lead": "लीड",
+                "qualified": "योग्य",
+                "customer": "ग्राहक",
+                "churned": "मंथन",
+                "inactive": "निष्क्रिय"
+            },
+            "table": {
+                "name": "नाम",
+                "company": "कंपनी",
+                "status": "स्थिति",
+                "score": "स्कोर",
+                "source": "स्रोत",
+                "noContacts": "कोई संपर्क नहीं मिला",
+                "connectMongo": "लाइव डेटा देखने के लिए MongoDB से कनेक्ट करें। शुरू करने के लिए 'डेमो डेटा सीड करें' पर क्लिक करें।"
+            },
+            "pagination": {
+                "pageInfo": "पृष्ठ {{page}} / {{total}}",
+                "prev": "पिछला",
+                "next": "अगला"
+            }
+        },
+        "activity": {
+            "title": "हाल की गतिविधि",
+            "empty": "कोई हालिया गतिविधि नहीं"
+        }
+    },
+    "moduleConfig": {
+        "crm": {
+            "title": "CRM",
+            "description": "संपर्क, सौदे और पाइपलाइन प्रबंधित करें",
+            "kpi": {
+                "activeDeals": "सक्रिय सौदे",
+                "pipelineValue": "पाइपलाइन मूल्य",
+                "winRate": "जीत दर",
+                "newLeads": "नई लीड्स"
+            },
+            "actions": {
+                "addContact": "संपर्क जोड़ें",
+                "createDeal": " सौदा बनाएं",
+                "importData": "डेटा आयात करें"
+            },
+            "columns": {
+                "contact": "संपर्क",
+                "company": "कंपनी",
+                "value": "मूल्य",
+                "stage": "चरण",
+                "status": "स्थिति"
+            },
+            "analytics": {
+                "dealVelocity": "डील वेग",
+                "revenueForecast": "राजस्व पूर्वानुमान"
+            },
+            "ai": {
+                "insights": "बिक्री अंतर्दृष्टि AI",
+                "description": "आपकी बिक्री पाइपलाइन का बुद्धिमान विश्लेषण"
+            }
+        },
+        "hr": {
+            "title": "HR",
+            "description": "टीम और कर्मचारी प्रबंधन",
+            "kpi": {
+                "totalEmployees": "कुल कर्मचारी",
+                "openPositions": "खुले पद",
+                "onboarding": "ऑनबोर्डिंग",
+                "retention": "प्रतिधारण दर"
+            },
+            "actions": {
+                "addEmployee": "कर्मचारी जोड़ें",
+                "postJob": "नौकरी पोस्ट करें",
+                "runPayroll": "पेरोल चलाएं"
+            },
+            "columns": {
+                "employee": "कर्मचारी",
+                "role": "भूमिका",
+                "department": "विभाग",
+                "status": "स्थिति",
+                "joined": "शामिल हुए"
+            },
+            "analytics": {
+                "headcountGrowth": "कर्मचारी वृद्धि",
+                "departmentDistribution": "विभाग वितरण"
+            },
+            "ai": {
+                "insights": "प्रतिभा अंतर्दृष्टि AI",
+                "description": "कार्यबल रुझान और प्रतिधारण विश्लेषण"
+            }
+        },
+        "events": {
+            "title": "इवेंट्स",
+            "description": "इवेंट योजना और प्रबंधन",
+            "kpi": {
+                "upcomingEvents": "आगामी कार्यक्रम",
+                "registrations": "पंजीकरण",
+                "ticketsSold": "टिकट बिके",
+                "revenue": "राजस्व"
+            },
+            "actions": {
+                "createEvent": "इवेंट बनाएं",
+                "manageTickets": "टिकट प्रबंधित करें",
+                "sendInvites": "आमंत्रण भेजें"
+            },
+            "columns": {
+                "event": "इवेंट",
+                "date": "तारीख",
+                "location": "स्थान",
+                "attendees": "उपस्थित लोग",
+                "status": "स्थिति"
+            },
+            "analytics": {
+                "ticketSales": "टिकट बिक्री",
+                "attendeeDemographics": "उपस्थित जनसांख्यिकी"
+            },
+            "ai": {
+                "insights": "इवेंट प्रेडिक्टर AI",
+                "description": "उपस्थिति और राजस्व भविष्यवाणियां"
+            }
+        },
+        "church": {
+            "title": "चर्च",
+            "description": "मिनिस्ट्री और मंडली प्रबंधन",
+            "kpi": {
+                "totalMembers": "कुल सदस्य",
+                "weeklyAttendance": "साप्ताहिक उपस्थिति",
+                "donations": "दान",
+                "volunteers": "स्वयंसेवक"
+            },
+            "actions": {
+                "addMember": "सदस्य जोड़ें",
+                "scheduleService": "सेवा अनुसूची",
+                "recordDonation": "दान रिकॉर्ड करें"
+            },
+            "columns": {
+                "name": "नाम",
+                "family": "परिवार",
+                "status": "स्थिति",
+                "lastAttended": "अंतिम उपस्थिति",
+                "ministry": "मिनिस्ट्री"
+            },
+            "analytics": {
+                "attendanceTrends": "उपस्थिति रुझान",
+                "donationAnalysis": "दान विश्लेषण"
+            },
+            "ai": {
+                "insights": "मिनिस्ट्री अंतर्दृष्टि AI",
+                "description": "जुड़ाव और विकास विश्लेषण"
+            }
+        },
+        "coaches": {
+            "title": "कोच",
+            "description": "क्लाइंट और सत्र प्रबंधन",
+            "kpi": {
+                "activeClients": "सक्रिय क्लाइंट",
+                "sessionsCompleted": "पूरे सत्र",
+                "revenue": "राजस्व",
+                "clientSatisfaction": "संतुष्टि"
+            },
+            "actions": {
+                "addClient": "क्लाइंट जोड़ें",
+                "scheduleSession": "सत्र अनुसूची",
+                "createPlan": "योजना बनाएं"
+            },
+            "columns": {
+                "client": "क्लाइंट",
+                "program": "कार्यक्रम",
+                "progress": "प्रगति",
+                "nextSession": "अगला सत्र",
+                "status": "स्थिति"
+            },
+            "analytics": {
+                "clientProgress": "क्लाइंट प्रगति",
+                "sessionVolume": "सत्र मात्रा"
+            },
+            "ai": {
+                "insights": "कोचिंग सहायक AI",
+                "description": "व्यक्तिगत योजना सुझाव"
+            }
+        },
+        "freelancers": {
+            "title": "फ्रीलांसर",
+            "description": "प्रोजेक्ट और क्लाइंट प्रबंधन",
+            "kpi": {
+                "activeProjects": "सक्रिय प्रोजेक्ट",
+                "pendingInvoices": "लंबित चालान",
+                "hoursTracked": "ट्रैक किए गए घंटे",
+                "revenue": "राजस्व"
+            },
+            "actions": {
+                "createProposal": "प्रस्ताव बनाएं",
+                "trackTime": "समय ट्रैक करें",
+                "sendInvoice": "चालान भेजें"
+            },
+            "columns": {
+                "project": "प्रोजेक्ट",
+                "client": "क्लाइंट",
+                "budget": "बजट",
+                "deadline": "समय सीमा",
+                "status": "स्थिति"
+            },
+            "analytics": {
+                "incomeStream": "आय धारा",
+                "timeAllocation": "समय आवंटन"
+            },
+            "ai": {
+                "insights": "प्रवाह अनुकूलक AI",
+                "description": "दर और उत्पादकता विश्लेषण"
+            }
+        }
+    }
+}

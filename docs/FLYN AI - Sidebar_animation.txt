@@ -1,0 +1,163 @@
+﻿Below is the final, consolidated, production-grade specification for FLYN AI – Sidebar Animation & Interaction System, aligned with enterprise SaaS UX standards (Stripe / Intercom / Notion level) and engineered for scale, trust, and conversion.
+No fluff. Directly implementation-ready.
+🎯 FLYN AI – Sidebar Animation & Interaction Specs
+1️⃣ Sidebar Architecture (Global)
+Sidebar Modes
+      Mode           Width                       Usage
+Expanded        264px           Default (Desktop ≥ 1280px)
+Collapsed       72px            Power users / multitasking
+Overlay         90% width       Mobile & tablet
+Hidden          0               Focus / fullscreen modules
+
+2️⃣ Sidebar Animation Principles (Core Rules)
+Design Philosophy
+● Subtle, fast, confidence-inspiring
+● Never distract from conversations
+● Motion communicates hierarchy & intent
+Golden Rules
+● All animations < 250ms
+● Easing: cubic-bezier(0.4, 0, 0.2, 1)
+● GPU-accelerated transforms only
+● No animation chaining beyond 2 steps
+3️⃣ Expand / Collapse Animation
+Trigger
+● Click hamburger icon
+● Keyboard shortcut ⌘ + \
+● Auto-collapse at viewport < 1100px
+Animation Spec
+Property: width
+From: 72px → 264px
+Duration: 180ms
+Easing: ease-out
+
+Child Element Behavior
+   Element                     Behavior
+Icons         Fade-in text label (80ms delay)
+Text          Opacity 0 → 1
+Badges        Slide-in + fade
+Tooltips      Disabled in expanded mode
+
+4️⃣ Hover Interactions (Collapsed Mode)
+Icon Hover
+Scale: 1 → 1.05
+Duration: 90ms
+Shadow: soft glow (brand color @ 12%)
+Tooltip
+● Delay: 300ms
+● Position: Right-aligned
+● Max width: 240px
+● Includes:
+
+○ Feature name
+○ Usage status (e.g. “2,431 / 5,000”)
+○ Plan lock indicator if restricted
+5️⃣ Active State & Navigation Feedback
+Active Item
+     Property                       Value
+Background        Brand gradient @ 8% opacity
+Left border       3px solid brand color
+Icon              Filled variant
+Text              Semi-bold
+Transition
+Background fade-in: 120ms
+Border slide-in: 150ms
+
+6️⃣ Section Expand / Collapse (Nested Menus)
+Trigger
+● Click section header
+● Auto-expand on deep link
+Animation
+Max-height: 0 → auto
+Duration: 160ms
+Opacity: 0.8 → 1
+Chevron Rotation
+Rotate: 0° → 90°
+Duration: 140ms
+7️⃣ Notification & Usage Indicators (Sidebar Badges)
+Badge Types
+         Type                 Color
+Usage warning         Amber
+Hard limit            Red
+Trial                 Purple
+Upgrade hint          Brand primary
+Animation on Change
+Pulse scale: 1 → 1.08 → 1
+Duration: 220ms
+8️⃣ Plan-Locked Feature Interaction
+Behavior
+● Click → Upgrade modal
+● Hover → “Available on Growth+”
+● Icon overlay: 🔒 (8px, top-right)
+Animation
+Shake X-axis: ±3px
+Duration: 120ms
+
+(Psychological nudge without frustration)
+9️⃣ Drag-to-Resize (Enterprise Only)
+Enabled For
+● Founder
+● Admin
+● Enterprise plans
+Spec
+Min width: 220px
+Max width: 320px
+Live resize (no snapping)
+Cursor
+● col-resize
+● Resize indicator line @ 40% opacity
+🔟 Contextual Micro-Animations
+First-Time Feature Highlight
+Glow ring around icon
+Fade out after 3s or first click
+
+AI Recommendation Badge
+● “⚡ Suggested”
+● Soft pulse every 20s (max 3 times/session)
+1️⃣1️⃣ Accessibility & Reduced Motion
+If prefers-reduced-motion = true
+● Disable width animations
+● Replace with opacity fade only
+● Remove pulsing effects
+1️⃣2️⃣ Mobile Sidebar Interaction
+Gesture Support
+     Gesture            Action
+Swipe right      Open sidebar
+Swipe left       Close sidebar
+Tap outside      Dismiss
+Animation
+TranslateX: -100% → 0
+Duration: 220ms
+
+1️⃣3️⃣ Performance Guardrails
+● Sidebar re-render only on:
+
+○ Route change
+○ Role change
+○ Plan upgrade
+● No network calls during animations
+● Badge updates async, non-blocking
+
+1️⃣4️⃣ Analytics Hooks (Conversion-Driven)
+Track:
+● Sidebar collapse frequency
+● Locked feature clicks
+● Hover dwell time on upgrade badges
+● First interaction after AI suggestion
+1️⃣5️⃣ Visual Hierarchy (Priority Order)
+1. Unified Inbox
+2. Active Conversation
+3. Usage Warnings
+4. AI Suggestions
+5. Locked Features
+6. Settings / Billing
+1️⃣6️⃣ Enterprise Trust Signals (Subtle)
+● “SOC-2 Ready” icon (footer)
+● Uptime indicator (green dot)
+● “Last synced 2s ago” microtext
+✅ FINAL RESULT
+This sidebar:
+● Feels fast, premium, and intelligent
+● Reinforces value before friction
+● Converts upgrades without dark patterns
+● Scales cleanly across Admin / Agent / Founder
+

@@ -1,0 +1,592 @@
+﻿FLYN AI — Notification Copy System
+Source of Truth for Product, Billing, AI, Ops, and Trust Messaging
+1️⃣ Onboarding & Activation Notifications
+Goal: Confidence + momentum (first value fast)
+🎉 Account Created
+In-App Banner
+Welcome to FLYN AI.
+ Your workspace is ready. Explore the system end-to-end in safe mode — no live costs incurred.
+Email
+ Subject: Welcome to FLYN AI — your workspace is live
+You’re all set.
+ Explore messaging, automation, and AI workflows without activating live execution.
+ When you’re ready, upgrade and go live instantly.
+🚀 First Channel Connected
+{{Channel}} is connected successfully.
+ Messages are ready to flow when you activate live mode.
+Trust cue: No messages are sent until you confirm live execution.
+🧭 First Automation Built
+Automation created successfully.
+ You can simulate this workflow before publishing live.
+CTA: Run Simulation
+2️⃣ Usage & Billing Notifications
+Goal: Zero surprises, predictable growth
+📊 50% Usage (In-App Only)
+You’ve used 50% of your {{resource}} this month.
+ Everything is running normally.
+⚠️ 80% Usage (In-App + Email)
+Subject: Usage update — you’re approaching your limit
+You’ve used 80% of your {{resource}} allowance.
+ No action required yet — we’ll notify you before anything is paused.
+CTA: View Usage
+🔴 90% Usage (Modal + Email)
+Subject: Action recommended — usage nearing limit
+You’re close to your monthly {{resource}} cap.
+ Upgrade now to avoid any interruption.
+CTA: Upgrade Plan
+⛔ Limit Reached (Starter / Growth)
+Subject: Usage limit reached — execution paused
+Your {{resource}} limit has been reached.
+ Live execution is paused according to your plan.
+CTA: Upgrade Now
+Trust cue: No charges incurred beyond your plan.
+💳 Overage Applied (Pro+)
+Subject: Usage update — overage applied
+You’ve exceeded your included usage.
+ Overage charges are now applied based on your plan settings.
+CTA: View Details
+3️⃣ AI & Automation Notifications
+Goal: Transparency + control over intelligence
+🤖 AI Agent Ready
+Your AI agent is ready.
+ You can deploy it when live execution is enabled.
+🧠 AI Deployed (Live)
+AI agent is now live across selected channels.
+ Performance metrics will appear shortly.
+🧪 AI Simulation Complete
+Simulation completed successfully.
+ No live data or costs were incurred.
+⚠️ AI Confidence Warning
+AI confidence dropped below threshold.
+ Consider reviewing responses or enabling human fallback.
+CTA: Review Conversations
+4️⃣ Messaging & Channel Notifications
+Goal: Operational clarity, zero ambiguity
+💬 Message Sent (Optional, Toggle)
+Message delivered successfully via {{channel}}.
+❌ Message Failed
+Message delivery failed.
+ Reason: {{provider_error}}
+CTA: Retry / View Logs
+🔄 Channel Rate Limit
+{{Channel}} rate limit reached.
+ Messages will resume automatically.
+Trust cue: No messages lost.
+📵 Channel Disconnected
+{{Channel}} was disconnected.
+ No messages will be sent until reconnection.
+CTA: Reconnect Channel
+5️⃣ Telephony Notifications
+Goal: Reliability and compliance reassurance
+📞 Incoming Call
+Incoming call from {{number}}
+ Routing to {{agent / AI}}.
+📴 Call Dropped
+Call ended unexpectedly.
+ Audio logs are available for review.
+🔐 Call Recording Notice
+This call is being recorded in compliance with your settings.
+6️⃣ Security & Compliance Notifications
+Goal: Enterprise trust
+🔑 API Key Created
+New API key generated.
+ Keep it secure — this key grants live execution access.
+🚨 Suspicious Activity Detected
+Unusual activity detected.
+ Execution temporarily limited as a precaution.
+CTA: Review Activity
+🛡 SSO Enabled
+Single Sign-On has been successfully enabled for your organization.
+7️⃣ Team & Permissions Notifications
+Goal: Accountability + governance
+👤 User Added
+{{User}} has been added to your workspace.
+🔐 Role Updated
+{{User}}’s role was updated to {{role}}.
+🚫 Permission Blocked
+Action blocked.
+ You don’t have permission to perform this operation.
+8️⃣ Upgrade & Conversion Messages
+Goal: Soft pressure, value-driven
+⭐ Feature Tease (Free / Starter)
+This feature is available on {{Plan}}.
+ Upgrade to unlock AI automation and deeper analytics.
+CTA: Compare Plans
+🚀 Upgrade Success
+Subject: Upgrade complete — you’re now on {{Plan}}
+Your new plan is active.
+ All limits updated instantly — no downtime.
+9️⃣ System & Reliability Notifications
+Goal: Confidence at scale
+🔧 Scheduled Maintenance
+Subject: Scheduled maintenance — no action required
+Maintenance scheduled for {{time}}.
+ No data loss or disruption expected.
+⚙️ Incident Resolved
+Service fully restored.
+ Thank you for your patience.
+🔐 Global Trust Footer (Consistent Everywhere)
+FLYN AI enforces usage limits, security policies, and AI governance automatically to protect your business and control costs.
+Why This Notification System Works
+● Predictable
+● Calm
+● No dark patterns
+● No panic copy
+● Upgrade pressure without fear
+● Enterprise-safe language
+Below is a production-ready plain-text email template pack for FLYN AI.
+ These are trust-building, conversion-oriented, lifecycle-aware messages mapped to real SaaS triggers.
+ Language is neutral, compliant, and enterprise-grade. No fluff. No hype.
+1. Welcome / Account Created
+Trigger: Account created
+ Audience: All plans
+Subject: Welcome to FLYN AI — Your workspace is ready
+Hi {{first_name}},
+
+Welcome to FLYN AI.
+
+Your workspace has been created and you now have full access to explore how FLYN unifies messaging, automation, AI, and customer operations in one system.
+
+What you can do right now:
+• Explore the unified inbox (simulation enabled)
+• Build automations and AI agents
+• Review analytics with demo data
+• Configure channels before going live
+
+You’re currently in Explore Mode, so nothing you do will incur costs.
+
+When you’re ready to activate real conversations, you can upgrade anytime from Billing → Plans.
+
+If you need help, our team is available.
+
+— FLYN AI Team
+
+2. Free Plan — Explore Mode Reminder
+Trigger: 24h after signup
+ Audience: Free
+Subject: You’re exploring FLYN AI safely — here’s what’s next
+Hi {{first_name}},
+
+You’re currently exploring FLYN AI in sandbox mode.
+
+This means:
+• All features are visible
+• No real messages or calls are sent
+• No billing is active
+
+To start engaging real customers via WhatsApp, SMS, Email, or Voice, you’ll need to switch to a live plan.
+
+You can review plans anytime under Billing → Upgrade.
+
+No pressure — explore at your pace.
+
+— FLYN AI
+
+3. Trial Started
+Trigger: Trial activated
+ Audience: Starter / Growth
+Subject: Your FLYN AI trial has started
+Hi {{first_name}},
+
+Your FLYN AI trial is now active.
+
+You can now:
+• Send real messages
+• Receive inbound conversations
+• Run live automations
+• Use AI assistance within your plan limits
+
+Your current usage caps are visible in Billing → Usage.
+
+We’ll notify you before any limits are reached.
+
+— FLYN AI
+4. Trial Ending Soon
+Trigger: Trial ending in 3 days
+Subject: Your FLYN AI trial ends in 3 days
+Hi {{first_name}},
+
+Just a reminder — your FLYN AI trial will end in 3 days.
+
+To avoid interruption:
+• Review your usage
+• Select a plan that fits your needs
+• Keep your conversations live
+
+If no plan is selected, your workspace will switch back to Explore Mode (no data lost).
+
+Upgrade anytime from Billing → Plans.
+
+— FLYN AI
+5. Plan Upgraded (Trust Builder)
+Trigger: Successful upgrade
+Subject: Your FLYN AI plan is now active
+Hi {{first_name}},
+
+Your plan has been successfully upgraded.
+
+What this means:
+• Live messaging is enabled
+• Higher usage limits are active
+• Automation and AI features are unlocked based on your plan
+
+You can view entitlements and usage anytime in Billing → Usage.
+
+Thank you for trusting FLYN AI with your operations.
+
+— FLYN AI
+
+6. Usage Warning — 80%
+Trigger: 80% usage threshold
+Subject: You’ve used 80% of your monthly {{resource}}
+Hi {{first_name}},
+
+You’ve reached 80% of your monthly {{resource}} limit.
+
+Current usage:
+• {{used}} of {{limit}} {{resource}}
+• Plan: {{plan_name}}
+
+No action is required right now.
+We’ll notify you again if you approach the limit.
+
+You can:
+• Upgrade your plan
+• Monitor usage in real time
+• Enable usage alerts for your team
+
+Billing → Usage
+
+— FLYN AI
+
+7. Usage Cap Reached
+Trigger: 100% usage
+Subject: {{resource}} limit reached — actions paused
+Hi {{first_name}},
+
+You’ve reached your monthly {{resource}} limit.
+
+What happens now:
+• Cost-driving actions are temporarily paused
+• Incoming data is still visible
+• No messages or calls are lost
+
+To resume:
+• Upgrade your plan
+• Wait for the next billing cycle
+• Contact support if this is unexpected
+
+Billing → Plans
+
+— FLYN AI
+8. WhatsApp Channel Activated
+Trigger: WhatsApp approved
+Subject: WhatsApp is now live in your FLYN AI inbox
+Hi {{first_name}},
+
+Your WhatsApp Business channel is now active.
+
+You can:
+• Send and receive WhatsApp messages
+• Use automation and AI replies
+• Monitor usage caps in Billing → Usage
+
+WhatsApp access is available on all plans, with limits based on your subscription.
+
+You’re ready to go live.
+
+— FLYN AI
+
+9. Payment Failed
+Trigger: Stripe payment failure
+Subject: Action required — payment issue with FLYN AI
+Hi {{first_name}},
+
+We were unable to process your recent payment.
+
+To avoid service interruption:
+• Update your payment method
+• Retry the payment from Billing → Payments
+
+Your workspace remains accessible, but live actions may be paused if the issue isn’t resolved.
+
+— FLYN AI Billing
+
+10. Invoice Available
+Trigger: Invoice generated
+Subject: Your FLYN AI invoice is ready
+Hi {{first_name}},
+
+Your latest FLYN AI invoice is now available.
+
+Invoice details:
+• Plan: {{plan_name}}
+• Billing period: {{period}}
+• Amount: {{amount}}
+
+View or download the invoice from Billing → Invoices.
+
+— FLYN AI
+
+11. Security Alert
+Trigger: New device / IP
+Subject: New login detected on your FLYN AI account
+Hi {{first_name}},
+
+We detected a new login to your FLYN AI account.
+
+Details:
+• Device: {{device}}
+• Location: {{location}}
+• Time: {{time}}
+
+If this was you, no action is needed.
+If not, please secure your account immediately.
+
+Security → Sessions
+
+— FLYN AI Security
+
+12. Feature Locked (Upsell Without Pressure)
+Trigger: User clicks locked feature
+Subject: Unlock advanced features in FLYN AI
+Hi {{first_name}},
+
+You attempted to access a feature not included in your current plan.
+
+This feature is available on {{required_plan}} and above.
+
+You can:
+• Continue on your current plan
+• Upgrade anytime from Billing → Plans
+• Contact us for a custom setup
+
+No action is required.
+
+— FLYN AI
+
+13. Enterprise / Sales Touch
+Trigger: High usage / team size
+Subject: Let’s optimize FLYN AI for your scale
+Hi {{first_name}},
+
+We’ve noticed strong usage across your workspace.
+
+If you’re planning to scale further, our Enterprise plan offers:
+• Custom limits
+• Dedicated infrastructure
+• Advanced governance and security
+
+If helpful, we can walk you through options.
+
+— FLYN AI Team
+
+Below is the complete TEXT-ONLY notification system pack for FLYN AI, written as an engineering + lifecycle + conversion source of truth.
+ This is ready to drop into notification-service configs, i18n files, and product copy.
+No HTML. No fluff. Stripe-grade clarity.
+1️⃣ Exact Trigger → Template ID Mapping (Source of Truth)
+EVENT: account.created
+→ TEMPLATE_ID: email.welcome.default
+→ CHANNELS: email
+→ PLAN: all
+
+EVENT: account.created+24h
+→ TEMPLATE_ID: email.free.explore_reminder
+→ CHANNELS: email
+→ PLAN: free
+
+EVENT: trial.started
+→ TEMPLATE_ID: email.trial.started
+→ CHANNELS: email, in_app
+→ PLAN: starter, growth
+
+EVENT: trial.ending.3_days
+→ TEMPLATE_ID: email.trial.ending_soon
+→ CHANNELS: email
+→ PLAN: starter, growth
+
+EVENT: plan.upgraded
+→ TEMPLATE_ID: email.plan.upgraded
+→ CHANNELS: email, in_app
+→ PLAN: all_paid
+
+EVENT: usage.threshold.80
+→ TEMPLATE_ID: email.usage.warning_80
+→ CHANNELS: email, in_app
+→ PLAN: all_paid
+
+EVENT: usage.threshold.100
+→ TEMPLATE_ID: email.usage.cap_reached
+→ CHANNELS: email, in_app
+→ PLAN: all_paid
+
+EVENT: channel.whatsapp.approved
+→ TEMPLATE_ID: email.channel.whatsapp_live
+→ CHANNELS: email, in_app
+→ PLAN: all
+
+EVENT: billing.payment.failed
+→ TEMPLATE_ID: email.billing.payment_failed
+→ CHANNELS: email, in_app
+→ PLAN: all_paid
+
+EVENT: billing.invoice.generated
+→ TEMPLATE_ID: email.billing.invoice_ready
+→ CHANNELS: email
+→ PLAN: all_paid
+
+EVENT: security.new_login
+→ TEMPLATE_ID: email.security.login_alert
+→ CHANNELS: email
+→ PLAN: all
+
+EVENT: feature.locked.click
+→ TEMPLATE_ID: email.feature.locked_notice
+→ CHANNELS: email, in_app
+→ PLAN: all
+
+EVENT: enterprise.signal.detected
+→ TEMPLATE_ID: email.enterprise.outreach
+→ CHANNELS: email
+→ PLAN: growth, pro
+
+
+2️⃣ Localization-Ready Base Copy (Neutral Master)
+This is the default en-US canonical copy
+ All translations should preserve sentence structure and placeholders.
+
+email.usage.warning_80 (BASE)
+Subject: You’ve used 80% of your monthly {{resource}}
+
+Hi {{first_name}},
+
+You’ve reached 80% of your monthly {{resource}} limit.
+
+Current usage:
+{{used}} of {{limit}} {{resource}}
+
+Your plan continues to run normally.
+We’ll notify you again if you approach the limit.
+
+You can monitor usage at any time under Billing → Usage.
+
+— FLYN AI
+
+email.usage.cap_reached (BASE)
+Subject: {{resource}} limit reached — actions paused
+
+Hi {{first_name}},
+
+You’ve reached your monthly {{resource}} limit.
+
+Cost-driving actions are temporarily paused to prevent unexpected charges.
+Your data remains visible and intact.
+
+To continue:
+• Upgrade your plan
+• Wait for the next billing cycle
+
+Billing → Plans
+
+— FLYN AI
+
+email.feature.locked_notice (BASE)
+Subject: This feature isn’t active on your plan
+
+Hi {{first_name}},
+
+You attempted to access a feature that isn’t enabled on your current plan.
+
+This feature is available on {{required_plan}} and above.
+
+You can upgrade anytime, or continue using your current plan without disruption.
+
+— FLYN AI
+
+3️⃣ Tone Variants (Same Trigger, Different Voice)
+Each template supports tone overrides via tone=founder|ops|finance.
+
+🧠 Founder Tone (Vision + Trust)
+Subject: You’re approaching your usage limit
+
+Hi {{first_name}},
+
+You’re getting real value out of FLYN AI — that’s great to see.
+
+You’ve used 80% of your {{resource}} this month.
+Nothing breaks. Nothing changes yet.
+
+If your growth continues, upgrading ensures momentum without friction.
+
+— Roosevelt E. Adom
+Founder/MD, FLYN AI
+
+
+⚙️ Ops Tone (Clear + Operational)
+Subject: Usage alert — 80% threshold reached
+
+Hi {{first_name}},
+
+Your workspace has reached 80% of its monthly {{resource}} allocation.
+
+No action is required.
+Cost-driving actions will pause automatically if the cap is reached.
+
+Usage details are available in Billing → Usage.
+
+— FLYN AI Operations
+
+💰 Finance Tone (Risk + Control)
+Subject: Usage threshold notification
+
+Hi {{first_name}},
+
+This is a usage notification for cost-controlled resources.
+
+Current status:
+{{used}} / {{limit}} {{resource}}
+
+No charges beyond your plan limits will occur.
+You retain full control over upgrades.
+
+— FLYN AI Billing
+
+4️⃣ In-App Notification Microcopy (Short-Form UX)
+Used in banners, toasts, modals, tooltips
+
+Usage 80%
+You’ve used 80% of your {{resource}}.
+No action needed — we’ll alert you before any pause.
+
+Usage Cap Reached
+{{resource}} limit reached.
+Live actions are paused to protect your budget.
+Upgrade to continue.
+
+Feature Locked
+This feature isn’t included in your plan.
+Upgrade to unlock — no data lost.
+
+Trial Ending
+Your trial ends in {{days_left}} days.
+Select a plan to keep conversations live.
+
+Explore Mode Reminder
+You’re in Explore Mode.
+All actions are simulated — no costs incurred.
+
+Payment Failed
+Payment issue detected.
+Update billing details to avoid service interruption.
+
+WhatsApp Activated
+WhatsApp is now live.
+Usage applies based on your plan limits.
+
+5️⃣ Global Copy Rules (Do Not Violate)
+• Never say “you must”
+• Never threaten shutdown
+• Always state protection against surprise costs
+• Always show user control
+• Always explain “why” before “upgrade”
+

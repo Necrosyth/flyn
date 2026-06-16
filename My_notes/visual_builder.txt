@@ -1,0 +1,580 @@
+### Backend
+
+- a UI workflow builder
+- a core execution engine
+- plugin-based domain capabilities
+
+---
+
+## 1️⃣ How USERS Think (This Drives the Architecture)
+
+Users think in **intent**, not systems.
+
+They think like:
+
+> “When something happens, do something,
+> 
+> 
+> then **wait**,
+> 
+> then **decide**,
+> 
+> then **continue**.”
+> 
+
+They do **not** think in:
+
+- threads
+- queues
+- workers
+- retries
+- callbacks
+
+So the architecture must:
+
+- hide execution mechanics
+- expose intent
+- stay composable
+- stay domain-agnostic
+
+Everything that follows exists to support this.
+
+---
+
+## 2️⃣ Core Product Abstraction: **Workflow = Nodes + Connections**
+
+A workflow is **not code**.
+
+A workflow is **structured intent**.
+
+Users build workflows by connecting **node types**.
+
+---
+
+## 3️⃣ Critical Architectural Rule
+
+❌ We do NOT create predefined workflows
+
+✅ We create **predefined NODE TYPES**
+
+This is the most important rule in the system.
+
+We never hardcode:
+
+- “Call workflow”
+- “CRM workflow”
+- “HR workflow”
+
+We only define:
+
+- **Trigger nodes**
+- **Action nodes**
+- **Condition nodes**
+- **Wait nodes**
+- **Approval nodes**
+
+Users compose everything visually.
+
+---
+
+## 4️⃣ What Is a “Node Type” (System-Wide Contract)
+
+A **Node Type** is the smallest unit of capability in FLYN.
+
+Architecturally, **every node type must define 3 things**:
+
+```
+UIDefinition
+ExecutionContract
+RuntimeSemantics
+
+```
+
+If one is missing, the node type is invalid.
+
+---
+
+## 5️⃣ Node Type Registry (Core System)
+
+All node types are registered centrally in the **Node Type Registry**.
+
+This registry lives in the **core backend**, not plugins.
+
+Example structure:
+
+```tsx
+NodeType {
+type:"voice.call",
+category:"action",
+ui_schema: {},
+input_schema: {},
+output_schema: {},
+runtime_semantics: {}
+}
+
+```
+
+This registry is the **source of truth** for:
+
+- the UI
+- the compiler
+- the orchestrator
+
+---
+
+## 6️⃣ Layer 1 — UI Definition (User-Facing)
+
+This layer exists **only** to make the system usable.
+
+### What the user sees
+
+Forms, labels, dropdowns — not logic.
+
+Example:
+
+> “Call this phone number
+> 
+> 
+> Wait for the call to end
+> 
+> Continue after call finishes”
+> 
+
+This comes from `ui_schema`.
+
+The UI workflow builder:
+
+- reads node types
+- renders forms
+- outputs workflow JSON
+
+The UI **never executes anything**.
+
+---
+
+## 7️⃣ Layer 2 — Execution Contract (System-Facing)
+
+This defines **how nodes execute**, independent of domain.
+
+All nodes — regardless of what they do — follow the same contract:
+
+```tsx
+execute(input, context) →NodeResult
+
+```
+
+Where `NodeResult` is always one of:
+
+```tsx
+COMPLETED// move forward immediately
+WAIT// pause workflow
+FAILED// stop or retry
+
+```
+
+This contract is **identical for all node types**.
+
+This is what allows:
+
+- plugins
+- retries
+- logging
+- orchestration
+
+---
+
+## 8️⃣ Layer 3 — Runtime Semantics (Core Logic)
+
+Runtime semantics tell the orchestrator **how to treat a node**.
+
+This is **not plugin logic**.
+
+This is **core system behavior**.
+
+Examples:
+
+| Node Type | Runtime Meaning |
+| --- | --- |
+| Trigger | Creates a new workflow run |
+| Action | Executes immediately |
+| Condition | Routes execution |
+| Wait | Pauses workflow |
+| Approval | Pauses + waits for human |
+
+These rules are enforced by the **Automation Orchestrator**.
+
+---
+
+## 9️⃣ Domain Capabilities (Now Explained Properly)
+
+### What is a Domain Capability?
+
+A **Domain Capability** is:
+
+> Something the system can do in the real world.
+> 
+
+Examples:
+
+- Make a call
+- Send a message
+- Run AI analysis
+- Create CRM lead
+
+These are **NOT** core workflow logic.
+
+---
+
+## 10️⃣ Where Domain Capabilities Live (Backend)
+
+Domain capabilities live as:
+
+```
+NodeExecutors
+= Plugins
+
+```
+
+They are completely outside the core engine.
+
+---
+
+## 11️⃣ How Domain Capabilities Connect to the Core
+
+The connection is intentionally simple:
+
+```
+Automation Orchestrator
+   ↓
+Node Executor Registry
+   ↓
+DomainExecutor(Plugin)
+
+```
+
+The core system **never knows**:
+
+- what CRM is used
+- how calling works
+- which AI model is used
+
+The core only knows:
+
+- “execute this node”
+- “pause”
+- “resume”
+- “route next”
+
+This keeps the system scalable.
+
+domain capabilites will be built in later development phases
+
+### Frontend
+
+# The Core Insight (Read This First)
+
+> Flexibility is an implementation detail.
+Enterprises buy clarity, predictability, and intent.
+> 
+
+n8n exposes *capabilities*.
+
+You need to expose *outcomes*.
+
+So the visualiser should **not show everything as primitive nodes**, even if the backend supports it.
+
+---
+
+# How the Visualiser Should Think (Product-Level)
+
+End users think in **sentences**, not graphs.
+
+They think like:
+
+- “If no reply in 2 days, follow up”
+- “If AI is unsure, ask a human”
+- “Try again up to 3 times”
+- “Do this weekly”
+- “Escalate if failed”
+
+So your visualiser must:
+
+- hide low-level mechanics (wait, resume, retry)
+- surface **business intent**
+- guide users through **templates**
+
+---
+
+# The Right Mental Model for the Visualiser
+
+You should design the visualiser around **3 layers**:
+
+```
+1. Intent Templates (what users pick)
+2. Visual Blocks (what they connect)
+3. Hidden Execution Semantics (what runs)
+
+```
+
+Users mostly interact with **Layer 1 & 2**.
+
+Layer 3 is invisible.
+
+---
+
+## 1️⃣ Intent Templates (THIS is what n8n lacks)
+
+Instead of starting with a blank canvas, users start with **templates**.
+
+### Examples of templates
+
+- “Follow-up automation”
+- “Outbound calling workflow”
+- “Approval-based process”
+- “AI-assisted routing”
+- “Scheduled campaign”
+
+Each template:
+
+- pre-arranges nodes
+- locks or simplifies logic
+- exposes only relevant knobs
+
+This instantly makes it **enterprise-friendly**.
+
+---
+
+## 2️⃣ Visual Blocks (Not Primitive Nodes)
+
+### ❌ What n8n does
+
+- Shows raw nodes: IF, WAIT, FUNCTION, MERGE
+
+### ✅ What you should do
+
+Expose **semantic blocks**, not primitives.
+
+### Example blocks users see
+
+| User Block | Internally maps to |
+| --- | --- |
+| “Wait for response” | WAIT + RESUME |
+| “Decision” | Condition node |
+| “AI decision” | AI + threshold + routing |
+| “Approval step” | WAIT + approval event |
+| “Retry logic” | Loop + counter |
+
+Users don’t see loops or tokens.
+
+---
+
+# Now Let’s Answer Your Specific Questions
+
+---
+
+## 🕒 How will WAIT / RESUME appear to end users?
+
+### What user sees
+
+A **simple configuration**, not a node type.
+
+Example UI:
+
+> Wait until
+> 
+> 
+> ☐ User replies
+> 
+> ☐ Call ends
+> 
+> ☐ 2 days pass
+> 
+> ☐ Approval is given
+> 
+
+This is one block: **“Wait”**
+
+### Behind the scenes
+
+- Creates WAIT node
+- Registers resume conditions
+- Uses event bus + timers
+
+User never sees “resume”.
+
+---
+
+## 🤖 How will AI thresholds appear?
+
+### ❌ Don’t expose numbers by default
+
+Enterprises don’t want to think:
+
+> “Set confidence ≥ 0.73”
+> 
+
+### ✅ Expose *meaningful choices*
+
+Example UI:
+
+> If AI is:
+> 
+> 
+> ○ Confident → continue automatically
+> 
+> ○ Unsure → ask a human
+> 
+> ○ Low confidence → escalate
+> 
+
+Optionally allow **Advanced mode**:
+
+> Confidence threshold: 0.8
+> 
+
+### Internally
+
+- AI node outputs confidence
+- Condition routing uses thresholds
+- Same execution engine
+
+---
+
+## 🔀 How will IF / ELSE work?
+
+### What user sees
+
+A **Decision block** with readable rules:
+
+> If
+> 
+> 
+> • Call was answered
+> 
+> • AI confidence is high
+> 
+> • User replied within 24h
+> 
+
+> Then → Path A
+> 
+> 
+> **Else** → Path B
+> 
+
+No boolean expressions.
+
+No code.
+
+### Internally
+
+- Condition node
+- Graph traversal
+- Token routing
+
+---
+
+## 🔁 How will LOOP / RETRY work?
+
+This is where enterprise UX matters most.
+
+### ❌ Don’t expose “Loop” nodes
+
+### ✅ Expose **Retry policies**
+
+Example UI:
+
+> Retry this step
+> 
+> 
+> ☐ Up to 3 times
+> 
+> ☐ Wait 1 day between attempts
+> 
+> ☐ Escalate if still unsuccessful
+> 
+
+This *feels* like configuration, not programming.
+
+### Internally
+
+- Loop semantics
+- Counter in workflow context
+- WAIT nodes between retries
+
+---
+
+## 🧱 How workflow building should feel (Key Design Choice)
+
+### Mode 1: Guided (default)
+
+- Start from template
+- Restricted blocks
+- Opinionated flow
+- Enterprise-safe
+
+### Mode 2: Advanced (optional)
+
+- More blocks
+- More freedom
+- Power users
+
+This dual-mode approach is how:
+
+- Zapier
+- ServiceNow
+- Salesforce Flow
+
+all work.
+
+---
+
+# What the Visualiser ACTUALLY Contains (Concrete)
+
+Your React Flow–based visualiser should contain:
+
+### Visible blocks
+
+- Trigger
+- Action
+- Decision
+- Wait
+- Approval
+- AI Decision (special)
+
+### Hidden mechanics
+
+- WAIT / RESUME
+- Timers
+- Event matching
+- Loop counters
+- Retry logic
+- Tokens
+
+---
+
+# Mapping Table (This is Important)
+
+| User-facing Block | Internal Representation |
+| --- | --- |
+| Wait for reply | WAIT + event |
+| AI decision | AI node + condition |
+| Approval step | WAIT + approval |
+| Retry logic | Loop + wait |
+| Scheduled workflow | Trigger + timer |
+
+---
+
+# Why This Is “Enterprise Automation Style”
+
+Because:
+
+- Users start from intent
+- Templates encode best practices
+- System prevents bad workflows
+- Complexity is progressive
+- Execution is reliable and auditable
+
+This is **very different** from developer tools.
+
+for frontend, the pre-built templates will come in later development phase, and the core semantic execution blocks like wait, ai decision and all need to work, domain related blocks like make a call can be just visual placeholders.

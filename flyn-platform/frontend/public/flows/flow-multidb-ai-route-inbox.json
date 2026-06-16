@@ -1,0 +1,327 @@
+{
+  "_comment": [
+    "Flow 2 — Multi-DB AI Query → Merge → Decision Route → Module Nodes → Inbox Reply",
+    "",
+    "What this flow does:",
+    "  1. Inbox Trigger fires when a new message arrives",
+    "  2. PostgreSQL node fetches the contact profile (CRM/customer DB)",
+    "  3. MongoDB node fetches engagement history (events, interactions)",
+    "  4. Merge node joins both datasets on email key",
+    "  5. Three chained Decision nodes route the contact to the right module:",
+    "       Sales if contact_type = lead",
+    "       Support if contact_type = customer",
+    "       Coaches if contact_type = coaching_client",
+    "       Freelancer otherwise",
+    "  6. Each branch creates/logs the record in the matching module (NocoBase)",
+    "  7. An AI Action node composes a personalised reply using the merged data",
+    "  8. Send Reply delivers the drafted message back to the inbox conversation",
+    "",
+    "Import via: Visual Builder → top-right menu → Import JSON"
+  ],
+
+  "nodes": [
+
+    {
+      "id": "inbox_trigger_1",
+      "type": "inbox_trigger",
+      "name": "Inbox — New Message",
+      "position": { "x": 60, "y": 480 },
+      "config": {
+        "filterStatus": "open",
+        "channelType": "all",
+        "conversationId": "",
+        "inboxId": ""
+      }
+    },
+
+    {
+      "id": "postgresql_1",
+      "type": "postgresql",
+      "name": "PostgreSQL — Contact Profile",
+      "position": { "x": 620, "y": 280 },
+      "config": {
+        "connectionString": "postgresql://flyn:flyn_pg_password@localhost:5434/flyn_data",
+        "query": "SELECT id, name, email, phone, contact_type, company, tags FROM contacts WHERE email = '{{inbox_trigger_1.contact.email}}' LIMIT 1",
+        "limit": 1
+      }
+    },
+
+    {
+      "id": "mongodb_1",
+      "type": "mongodb",
+      "name": "MongoDB — Engagement History",
+      "position": { "x": 620, "y": 680 },
+      "config": {
+        "connectionString": "mongodb://flyn:flyn_mongo_password@localhost:27017/flyn_workflow_demo?authSource=admin",
+        "database": "flyn_workflow_demo",
+        "collection": "engagement_events",
+        "operation": "find",
+        "query": "{ \"email\": \"{{inbox_trigger_1.contact.email}}\" }",
+        "sort": "{ \"createdAt\": -1 }",
+        "limit": 20
+      }
+    },
+
+    {
+      "id": "merge_1",
+      "type": "merge",
+      "name": "Merge — Contact + Engagement",
+      "position": { "x": 900, "y": 480 },
+      "config": {
+        "leftSourceId": "postgresql_1",
+        "leftPath": "result",
+        "leftKey": "email",
+        "rightSourceId": "mongodb_1",
+        "rightPath": "result",
+        "rightKey": "email",
+        "joinType": "left",
+        "computedFields": "engagement_count = right.length || 0\nlast_event = right[0]?.event_type || 'none'\nlead_score = Math.min(100, (right.length || 0) * 10)"
+      }
+    },
+
+    {
+      "id": "decision_1",
+      "type": "decision",
+      "name": "Is Sales Lead?",
+      "position": { "x": 1160, "y": 480 },
+      "config": {
+        "condition_type": "field_equals",
+        "field_name": "contact_type",
+        "operator": "equals",
+        "compare_value": "lead",
+        "true_label": "Sales Branch",
+        "false_label": "Next"
+      }
+    },
+
+    {
+      "id": "sales_1",
+      "type": "crm",
+      "name": "CRM — Create Deal",
+      "position": { "x": 1440, "y": 180 },
+      "config": {
+        "operation": "create_deal",
+        "op_fields": {
+          "title": "Deal for {{merge_1.result.company}} — {{merge_1.result.name}}",
+          "value": "5000",
+          "stage": "new",
+          "contactId": "{{postgresql_1.result.0.id}}",
+          "probability": 50,
+          "notes": "Auto-created lead from inbox trigger. Engagement score: {{merge_1.result.lead_score}}. Last event: {{merge_1.result.last_event}}"
+        }
+      }
+    },
+
+    {
+      "id": "ai_action_sales",
+      "type": "ai_action",
+      "name": "AI — Draft Sales Reply",
+      "position": { "x": 1720, "y": 180 },
+      "config": {
+        "instruction": "Write a highly professional and welcoming sales reply for a new lead named {{merge_1.result.name}} from {{merge_1.result.company}}. They are asking about pricing/trials. Let them know we offer a 14-day free trial and we'd love to schedule a quick demo. Keep it under 80 words.",
+        "target_plugin": "crm",
+        "risk_level": "read_only",
+        "context_data": "Lead name: {{merge_1.result.name}}\nEmail: {{merge_1.result.email}}\nCompany: {{merge_1.result.company}}\nEngagement score: {{merge_1.result.lead_score}}",
+        "require_confirmation": false,
+        "fallback_behavior": "use_default"
+      }
+    },
+
+    {
+      "id": "send_reply_sales",
+      "type": "send_reply",
+      "name": "Send Reply — Sales",
+      "position": { "x": 2000, "y": 180 },
+      "config": {
+        "conversationId": "{{inbox_trigger_1.conversationId}}",
+        "useAiReply": true,
+        "messageContent": "Hi {{merge_1.result.name}}, thanks for reaching out! We offer a 14-day free trial and would love to show you a demo.",
+        "updateStatusAfterSend": "open"
+      }
+    },
+
+    {
+      "id": "decision_2",
+      "type": "decision",
+      "name": "Is Customer?",
+      "position": { "x": 1440, "y": 500 },
+      "config": {
+        "condition_type": "field_equals",
+        "field_name": "contact_type",
+        "operator": "equals",
+        "compare_value": "customer",
+        "true_label": "Support Branch",
+        "false_label": "Next"
+      }
+    },
+
+    {
+      "id": "support_1",
+      "type": "crm",
+      "name": "CRM — Log Support Activity",
+      "position": { "x": 1720, "y": 380 },
+      "config": {
+        "operation": "log_activity",
+        "op_fields": {
+          "type": "task",
+          "description": "Support request from {{merge_1.result.name}} ({{merge_1.result.email}}). Last engagement: {{merge_1.result.last_event}}. Engagement count: {{merge_1.result.engagement_count}}",
+          "actor": "AI Workflow",
+          "contactId": "{{postgresql_1.result.0.id}}"
+        }
+      }
+    },
+
+    {
+      "id": "ai_action_support",
+      "type": "ai_action",
+      "name": "AI — Draft Support Reply",
+      "position": { "x": 2000, "y": 380 },
+      "config": {
+        "instruction": "Write a helpful and empathetic support reply to {{merge_1.result.name}}. Acknowledge their issue (could be billing, bugs, or upgrades), let them know our support team has received the ticket, and we'll escalate it immediately. Under 80 words.",
+        "target_plugin": "crm",
+        "risk_level": "read_only",
+        "context_data": "Customer name: {{merge_1.result.name}}\nEmail: {{merge_1.result.email}}\nEngagement count: {{merge_1.result.engagement_count}}\nLast event: {{merge_1.result.last_event}}",
+        "require_confirmation": false,
+        "fallback_behavior": "use_default"
+      }
+    },
+
+    {
+      "id": "send_reply_support",
+      "type": "send_reply",
+      "name": "Send Reply — Support",
+      "position": { "x": 2280, "y": 380 },
+      "config": {
+        "conversationId": "{{inbox_trigger_1.conversationId}}",
+        "useAiReply": true,
+        "messageContent": "Hi {{merge_1.result.name}}, we've received your request. Our support team is looking into this and will get back to you shortly.",
+        "updateStatusAfterSend": "open"
+      }
+    },
+
+    {
+      "id": "decision_3",
+      "type": "decision",
+      "name": "Is Coaching Client?",
+      "position": { "x": 1720, "y": 640 },
+      "config": {
+        "condition_type": "field_equals",
+        "field_name": "contact_type",
+        "operator": "equals",
+        "compare_value": "coaching_client",
+        "true_label": "Coaches Branch",
+        "false_label": "Freelancer Branch"
+      }
+    },
+
+    {
+      "id": "coaches_1",
+      "type": "coaches",
+      "name": "Coaches — Add Client",
+      "position": { "x": 2000, "y": 560 },
+      "config": {
+        "operation": "add_client",
+        "entityData": "{\"name\":\"{{merge_1.result.name}}\",\"email\":\"{{merge_1.result.email}}\",\"phone\":\"{{merge_1.result.phone}}\",\"program\":\"individual\",\"goals\":\"Goals determined from intake. Engagement score: {{merge_1.result.lead_score}}\",\"notes\":\"Client interacted via chat. Last engagement: {{merge_1.result.last_event}}\"}"
+      }
+    },
+
+    {
+      "id": "ai_action_coaches",
+      "type": "ai_action",
+      "name": "AI — Draft Coaching Reply",
+      "position": { "x": 2280, "y": 560 },
+      "config": {
+        "instruction": "Write an energetic, motivating reply for {{merge_1.result.name}} who is a coaching client asking about features/workflows. Confirm we're taking their feedback to heart and express excitement about their progress. Under 90 words.",
+        "target_plugin": "coaches",
+        "risk_level": "read_only",
+        "context_data": "Client name: {{merge_1.result.name}}\nEmail: {{merge_1.result.email}}\nEngagement score: {{merge_1.result.lead_score}}\nLast event: {{merge_1.result.last_event}}",
+        "require_confirmation": false,
+        "fallback_behavior": "use_default"
+      }
+    },
+
+    {
+      "id": "send_reply_coaches",
+      "type": "send_reply",
+      "name": "Send Reply — Coaching",
+      "position": { "x": 2560, "y": 560 },
+      "config": {
+        "conversationId": "{{inbox_trigger_1.conversationId}}",
+        "useAiReply": true,
+        "messageContent": "Hi {{merge_1.result.name}}, welcome to your coaching journey! Your feedback is incredibly valuable to us.",
+        "updateStatusAfterSend": "open"
+      }
+    },
+
+    {
+      "id": "freelancer_1",
+      "type": "freelancer",
+      "name": "Freelancer — Create Project",
+      "position": { "x": 2000, "y": 800 },
+      "config": {
+        "operation": "create_project",
+        "entityData": "{\"title\":\"Project for {{merge_1.result.name}}\",\"client_name\":\"{{merge_1.result.name}}\",\"client_email\":\"{{merge_1.result.email}}\",\"budget\":\"\",\"deadline\":\"\",\"status\":\"draft\",\"description\":\"General inquiry routed to freelancer workflow. Lead score: {{merge_1.result.lead_score}}\"}"
+      }
+    },
+
+    {
+      "id": "ai_action_freelancer",
+      "type": "ai_action",
+      "name": "AI — Draft General Reply",
+      "position": { "x": 2280, "y": 800 },
+      "config": {
+        "instruction": "Write a general, friendly acknowledgement for {{merge_1.result.name}} from {{merge_1.result.company}}. Confirm we received their message and will respond fully within 24 hours. Under 90 words.",
+        "target_plugin": "freelancer",
+        "risk_level": "read_only",
+        "context_data": "Contact name: {{merge_1.result.name}}\nCompany: {{merge_1.result.company}}\nEngagement history: {{merge_1.result.engagement_count}} events",
+        "require_confirmation": false,
+        "fallback_behavior": "use_default"
+      }
+    },
+
+    {
+      "id": "send_reply_freelancer",
+      "type": "send_reply",
+      "name": "Send Reply — Default",
+      "position": { "x": 2560, "y": 800 },
+      "config": {
+        "conversationId": "{{inbox_trigger_1.conversationId}}",
+        "useAiReply": true,
+        "messageContent": "Hi {{merge_1.result.name}}, thanks for reaching out! We've received your message and will reply shortly.",
+        "updateStatusAfterSend": "open"
+      }
+    }
+
+  ],
+
+  "edges": [
+    { "id": "e_ib_pg",    "source": "inbox_trigger_1", "target": "postgresql_1" },
+    { "id": "e_ib_mongo", "source": "inbox_trigger_1", "target": "mongodb_1" },
+
+    { "id": "e_pg_merge",        "source": "postgresql_1",    "target": "merge_1" },
+    { "id": "e_mg_merge",        "source": "mongodb_1",       "target": "merge_1" },
+
+    { "id": "e_merge_dec1",      "source": "merge_1",         "target": "decision_1" },
+
+    { "id": "e_dec1_sales",      "source": "decision_1",      "target": "sales_1",       "sourceHandle": "true" },
+    { "id": "e_dec1_dec2",       "source": "decision_1",      "target": "decision_2", "sourceHandle": "false" },
+
+    { "id": "e_sales_ai",        "source": "sales_1",         "target": "ai_action_sales" },
+    { "id": "e_sales_ai_reply",  "source": "ai_action_sales", "target": "send_reply_sales" },
+
+    { "id": "e_dec2_support",    "source": "decision_2",      "target": "support_1",   "sourceHandle": "true" },
+    { "id": "e_dec2_dec3",       "source": "decision_2",      "target": "decision_3", "sourceHandle": "false" },
+
+    { "id": "e_support_ai",      "source": "support_1",       "target": "ai_action_support" },
+    { "id": "e_support_ai_reply","source": "ai_action_support","target": "send_reply_support" },
+
+    { "id": "e_dec3_coaches",    "source": "decision_3",      "target": "coaches_1",          "sourceHandle": "true" },
+    { "id": "e_dec3_fl",         "source": "decision_3",      "target": "freelancer_1",        "sourceHandle": "false" },
+
+    { "id": "e_coaches_ai",      "source": "coaches_1",       "target": "ai_action_coaches" },
+    { "id": "e_coaches_ai_reply","source": "ai_action_coaches","target": "send_reply_coaches" },
+
+    { "id": "e_fl_ai",           "source": "freelancer_1",    "target": "ai_action_freelancer" },
+    { "id": "e_fl_ai_reply",     "source": "ai_action_freelancer","target": "send_reply_freelancer" }
+  ]
+}

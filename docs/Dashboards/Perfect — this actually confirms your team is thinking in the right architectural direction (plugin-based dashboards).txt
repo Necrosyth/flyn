@@ -1,0 +1,165 @@
+Perfect — this actually confirms your team is thinking in the right architectural direction
+(plugin-based dashboards).
+What they need now from you is a clear, authoritative “Dashboard Display Contract” they can
+lock into the brand kit and treat as the single UX source of truth.
+Below is exactly what you should send them (and also use to update the brand kit).
+
+FLYN AI — Dashboard Display Blueprint
+(Authoritative Reference for All Dashboards & Plugins)
+Principle:
+Every dashboard in FLYN AI follows the same UX hierarchy, regardless of module (CRM, HR,
+Church, Freelance, Telephony, etc.).
+Only data + actions change, not structure.
+1️⃣ Universal Dashboard Layout (MANDATORY)
+Every dashboard must contain these 6 layers, in this order:
+1. Header KPI Strip (Top)
+Purpose: Instant system awareness (5–10 seconds scan)
+Rules
+●​ 3–6 KPIs max
+●​ Always real data (or demo in Free)
+●​ Clickable → deep view
+Examples
+●​ CRM: Leads, Deals Won, Pipeline Value, Response Time
+●​ HR: Employees, Attendance %, Payroll Status
+●​ Church: Members, Attendance, Donations
+●​ Freelance: Active Clients, Revenue, Tasks Due
+●​ Telephony: Active Calls, Missed Calls, Avg Call Duration
+2. Primary Action Bar
+Purpose: What the user can DO right now
+Rules
+●​ 1 primary action (solid)
+●​ 1–2 secondary actions (outline)
+●​ AI actions always grouped visually
+Examples
+●​ “Create Deal”
+●​ “Send Broadcast”
+●​ “Start Call”
+
+●​ “Run Automation”
+●​ “Ask AI”
+3. Core Operational Table (MAIN FOCUS)
+Purpose: This is the heart of the dashboard
+Rules
+●​ Always sortable
+●​ Always filterable
+●​ Bulk actions enabled
+●​ Saved views supported
+Examples
+●​ CRM → Deals / Contacts table
+●​ HR → Employee list
+●​ Church → Member list
+●​ Freelance → Projects / Clients
+●​ Inbox → Conversations
+
+⚠️ This table is the product, not the charts.
+4. Contextual Analytics (Side or Below Table)
+Purpose: Explain performance, not decorate UI
+Rules
+●​ 3–5 charts max
+●​ Contextual to table selection
+●​ Time range selector mandatory
+Examples
+●​ Conversion funnel
+●​ Response SLA
+●​ Attendance trend
+●​ Revenue over time
+●​ Call volume heatmap
+5. AI Insight Panel (Collapsible)
+Purpose: Differentiation & intelligence
+Rules
+●​ Never intrusive
+●​ Actionable suggestions only
+●​ Clearly labeled as AI
+
+Examples
+●​ “You are losing deals at proposal stage”
+●​ “Peak call hours are 3–6 PM”
+●​ “Consider automating follow-ups”
+6. Activity & System Feed (Bottom / Right)
+Purpose: Trust & auditability
+Rules
+●​ Chronological
+●​ Human-readable
+●​ Linked to entities
+Examples
+●​ “Deal moved to Won”
+●​ “Automation triggered”
+●​ “AI Agent responded”
+2️⃣ Dashboard Types & What They Display
+CRM Dashboard
+Primary Table: Deals / Contacts
+KPIs: Pipeline value, Win rate, Avg response time
+AI: Deal risk, next-best-action
+Actions: Add deal, send message, assign agent
+Unified Inbox Dashboard
+Primary Table: Conversations (All Channels)
+KPIs: Open chats, SLA breaches, CSAT
+AI: Reply suggestions, sentiment
+Actions: Reply, assign, escalate
+Telephony Dashboard
+Primary Table: Call logs
+KPIs: Active calls, missed calls, avg duration
+AI: Call summaries, quality scoring
+Actions: Dial, assign queue, listen recording
+HR Dashboard
+Primary Table: Employees
+KPIs: Attendance %, payroll status
+AI: Attrition risk, performance trends
+Actions: Add employee, approve leave
+
+Church / Community Dashboard
+Primary Table: Members
+KPIs: Attendance, donations
+AI: Engagement insights
+Actions: Broadcast, event creation
+Freelance / Agency Dashboard
+Primary Table: Clients / Projects
+KPIs: Revenue, overdue tasks
+AI: Billing risk, workload balance
+Actions: Invoice, assign task
+3️⃣ Plugin Rule (Critical)
+Any new module added must only define:
+KPIs
+Primary table
+Actions
+AI insights
+It automatically inherits:
+Layout
+Filters
+Permissions
+Analytics shell
+AI panel behavior
+This keeps FLYN coherent at scale.
+4️⃣ Role-Based Visibility (Applied to All Dashboards)
+Founder / Admin
+Sees everything
+Financial KPIs
+System health
+AI governance
+Manager / Ops
+Team KPIs
+Performance analytics
+Limited financials
+Agent / Staff
+Task-level view
+Assigned records only
+
+No global analytics
+
+👇
+
+5️⃣ Brand Kit Update
+“The brand kit should now include:
+Dashboard layout structure
+KPI strip styles
+Table design rules
+Chart usage guidelines
+AI panel behavior
+Empty / demo / capped states This will be the UX reference for all dashboards.”
+6️⃣ What You Should Reply to Them (Copy-Paste)
+Yes — every dashboard should follow a universal structure: KPI strip → action bar → primary
+table → contextual analytics → AI insights → activity feed. Only the data and actions change
+per module. Please update the brand kit to include this dashboard hierarchy and treat it as the
+single UX reference for all current and future plugins.
+
+

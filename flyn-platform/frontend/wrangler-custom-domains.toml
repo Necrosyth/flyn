@@ -1,0 +1,20 @@
+name = "flyn-custom-domains"
+main = "src/worker.ts"
+compatibility_date = "2026-01-01"
+workers_dev = false
+
+[[routes]]
+pattern = "*.myflynai.com/*"
+zone_name = "myflynai.com"
+
+[[routes]]
+pattern = "test.myflynai.com/*"
+zone_name = "myflynai.com"
+
+[[routes]]
+pattern = "demo.myflynai.com/*"
+zone_name = "myflynai.com"
+
+[[routes]]
+pattern = "customers.myflynai.com/*"
+zone_name = "myflynai.com"

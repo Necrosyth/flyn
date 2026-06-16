@@ -1,0 +1,73 @@
+Deliverable 1: Core Backend & Automation MVP Checklist
+
+Project: PulseBridge / FLYN
+Cycle: D1 (Core Backend, Automation, AWS Foundation)
+Timeline: Days 16–30
+
+### 1. D1 Scope: Functional Backend MVP
+
+*Items to be completed and demonstrable by Day 30. The primary goal is a functional, deployable backend foundation for multi-tenancy, automation, and core channel integrations.*
+
+- [ ] **Multi-Tenant Core & AWS Foundation:**
+  - **AWS Infrastructure (as Code via CDK):**
+    - [ ] Core Networking: VPC, subnets, security groups.
+    - [ ] Core Data Stores: Aurora PostgreSQL, ElastiCache for Redis, S3 buckets.
+    - [ ] Core Compute: ECS Fargate cluster with ECR repositories.
+    - [ ] **Reverse Proxy / Ingress:** ALB setup for routing to microservices.
+  - **Multi-Tenancy Data Model:**
+    - [ ] Core tables (`accounts`, `users`, `workflows`, etc.) designed with `tenant_id` for data isolation.
+    - [ ] Initial RLS (Row-Level Security) policies planned for key tables.
+  - **CI/CD Pipeline:**
+    - [ ] GitHub Actions to build/push Docker images to ECR.
+    - [ ] GitHub Actions to deploy infrastructure and services via CDK.
+
+- [ ] **Core Semantics & Automation Engine:**
+  - **Microservice Scaffolding:**
+    - [ ] NestJS services: `api-gateway`, `webhooks-gateway`, `automation-orchestrator`, `event-bus`, `ai-orchestrator`.
+    - [ ] Each service is containerized (Dockerfile) and deployable to ECS Fargate.
+  - **AI Orchestrator & Event Bus:**
+    - [ ] `ai-orchestrator`: `POST /ai/execute` endpoint routes tasks to a default LLM provider, with secure key management.
+    - [ ] `event-bus`: `POST /events` for ingesting domain events with validation and deduplication.
+  - **Automation Core (Orchestrator):**
+    - [ ] **Core Semantics:** `Node Type Registry` API (`GET /node-types`) serves blocks for **Trigger, Action, Decision, Wait, AI-Decision**.
+    - [ ] **Execution Engine:** `POST /runs` endpoint creates a `workflow_run` and executes the plan.
+    - [ ] **State Management:** Supports `time` and `event` based waits (pausing and resuming).
+    - [ ] **Auditing:** Records `workflow_node_runs` for a complete execution timeline.
+
+- [ ] **Functional Backend for Channels & Frontend:**
+  - **Inbox Foundation:**
+    - [ ] `webhooks-gateway` service capable of receiving incoming webhooks.
+    - [ ] Initial integration for **WhatsApp** to receive messages and create a domain event.
+    - [ ] Basic `inbox` service to link incoming messages to a conversation thread.
+  - **API Gateway (BFF):**
+    - [ ] `api-gateway` provides core endpoints required by the frontend for managing workflows and viewing run history.
+    - [ ] `Compiler` endpoint (`POST /workflows/:id/compile`) validates a workflow's visual JSON.
+
+### 2. Acceptance Criteria (Day-30 Tests)
+
+- **Deployment:** A `git push` successfully deploys all services to the `dev` AWS environment.
+- **Multi-Tenancy:** API calls are scoped to a tenant; data from one tenant is not visible to another.
+- **End-to-End Automation Flow:** An event-triggered workflow (e.g., WhatsApp message) can be started, paused on a `wait` condition, and successfully resumed by a matching event.
+- **AI Orchestrator:** An API call to the `ai-orchestrator` successfully returns a response from the configured LLM.
+- **Inbox:** An incoming WhatsApp message is processed and visible via an API call to the `inbox` service.
+
+### 3. Reference & Out of Scope
+
+- **Reference Documents:**
+  - `docs/AWS-Architecture-Plan.txt`
+  - `docs/Microservices-Module-Architecture-Plan.txt`
+  - `docs/Automation-Core-AI-Orchestrator-EventBus-VisualBuilder.txt`
+- **Explicitly Out of Scope for D1:**
+  - **Functional Frontend UI:** The visual builder UI is not part of this deliverable.
+  - **Advanced Integrations:** Full executors for Telephony, CRM, or other complex messaging platforms.
+  - **Billing & Metering:** `billing-service` and `usage-metering-service`.
+
+### 4. Sign-off
+
+**Initial Scope Lock (Day 16)**
+
+Provider: _________________________ Date: __________
+
+**Final Acceptance (Day 30)**
+
+Provider: _________________________ Date: __________

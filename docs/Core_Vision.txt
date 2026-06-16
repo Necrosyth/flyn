@@ -1,0 +1,358 @@
+1. Core Vision
+a multi-tenant, AI-native operations cloud that lets any company:
+●​ Centralize CRM, communications, HR, operations, events, communities, coaching,
+churches, freelancers.​
+●​ Plug in voice, WhatsApp, social, email, SMS, webchat.​
+●​ Spin up specialized AI agents:​
+○​ AI Marketing Agent​
+○​ AI Front Desk / Receptionist​
+○​ AI Sales & Support Agent​
+○​ AI Content Creator​
+○​ AI Social Media Manager​
+○​ AI HR Co-pilot​
+○​ AI Church Engagement Assistant​
+○​ AI Event & Community Concierge​
+○​ AI Coach Assistant​
+●​ Run everything on automations: triggers, workflows, voice flows, campaigns, tasks —
+no manual chaos.​
+
+All delivered as SaaS with organization_id isolation and developer-grade APIs.
+
+2. High-Level Architecture
+2.1 Frontend (React)
+●​ Stack: React + TypeScript​
+
+●​ State: React Query / TanStack Query for API cache; Redux Toolkit (if needed for
+globals)​
+●​ Routing: React Router​
+●​ UI: Component library (e.g., MUI / custom), consistent purple theme​
+
+Apps:
+1.​ Main Dashboard 
+2.​ WhatsApp CRM 
+3.​ Vertical Apps (HR, Church, Events, Coaches) mounted as modules in same shell.​
+
+2.2 Backend (Node.js)
+Use modular monolith or microservices (your call) with a clean separation:
+●​ API Gateway (Express/Fastify/NestJS)​
+●​ Services:​
+○​ Auth & Identity​
+○​ Organization & Tenant​
+○​ Contacts & CRM​
+○​ Communication Orchestrator (WhatsApp/SMS/Email/Voice)​
+○​ Telephony Service​
+○​ AI Orchestrator (multi-provider)​
+○​ Automation Engine (Workflows)​
+○​ Vertical Modules:​
+■​ HR Service​
+■​ Church Service​
+
+■​ Freelancer Service​
+■​ Event & Booking Service​
+■​ Coaching & Courses​
+○​ Billing & Subscription​
+○​ Audit & Logs​
+○​ Developer Portal (API keys, webhooks, SDK mgmt)​
+
+Hostinger VPS Setup:
+●​ Use Docker + NGINX reverse proxy.​
+●​ Separate containers per service where possible.​
+●​ Use PostgreSQL (multi-tenant friendly) and Redis for queues + caching.​
+●​ Use BullMQ / RabbitMQ for background jobs (calls, campaigns, workflows).​
+
+3. Multi-Tenant Model
+Every entity bound to:
+●​ organization_id​
+●​ Optional: project_id / workspace_id​
+
+Key tables:
+●​ organizations​
+●​ users (with organization_id and role)​
+●​ contacts (organization_id, segment, source)​
+●​ pipelines, deals, tickets​
+
+●​ workflows​
+●​ ai_agents​
+●​ channels (whatsapp, twilio, sip, email, etc.)​
+
+You already care about quoting organization_id → enforce everywhere.
+
+4. AI Orchestration (Multi-Provider)
+You want multiple AI providers and unbeatable flexibility.
+
+4.1 AI Orchestrator Service
+Create a dedicated service, e.g. ai-orchestrator:
+Responsibilities:
+●​ Routes requests to configured provider:​
+○​ e.g. OpenAI, Anthropic, Google, local models, speech providers.​
+●​ Supports:​
+○​ Text generation (chat, support)​
+○​ Function calling / tool use (e.g. CRM updates)​
+○​ Speech-to-Text (call transcription)​
+○​ Text-to-Speech (voice bots)​
+○​ Embeddings (semantic search, RAG)​
+●​ Provider selection:​
+○​ Per organization (in settings)​
+○​ Per task (e.g. cheap vs premium model)​
+○​ Fallback & retry if provider fails.​
+
+Config example (per org):
+{
+"organization_id": "org_xxx",
+"default_llm_provider": "openai",
+"default_model": "gpt-4.1",
+"tts_provider": "elevenlabs",
+"stt_provider": "deepgram",
+"routing_rules": {
+"high_volume_outreach": "cheaper-model",
+"mission_critical_support": "premium-model"
+}
+}
+
+4.2 AI Agents (Core Concept)
+Table: ai_agents
+Fields:
+●​ id, organization_id​
+●​ type (marketing, frontdesk, support, social, hr, church, etc.)​
+●​ name, persona_prompt, languages_supported​
+●​ channels (voice, whatsapp, email, webchat)​
+●​ tools_allowed (send email, create deal, schedule event, update HR record, etc.)​
+
+Agents operate through:
+1.​ LLM + tools​
+2.​ Event hooks from Automation Engine​
+3.​ Channel adapters (WhatsApp/Voice/etc.)​
+
+5. Communication & Telephony
+
+5.1 Channels
+Unify all under Communication Orchestrator:
+●​ WhatsApp Business API (Cloud API or BSP)​
+●​ Voice (SIP / Twilio / other providers)​
+●​ SMS​
+●​ Email (SMTP/API)​
+●​ Webchat widget​
+●​ Social (FB, IG, X, LinkedIn — via official APIs)​
+
+All messages & calls:
+●​ Stored in interactions table with:​
+○​ organization_id, contact_id, channel, direction, content,
+recording_url, ai_agent_id, workflow_id.​
+
+5.2 AI Call Center
+Capabilities:
+●​ Unlimited outbound campaigns (constrained by provider & fair usage).​
+●​ Inbound call routing:​
+○​ IVR → AI Agent → human fallback.​
+●​ Features:​
+○​ Live transcription​
+○​ Real-time AI suggestions for human agents​
+○​ Auto-logging to CRM (deals, notes, tasks)​
+
+○​ Recording + summary + sentiment analysis.​
+
+6. Automation Engine 
+A visual workflow builder more powerful than GoHighLevel/Zoho.
+
+6.1 Core Concepts
+●​ Triggers:​
+○​ Contact created / imported​
+○​ Tag added​
+○​ Form submitted​
+○​ Call missed / completed​
+○​ WhatsApp message received​
+○​ Invoice overdue​
+○​ HR event (new hire, leave request)​
+○​ Church/event/coaching-specific triggers.​
+●​ Actions:​
+○​ Send WhatsApp / SMS / email​
+○​ Place AI outbound call​
+○​ Assign AI Agent to contact​
+○​ Create deal/task/ticket​
+○​ Move pipeline stage​
+○​ Add/remove tags​
+○​ Create HR record, approve leave​
+
+○​ Register for event, seat allocation​
+○​ Add to church group / follow-up flow​
+○​ Call external webhook​
+○​ Execute custom function​
+●​ Logic Nodes:​
+○​ If/Else​
+○​ Delay / Wait for event​
+○​ Split testing​
+○​ Loop over segments​
+○​ Language / region-based routing​
+
+All workflows versioned & auditable.
+
+7. Core Modules & Vertical Modules
+7.1 CRM & Operations Core
+You must at least match/beat Zoho & GoHighLevel here:
+●​ Contacts, companies, deals, pipelines.​
+●​ Omni-channel inbox (WhatsApp, SMS, email, calls, social).​
+●​ Tasks, notes, mentions.​
+●​ Tags, segments, advanced filters.​
+●​ Custom fields per org.​
+●​ Full timeline per contact.​
+
+7.2 AI Marketing Agent
+
+●​ Campaign builder (email, SMS, WhatsApp, voice).​
+●​ Audience segmentation (behaviour, tags, funnels).​
+●​ AI generates:​
+○​ Subject lines​
+○​ Email body​
+○​ WhatsApp templates​
+○​ Ad copy​
+○​ Landing page text​
+●​ Auto-optimization:​
+○​ Send-time optimization​
+○​ Variant testing​
+○​ Performance summary​
+
+7.3 AI Front Desk / Sales Agent
+●​ Website chat + WhatsApp + call.​
+●​ Answers FAQs, books calls, schedules demos.​
+●​ Can qualify leads (BANT-style), create deals, assign owners.​
+●​ Multi-language.​
+●​ Context-aware using org knowledge base.​
+
+7.4 AI Content Creator
+●​ Long-form (blogs, articles, guides).​
+●​ Short-form (captions, hooks, scripts).​
+
+●​ Website, landing pages drafts.​
+●​ Uses brand tone presets per org.​
+
+7.5 AI Social Media Manager
+●​ Multi-platform calendar.​
+●​ AI suggests monthly content plan.​
+●​ Auto-generate carousels captions, CTAs.​
+●​ Replies to comments/DMs where permitted.​
+●​ Analytics & recommendations.​
+
+8. Modern HR System
+Goal: Full automation of HR ops.
+Features:
+●​ Recruitment:​
+○​ Job posts, applications, AI screening, interview scheduling.​
+●​ Employee records:​
+○​ Personal data, docs, contracts.​
+●​ Attendance & leave:​
+○​ Policies per org, approvals, calendar.​
+●​ Payroll:​
+○​ Basic payroll engine or integration with payroll tools.​
+●​ Performance:​
+○​ OKRs, reviews, feedback.​
+
+●​ AI HR Assistant:​
+○​ Answers policy questions​
+○​ Drafts letters​
+○​ Helps managers with performance summaries.​
+
+All integrated with core Automation Engine (onboarding flows, reminders, etc.)
+
+9. Church Management Module
+Make it ridiculously good:
+●​ Members, families, groups.​
+●​ Services & events.​
+●​ Donations & tithes logging (with statements).​
+●​ Volunteer management.​
+●​ Follow-up automations:​
+○​ First-time visitor → WhatsApp message → invitation → nurture.​
+●​ AI Sermon & Content Helper (optional).​
+●​ Messaging:​
+○​ Broadcast via WhatsApp/SMS/email by segment (youth, choir, leaders).​
+●​ Check-ins, small groups, pastoral care tracking.​
+
+10. Freelancers Module
+●​ Freelancer profiles & portfolios.​
+●​ Client management.​
+
+●​ Proposals & contracts (templates).​
+●​ Invoicing & payments.​
+●​ Time tracking & tasks.​
+●​ AI Assistant:​
+○​ Draft proposals​
+○​ Generate invoices​
+○​ Follow up with clients​
+○​ Suggest pricing.​
+
+11. Event Management Module
+●​ Create events (physical/virtual).​
+●​ Registration, tickets, coupons.​
+●​ Attendee CRM, tags, segments.​
+●​ Check-in dashboard.​
+●​ AI Event Concierge:​
+○​ Sends reminders​
+○​ Handles FAQs​
+○​ Runs feedback campaigns.​
+●​ Integration with WhatsApp & email for flows.​
+
+12. Coaches & Courses Module
+●​ Coaches can:​
+
+○​ Create programs, sessions, courses.​
+○​ Schedule 1:1 & group calls.​
+○​ Track client progress, notes.​
+●​ Client portal:​
+○​ Lessons, assignments, messaging.​
+●​ AI Coach Assistant:​
+○​ Drafts lesson plans​
+○​ Suggests exercises​
+○​ Sends accountability nudges.​
+
+13. Developer Experience (Stripe/Kommo Grade)
+You said you want Stripe-level DX. Non-negotiables:
+●​ Developer Portal:​
+○​ Create & manage API keys.​
+○​ Webhook configuration/testing UI.​
+○​ Logs & retry UI.​
+●​ Docs:​
+○​ OpenAPI/Swagger JSON.​
+○​ Guides:​
+■​ “Create a call campaign”​
+■​ “Embed AI chat widget”​
+■​ “Connect WhatsApp”​
+
+■​ “Use the Automation API”​
+●​ SDKs:​
+○​ JS/TS SDK (@pulsebridge/sdk)​
+○​ PHP/Laravel, Python, Node.​
+●​ Test mode:​
+○​ Sandbox environment with test numbers & contacts.​
+
+Example API pattern (Node / REST):
+POST /api/v1/organizations/:organization_id/contacts
+POST /api/v1/organizations/:organization_id/workflows
+POST /api/v1/organizations/:organization_id/ai-agents
+POST /api/v1/organizations/:organization_id/call-campaigns
+
+JWT auth with org scoping. Strong RBAC.
+
+14. Security, Compliance, Reliability
+●​ JWT + refresh tokens + optional SSO.​
+●​ Per-org data isolation at DB layer.​
+●​ Encryption at rest & in transit.​
+●​ Full audit logs:​
+○​ who changed workflows, campaigns, settings.​
+●​ Rate limiting, abuse detection (especially for calls & messages).​
+●​ Backups & monitoring.​
+
+15. Execution Roadmap (Pragmatic)
+To not overwhelm your devs, build in phases:
+
+Phase 1 (Foundation)​
+Multi-tenant core + CRM + WhatsApp CRM + AI Orchestrator + Automation Engine + AI Front
+Desk + basic telephony.
+Phase 2​
+AI Marketing Agent, AI Content Creator, AI Social Media Manager, full omni-channel inbox,
+developer portal.
+Phase 3​
+HR module (MVP but polished), Event module, Coaches module.
+Phase 4​
+Church module, Freelancer module, deep analytics, marketplace integrations, tax/region logic
+expansion.
+
+

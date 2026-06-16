@@ -1,0 +1,631 @@
+{
+    "common": {
+        "loading": "Cargando...",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "back": "Atrás",
+        "next": "Siguiente",
+        "continue": "Continuar",
+        "submit": "Enviar",
+        "search": "Buscar",
+        "filter": "Filtrar",
+        "viewAll": "Ver Todo",
+        "reset": "Restablecer",
+        "preview": "Vista Previa",
+        "exitPreview": "Salir de Vista Previa",
+        "call": "Llamar",
+        "vsLastWeek": "vs semana pasada",
+        "language": "Idioma",
+        "export": "Exportar",
+        "all": "Todos",
+        "active": "Activo",
+        "pending": "Pendiente"
+    },
+    "auth": {
+        "welcomeBack": "Bienvenido de nuevo",
+        "signInTo": "Inicia sesión en tu espacio de trabajo {{appName}}",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "signIn": "Iniciar sesión",
+        "signingIn": "Iniciando sesión...",
+        "noAccount": "¿No tienes una cuenta?",
+        "getStarted": "Comenzar",
+        "invalidCredentials": "Credenciales inválidas",
+        "loginFailed": "Error de inicio de sesión. Inténtalo de nuevo.",
+        "createAccount": "Crea tu cuenta",
+        "startJourney": "Comienza tu viaje con Flyn",
+        "companyName": "Nombre de la Empresa",
+        "companyPlaceholder": "Tu Empresa",
+        "emailPlaceholder": "tu@empresa.com",
+        "creatingAccount": "Creando cuenta...",
+        "signupFailed": "Error de registro. Inténtalo de nuevo.",
+        "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+        "signInLink": "Iniciar sesión",
+        "firebaseNotConfigured": "Firebase no está configurado. Establece las variables VITE_FIREBASE_* (ver .env.example) y reinicia el servidor de desarrollo."
+    },
+    "onboarding": {
+        "getStarted": "Comienza con FLYN",
+        "setupSteps": "Configuremos tu nuevo espacio de trabajo con algunos pasos rápidos.",
+        "createWorkspace": "Crear Espacio de Trabajo",
+        "workspaceDescription": "Dale un nombre a tu espacio de trabajo y especifica tu zona horaria.",
+        "workspaceName": "Nombre del Espacio de Trabajo",
+        "workspacePlaceholder": "Tu Espacio de Trabajo",
+        "timeZone": "Zona Horaria",
+        "chooseIndustry": "Elige tu Industria",
+        "industryDescription": "Esto nos ayuda a recomendar las mejores plantillas y automatizaciones.",
+        "connectIntegrations": "Conectar Integraciones",
+        "integrationsDescription": "Vincula las apps que usas. Puedes agregar más en cualquier momento.",
+        "chooseAgents": "Elegir Agentes IA",
+        "agentsDescription": "Selecciona los agentes IA para asistir en tus actividades comerciales.",
+        "completeSetup": "Completar Configuración",
+        "skipForNow": "Omitir por ahora",
+        "industries": {
+            "ecommerce": "E-commerce",
+            "saas": "SaaS",
+            "realestate": "Bienes Raíces",
+            "healthcare": "Salud",
+            "education": "Educación",
+            "hospitality": "Hospitalidad",
+            "nonprofit": "Sin Fines de Lucro",
+            "legal": "Legal",
+            "finance": "Finanzas"
+        },
+        "agents": {
+            "emailAssistant": "Asistente de Email",
+            "emailAssistantDesc": "Automatiza respuestas y seguimientos por email",
+            "voiceAgent": "Agente de Voz",
+            "voiceAgentDesc": "Gestiona llamadas entrantes y programa devoluciones",
+            "chatBot": "Chat Bot",
+            "chatBotDesc": "Soporte al cliente 24/7 en tu sitio web",
+            "schedulingAgent": "Agente de Programación",
+            "schedulingAgentDesc": "Gestiona citas y reuniones",
+            "documentAgent": "Agente de Documentos",
+            "documentAgentDesc": "Genera propuestas y contratos",
+            "crmAgent": "Agente CRM",
+            "crmAgentDesc": "Actualiza contactos y rastrea interacciones"
+        }
+    },
+    "dashboard": {
+        "title": "Panel de Control",
+        "sandboxSubtitle": "Explora la plataforma — todas las acciones son simuladas.",
+        "welcomeSubtitle": "¡Bienvenido de nuevo! Aquí está tu negocio de un vistazo.",
+        "yourApps": "Tus Apps",
+        "usageThisMonth": "Uso Este Mes",
+        "stats": {
+            "activeConversations": "Conversaciones Activas",
+            "callsToday": "Llamadas Hoy",
+            "automationsRun": "Automatizaciones Ejecutadas",
+            "responseTime": "Tiempo de Respuesta"
+        },
+        "modules": {
+            "crm": "CRM",
+            "crmDesc": "Contactos, ofertas y pipelines",
+            "events": "Eventos",
+            "eventsDesc": "Gestión de eventos y RSVPs",
+            "hr": "RRHH",
+            "hrDesc": "Gestión de equipo y empleados",
+            "church": "Iglesia",
+            "churchDesc": "Herramientas de ministerio y congregación",
+            "coaches": "Coaches",
+            "coachesDesc": "Coaching y sesiones con clientes",
+            "freelancers": "Freelancers",
+            "freelancersDesc": "Proyectos y facturación"
+        },
+        "quickActions": {
+            "openInbox": "Abrir Bandeja",
+            "startCall": "Iniciar Llamada",
+            "aiAgents": "Agentes IA",
+            "automations": "Automatizaciones"
+        }
+    },
+    "sidebar": {
+        "communication": "Comunicación",
+        "searchPlaceholder": "Buscar funciones...",
+        "modules": "Módulos",
+        "intelligence": "Inteligencia",
+        "inbox": "Bandeja de Entrada",
+        "approvals": "Aprobaciones",
+        "dialer": "Marcador",
+        "dashboard": "Panel de Control",
+        "crm": "CRM",
+        "events": "Eventos",
+        "hr": "RRHH",
+        "church": "Iglesia",
+        "coaches": "Coaches",
+        "freelancers": "Freelancers",
+        "aiAgents": "Agentes IA",
+        "automations": "Automatizaciones",
+        "whiteLabel": "Marca Blanca",
+        "settings": "Configuración",
+        "logout": "Cerrar Sesión",
+        "aiMarketing": "Marketing IA",
+        "aiContent": "Contenido IA",
+        "aiSocial": "Redes Sociales IA",
+        "aiFrontDesk": "Recepción / Soporte IA",
+        "whatsappCrm": "CRM de WhatsApp",
+        "telegram": "Telegram",
+        "developer": "Desarrollador",
+        "developerPortal": "Portal de Desarrolladores",
+        "dataSources": "Fuentes de Datos",
+        "currentPlan": "Plan Actual",
+        "exploreModeActive": "Modo Exploración Activo",
+        "lastSynced": "Última sincronización hace {{time}}",
+        "availableOn": "Disponible en {{plan}}+",
+        "used": "{{percent}}% usado",
+        "resources": "Recursos",
+        "tasks": "Tareas",
+        "files": "Centro de Archivos",
+        "knowledge": "Centro de Conocimiento"
+    },
+    "settings": {
+        "title": "Configuración",
+        "subtitle": "Administra las preferencias de tu espacio de trabajo",
+        "profile": "Perfil",
+        "profileDesc": "Administra la configuración de tu cuenta",
+        "teamManagement": "Gestión de Equipo",
+        "teamManagementDesc": "Administra miembros del equipo y permisos",
+        "notifications": "Notificaciones",
+        "notificationsDesc": "Configura alertas y actualizaciones",
+        "security": "Seguridad",
+        "securityDesc": "Configuración de contraseña y 2FA",
+        "appearance": "Apariencia",
+        "appearanceDesc": "Opciones de tema y visualización",
+        "integrations": "Integraciones",
+        "integrationsDesc": "Conecta servicios externos",
+        "billing": "Facturación",
+        "billingDesc": "Planes y métodos de pago",
+        "whiteLabel": "Marca Blanca",
+        "whiteLabelDesc": "Marca personalizada, colores y dominio",
+        "quickSettings": "Configuración Rápida",
+        "emailNotifications": "Notificaciones por Email",
+        "emailNotificationsDesc": "Recibe actualizaciones por email",
+        "desktopNotifications": "Notificaciones de Escritorio",
+        "desktopNotificationsDesc": "Mostrar notificaciones del navegador",
+        "aiSuggestions": "Sugerencias IA",
+        "aiSuggestionsDesc": "Habilitar recomendaciones impulsadas por IA"
+    },
+    "billing": {
+        "title": "Facturación",
+        "subscription": "Suscripción",
+        "invoices": "Facturas",
+        "usage": "Uso",
+        "paymentMethod": "Método de Pago",
+        "upgradePlan": "Mejorar Plan",
+        "invoiceId": "ID de Factura",
+        "date": "Fecha",
+        "status": "Estado",
+        "amount": "Monto",
+        "paid": "Pagado",
+        "unpaid": "No Pagado",
+        "contacts": "contactos",
+        "perMonth": "/mes"
+    },
+    "team": {
+        "title": "Gestión de Equipo",
+        "permissions": "Permisos de Rol",
+        "inviteUser": "Invitar Usuario",
+        "inviteTeamMember": "Invitar Miembro del Equipo",
+        "inviteDescription": "Envía una invitación para unirse a tu espacio de trabajo.",
+        "emailAddress": "Dirección de Email",
+        "role": "Rol",
+        "teamLabel": "Equipo",
+        "sendInvitation": "Enviar Invitación",
+        "teamMembers": "Miembros del Equipo",
+        "teams": "Equipos",
+        "accessCRM": "Acceso CRM",
+        "manageUsers": "Gestionar Usuarios",
+        "editSettings": "Editar Configuración",
+        "admin": "Administrador",
+        "manager": "Gerente",
+        "member": "Miembro",
+        "selectTeam": "Seleccionar equipo"
+    },
+    "aiAgents": {
+        "title": "Agentes IA",
+        "subtitle": "Configura y administra tu fuerza de trabajo IA",
+        "createAgent": "Crear Agente",
+        "viewAgent": "Ver Agente",
+        "createNewAgent": "Crear Nuevo Agente",
+        "createNewAgentDesc": "Construye un agente IA personalizado para tus necesidades"
+    },
+    "whiteLabel": {
+        "title": "Marca Blanca",
+        "subtitle": "Personaliza la marca para que coincida con tu organización",
+        "branding": "Marca",
+        "colors": "Colores",
+        "domain": "Dominio",
+        "email": "Email",
+        "logo": "Logotipo",
+        "logoDesc": "Sube el logotipo de tu organización (PNG, SVG recomendado)",
+        "clickToUploadLogo": "Haz clic para subir el logotipo",
+        "removeLogo": "Eliminar Logotipo",
+        "logoUploaded": "Logotipo subido exitosamente",
+        "faviconUploaded": "Favicon subido exitosamente",
+        "brandingReset": "Marca restablecida a valores predeterminados",
+        "exitPreview": "Salir de Vista Previa",
+        "preview": "Vista Previa",
+        "appIdentity": "Identidad de la App",
+        "appIdentityDesc": "Configura el nombre y la marca de texto de tu app",
+        "appName": "Nombre de la App",
+        "logoText": "Texto del Logo (cuando no hay imagen)",
+        "fontFamily": "Familia Tipográfica",
+        "favicon": "Favicon",
+        "faviconDesc": "Ícono de pestaña del navegador (32x32 o 64x64 recomendado)",
+        "uploadFavicon": "Subir favicon",
+        "visibility": "Visibilidad",
+        "visibilityDesc": "Controla las opciones de visibilidad de la marca",
+        "showPoweredBy": "Mostrar \"Powered by Flyn\"",
+        "showPoweredByDesc": "Mostrar atribución en el pie de página",
+        "colorPresets": "Presets de Color",
+        "colorPresetsDesc": "Elige un preset o personaliza tus propios colores",
+        "primaryColor": "Color Primario",
+        "accentColor": "Color de Acento",
+        "sidebarBackground": "Fondo de Barra Lateral",
+        "livePreview": "Vista Previa en Vivo",
+        "primaryButton": "Botón Primario",
+        "secondaryButton": "Botón Secundario",
+        "highlightedCard": "Tarjeta Resaltada",
+        "sidebarPreview": "Vista Previa de Barra Lateral",
+        "customDomain": "Dominio Personalizado",
+        "customDomainDesc": "Configura tu dominio personalizado para acceso de marca blanca",
+        "cnameInstruction": "Apunta el registro CNAME de tu dominio a nuestros servidores para activar",
+        "dnsConfiguration": "Configuración DNS",
+        "type": "Tipo",
+        "name": "Nombre",
+        "value": "Valor",
+        "domainGrowthPlan": "Los dominios personalizados están disponibles en el plan Growth y superior",
+        "emailBranding": "Marca de Email",
+        "emailBrandingDesc": "Personaliza los emails enviados desde tu espacio de trabajo",
+        "fromName": "Nombre del Remitente",
+        "fromNameDesc": "Aparece como el nombre del remitente en la bandeja del destinatario",
+        "emailFooter": "Texto de Pie de Email",
+        "emailPreview": "Vista Previa de Email",
+        "emailHello": "Hola,",
+        "emailPreviewText": "Esta es una vista previa de cómo se verán tus emails con marca.",
+        "callToAction": "Llamada a la Acción",
+        "changesSaved": "Cambios guardados automáticamente"
+    },
+    "dialer": {
+        "title": "Marcador",
+        "subtitle": "Realiza y recibe llamadas con información impulsada por IA",
+        "enterPhoneNumber": "Ingresa número de teléfono",
+        "recentCalls": "Llamadas Recientes",
+        "callInProgress": "Llamada en curso",
+        "aiVoiceAgent": "Agente de Voz IA",
+        "aiVoiceAgentDesc": "Asistencia de llamadas impulsada por IA con transcripción e información en tiempo real",
+        "aiAgentReady": "Agente IA • Listo",
+        "outgoing": "saliente",
+        "incoming": "entrante",
+        "missed": "perdida"
+    },
+    "inbox": {
+        "title": "Bandeja Unificada",
+        "subtitle": "Todas tus conversaciones en un solo lugar",
+        "searchPlaceholder": "Buscar conversaciones..."
+    },
+    "notFound": {
+        "title": "404",
+        "message": "¡Ups! Página no encontrada",
+        "goHome": "Volver al Inicio"
+    },
+    "upgrade": {
+        "title": "Actualización Requerida",
+        "description": "Esta función requiere un plan superior.",
+        "upgradePlan": "Mejorar Plan",
+        "upgradeTo": "Actualizar a {{plan}}",
+        "featureAvailableOn": "Esta función está disponible en {{plan}} y superior. Actualiza para desbloquear todas las capacidades.",
+        "planName": "Plan {{plan}}",
+        "customPricing": "Precios personalizados",
+        "liveMessaging": "Mensajería en vivo habilitada",
+        "aiAutomation": "Automatización IA y agentes",
+        "advancedAnalytics": "Analíticas avanzadas",
+        "maybeLater": "Quizás Después",
+        "upgradeNow": "Actualizar Ahora",
+        "noCharges": "Sin cargos adicionales a tu plan. Siempre tienes el control."
+    },
+    "usageMeter": {
+        "messages": "Mensajes",
+        "callMinutes": "Minutos de Llamada",
+        "aiTokens": "Tokens IA",
+        "webchatSessions": "Sesiones de Webchat",
+        "storageGB": "Almacenamiento (GB)",
+        "whatsappConversations": "Conversaciones WhatsApp",
+        "limitReached": "Límite alcanzado — acciones pausadas",
+        "approachingLimit": "Acercándose al límite — considera actualizar",
+        "warningUsed": "80% usado — no se requiere acción aún",
+        "runningNormally": "50% usado — funcionando normalmente"
+    },
+    "automations": {
+        "components": "Componentes",
+        "dragToCanvas": "Arrastra al lienzo",
+        "workflowBuilder": "Constructor de Flujos",
+        "visualDesigner": "Diseñador de automatización visual",
+        "unsaved": "Sin guardar",
+        "nodes": "Nodos",
+        "connections": "Conexiones",
+        "stop": "Detener",
+        "test": "Probar",
+        "publish": "Publicar",
+        "startBuilding": "Comienza a Construir",
+        "startBuildingDesc": "Arrastra componentes del panel izquierdo para crear tu flujo de automatización",
+        "nodeAdded": "Nodo Agregado",
+        "nodeAddedDesc": "{{label}} agregado al lienzo",
+        "validationFailed": "Validación Fallida",
+        "workflowSaved": "Flujo Guardado",
+        "nodesSaved": "{{count}} nodos guardados",
+        "cannotPublish": "No se puede Publicar",
+        "publishedSuccessfully": "Publicado Exitosamente",
+        "publishFailed": "Publicación Fallida",
+        "noNodes": "Sin Nodos",
+        "addNodesToTest": "Agrega nodos para probar el flujo",
+        "testStopped": "Prueba Detenida",
+        "testRunning": "Prueba en Ejecución",
+        "watchNodes": "Observa los nodos ejecutarse en secuencia"
+    },
+    "admin": {
+        "title": "Panel de Marketing y Crecimiento",
+        "subtitle": "Gestiona leads, campañas, contenido y página de destino — todo en un solo lugar",
+        "hero": "Hero",
+        "pricing": "Precios",
+        "modules": "Módulos",
+        "contact": "Contacto",
+        "stripe": "Stripe",
+        "overview": "Resumen",
+        "leads": "Leads",
+        "campaigns": "Campañas",
+        "onboarding": "Onboarding",
+        "content": "Contenido",
+        "aiAutomation": "IA y Automatización",
+        "salesRevenue": "Ventas e Ingresos"
+    },
+    "dashboardModule": {
+        "searchPlaceholder": "Buscar {{title}}..."
+    },
+    "crmDashboard": {
+        "subtitle": "Gestiona contactos, ofertas y actividades",
+        "demoMode": "Modo Demo",
+        "live": "En Vivo",
+        "seedData": "Sembrar Datos Demo",
+        "refresh": "Actualizar",
+        "addContact": "Añadir Contacto",
+        "kpi": {
+            "totalContacts": "Contactos Totales",
+            "qualifiedLeads": "Leads Calificados",
+            "leadsTotal": "{{count}} leads totales",
+            "dealsWonValue": "Valor de Ofertas Ganadas",
+            "dealsClosed": "{{count}} ofertas cerradas",
+            "conversionRate": "Tasa de Conversión",
+            "leadsToCustomers": "Leads → Clientes"
+        },
+        "pipeline": {
+            "title": "Pipeline de Ofertas",
+            "summary": "{{count}} ofertas · {{value}} total",
+            "stages": {
+                "new": "Nuevo",
+                "qualified": "Calificado",
+                "proposal": "Propuesta",
+                "negotiation": "Negociación",
+                "won": "Ganado",
+                "lost": "Perdido"
+            }
+        },
+        "sources": {
+            "title": "Fuentes de Leads"
+        },
+        "contacts": {
+            "title": "Contactos",
+            "total": "{{count}} total",
+            "searchPlaceholder": "Buscar contactos...",
+            "filterAll": "Todos los Estados",
+            "status": {
+                "lead": "Lead",
+                "qualified": "Calificado",
+                "customer": "Cliente",
+                "churned": "Perdido",
+                "inactive": "Inactivo"
+            },
+            "table": {
+                "name": "Nombre",
+                "company": "Compañía",
+                "status": "Estado",
+                "score": "Puntuación",
+                "source": "Fuente",
+                "noContacts": "No se encontraron contactos",
+                "connectMongo": "Conecta a MongoDB para ver datos en vivo. Haz clic en 'Sembrar Datos Demo' para comenzar."
+            },
+            "pagination": {
+                "pageInfo": "Página {{page}} de {{total}}",
+                "prev": "Ant",
+                "next": "Sig"
+            }
+        },
+        "activity": {
+            "title": "Actividad Reciente",
+            "empty": "Sin actividad reciente"
+        }
+    },
+    "moduleConfig": {
+        "crm": {
+            "title": "CRM",
+            "description": "Gestiona contactos, ofertas y pipelines",
+            "kpi": {
+                "activeDeals": "Ofertas Activas",
+                "pipelineValue": "Valor del Pipeline",
+                "winRate": "Tasa de Ganancia",
+                "newLeads": "Nuevos Leads"
+            },
+            "actions": {
+                "addContact": "Añadir Contacto",
+                "createDeal": "Crear Oferta",
+                "importData": "Importar Datos"
+            },
+            "columns": {
+                "contact": "Contacto",
+                "company": "Compañía",
+                "value": "Valor",
+                "stage": "Etapa",
+                "status": "Estado"
+            },
+            "analytics": {
+                "dealVelocity": "Velocidad de Oferta",
+                "revenueForecast": "Pronóstico de Ingresos"
+            },
+            "ai": {
+                "insights": "Insights de Ventas IA",
+                "description": "Análisis inteligente de tu pipeline de ventas"
+            }
+        },
+        "hr": {
+            "title": "RRHH",
+            "description": "Gestión de equipo y empleados",
+            "kpi": {
+                "totalEmployees": "Total Empleados",
+                "openPositions": "Posiciones Abiertas",
+                "onboarding": "Onboarding",
+                "retention": "Tasa de Retención"
+            },
+            "actions": {
+                "addEmployee": "Añadir Empleado",
+                "postJob": "Publicar Trabajo",
+                "runPayroll": "Ejecutar Nómina"
+            },
+            "columns": {
+                "employee": "Empleado",
+                "role": "Rol",
+                "department": "Departamento",
+                "status": "Estado",
+                "joined": "Se Unió"
+            },
+            "analytics": {
+                "headcountGrowth": "Crecimiento de plantilla",
+                "departmentDistribution": "Distribución por departamento"
+            },
+            "ai": {
+                "insights": "Insights de Talento IA",
+                "description": "Análisis de tendencias de fuerza laboral y retención"
+            }
+        },
+        "events": {
+            "title": "Eventos",
+            "description": "Planificación y gestión de eventos",
+            "kpi": {
+                "upcomingEvents": "Próximos Eventos",
+                "registrations": "Registros",
+                "ticketsSold": "Boletos Vendidos",
+                "revenue": "Ingresos"
+            },
+            "actions": {
+                "createEvent": "Crear Evento",
+                "manageTickets": "Gestionar Boletos",
+                "sendInvites": "Enviar Invitaciones"
+            },
+            "columns": {
+                "event": "Evento",
+                "date": "Fecha",
+                "location": "Ubicación",
+                "attendees": "Asistentes",
+                "status": "Estado"
+            },
+            "analytics": {
+                "ticketSales": "Venta de boletos",
+                "attendeeDemographics": "Demografía de asistentes"
+            },
+            "ai": {
+                "insights": "Predictor de Eventos IA",
+                "description": "Predicciones de asistencia e ingresos"
+            }
+        },
+        "church": {
+            "title": "Iglesia",
+            "description": "Gestión de ministerio y congregación",
+            "kpi": {
+                "totalMembers": "Total Miembros",
+                "weeklyAttendance": "Asistencia Semanal",
+                "donations": "Donaciones",
+                "volunteers": "Voluntarios"
+            },
+            "actions": {
+                "addMember": "Añadir Miembro",
+                "scheduleService": "Programar Servicio",
+                "recordDonation": "Registrar Donación"
+            },
+            "columns": {
+                "name": "Nombre",
+                "family": "Familia",
+                "status": "Estado",
+                "lastAttended": "Última Asistencia",
+                "ministry": "Ministerio"
+            },
+            "analytics": {
+                "attendanceTrends": "Tendencias de asistencia",
+                "donationAnalysis": "Análisis de donaciones"
+            },
+            "ai": {
+                "insights": "Insights de Ministerio IA",
+                "description": "Análisis de participación y crecimiento"
+            }
+        },
+        "coaches": {
+            "title": "Coaches",
+            "description": "Gestión de clientes y sesiones",
+            "kpi": {
+                "activeClients": "Clientes Activos",
+                "sessionsCompleted": "Sesiones Completadas",
+                "revenue": "Ingresos",
+                "clientSatisfaction": "Satisfacción"
+            },
+            "actions": {
+                "addClient": "Añadir Cliente",
+                "scheduleSession": "Programar Sesión",
+                "createPlan": "Crear Plan"
+            },
+            "columns": {
+                "client": "Cliente",
+                "program": "Programa",
+                "progress": "Progreso",
+                "nextSession": "Próxima Sesión",
+                "status": "Estado"
+            },
+            "analytics": {
+                "clientProgress": "Progreso del cliente",
+                "sessionVolume": "Volumen de sesiones"
+            },
+            "ai": {
+                "insights": "Asistente de Coaching IA",
+                "description": "Sugerencias de planes personalizados"
+            }
+        },
+        "freelancers": {
+            "title": "Freelancers",
+            "description": "Gestión de proyectos y clientes",
+            "kpi": {
+                "activeProjects": "Proyectos Activos",
+                "pendingInvoices": "Facturas Pendientes",
+                "hoursTracked": "Horas Rastreadas",
+                "revenue": "Ingresos"
+            },
+            "actions": {
+                "createProposal": "Crear Propuesta",
+                "trackTime": "Rastrear Tiempo",
+                "sendInvoice": "Enviar Factura"
+            },
+            "columns": {
+                "project": "Proyecto",
+                "client": "Cliente",
+                "budget": "Presupuesto",
+                "deadline": "Fecha Límite",
+                "status": "Estado"
+            },
+            "analytics": {
+                "incomeStream": "Flujo de ingresos",
+                "timeAllocation": "Asignación de tiempo"
+            },
+            "ai": {
+                "insights": "Optimizador de Flujo IA",
+                "description": "Análisis de tarifas y productividad"
+            }
+        }
+    }
+}

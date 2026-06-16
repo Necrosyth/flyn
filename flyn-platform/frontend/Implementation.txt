@@ -1,0 +1,275 @@
+Here is the **Ultimate Master Technical Specification Document**.
+
+This is designed to be the "Bible" for this project. You can copy this entire block and give it to your AI Coder (Claude/Cursor) or your Backend Engineer. It leaves **zero ambiguity** about what needs to be built, how the data looks, and how the components interact.
+
+---
+
+# 🏗️ Master Technical Specification: FLYN Visual Workflow Builder
+
+**Role:** FSD2 (Frontend System Design)
+**Target:** MVP (Mock-First Approach)
+**Tech Stack:** React (Vite), React Flow (xyflow), Tailwind CSS, Lucide React.
+
+---
+
+## 1. Project Context & Architecture
+
+We are building the **Visual Orchestration Layer** for FLYN (a Business OS).
+
+* **Core Philosophy:** "UI builds Intent." We hide technical complexity (loops, queues) behind business-friendly blocks.
+* **The Constraint:** **Schema-Driven Architecture**.
+* We do **NOT** build hardcoded components like `<EmailNode />` or `<SlackNode />`.
+* We build a single `<GenericNode />` that acts as a container.
+* The "Form" for each node is generated dynamically by reading a JSON Schema (currently mocked, later fetched from API).
+
+
+
+---
+
+## 2. The File Structure
+
+**Strictly** follow this folder structure to ensure the "Schema-Driven" pattern works.
+
+```text
+src/
+├── components/
+│   ├── layout/
+│   │   ├── Sidebar.jsx       # Left Palette (Draggable Nodes)
+│   │   ├── Header.jsx        # Save/Publish Buttons
+│   │   └── Layout.jsx        # Grid Container
+│   │
+│   └── panel/                # THE LOGIC CORE
+│       ├── PropertyPanel.jsx # The Dynamic Form Renderer
+│       └── inputs/           # Atomic Inputs (Text, Select, Toggle)
+│
+├── config/                   # THE MOCK BACKEND
+│   └── nodeSchemas.js        # 🛑 Defines fields for Email, Wait, AI, etc.
+│
+├── nodes/                    # VISUAL REPRESENTATION
+│   ├── GenericNode.jsx       # Used for Trigger, Action, Wait, Approval, AI
+│   └── DecisionNode.jsx      # Specialized node with 2 output handles (True/False)
+│
+├── hooks/
+│   └── useFlowStore.js       # State Management (Zustand/Context)
+│
+├── utils/
+│   └── flowCompiler.js       # Cleans React Flow data into Final JSON
+│
+└── App.jsx
+
+```
+
+---
+
+## 3. The JSON Contracts (Data Models)
+
+The AI must understand two data structures: **Internal State** (React Flow) vs. **Final Payload** (Backend).
+
+### A. The Schema Definition (`src/config/nodeSchemas.js`)
+
+This is our "Mock Database." It tells the UI what fields to show.
+
+```javascript
+export const NODE_SCHEMAS = {
+  // 1. ACTION NODE (Generic Worker)
+  action: {
+    type: 'action',
+    label: 'Action',
+    icon: 'Zap', // Lucide Icon Name
+    color: 'bg-blue-500',
+    fields: [
+      { name: 'action_type', label: 'Service', type: 'select', options: [
+          {value: 'email', label: 'Send Email'},
+          {value: 'slack', label: 'Slack Message'}
+      ]},
+      { name: 'target', label: 'Recipient/Channel', type: 'text' },
+      { name: 'payload', label: 'Message Body', type: 'textarea' },
+      // 🛑 The "Loop" replacement:
+      { name: 'retry_policy', label: 'Retry Policy', type: 'section', fields: [
+          { name: 'enabled', label: 'Enable Retry', type: 'checkbox' },
+          { name: 'max_attempts', label: 'Max Attempts', type: 'number' }
+      ]}
+    ]
+  },
+
+  // 2. WAIT NODE (Time or Signal)
+  wait: {
+    type: 'wait',
+    label: 'Wait',
+    icon: 'Clock',
+    color: 'bg-amber-500',
+    fields: [
+      { name: 'strategy', label: 'Wait For', type: 'select', options: [
+          {value: 'time', label: 'Time Duration'}, 
+          {value: 'signal', label: 'External Event'}
+      ]},
+      { name: 'duration', label: 'Duration (Seconds)', type: 'number' }
+    ]
+  },
+
+  // 3. AI DECISION NODE (Intelligence)
+  ai_decision: {
+    type: 'ai_decision',
+    label: 'AI Router',
+    icon: 'Brain',
+    color: 'bg-indigo-500',
+    fields: [
+      { name: 'prompt', label: 'AI Instruction', type: 'textarea' },
+      { name: 'confidence_threshold', label: 'Confidence %', type: 'slider' }
+    ]
+  }
+};
+
+```
+
+### B. The Final Output JSON (What we send to Backend)
+
+When the user clicks "Save," the `flowCompiler.js` must produce this:
+
+```json
+{
+  "workflow_id": "wf_123",
+  "nodes": [
+    {
+      "id": "node_1",
+      "type": "generic_node",
+      "data": {
+        "label": "Send Email",
+        "config": {
+          "action_type": "email",
+          "target": "user@gmail.com",
+          "retry_policy": { "enabled": true, "max_attempts": 3 }
+        }
+      }
+    }
+  ],
+  "edges": [
+    { "source": "node_1", "target": "node_2", "sourceHandle": "default" }
+  ]
+}
+
+```
+
+---
+
+## 4. Component Implementation Details
+
+### Component 1: `GenericNode.jsx`
+
+* **Role:** Visual representation only.
+* **Props:** Receives `data` (which contains `label`, `icon`, `color`, and `config`).
+* **UI:**
+* A card with a colored header.
+* Icon + Label.
+* **Crucial:** A short "Summary Text" in the body (e.g., if it's an email node, show "To: user@gmail.com").
+* **NO Forms:** Do not put input fields on the node itself.
+
+
+* **Handles:** 1 Input (Top), 1 Output (Bottom).
+
+### Component 2: `DecisionNode.jsx`
+
+* **Role:** Logic Splitter.
+* **UI:** Diamond shape or Split Card.
+* **Handles:**
+* 1 Input (Top).
+* **2 Outputs (Bottom):**
+* Left Handle (Green, ID="true").
+* Right Handle (Red, ID="false").
+
+
+
+
+
+### Component 3: `PropertyPanel.jsx` (The Brains)
+
+* **Logic:**
+1. Subscribe to `selectedNode`.
+2. If no node is selected, show "Select a node to edit."
+3. If selected, look up its type in `NODE_SCHEMAS`.
+4. **Loop:** Map through the `fields` array from the schema.
+5. **Render:**
+* If `field.type === 'text'`, render `<Input />`.
+* If `field.type === 'select'`, render `<Select />`.
+* If `field.type === 'section'`, render a subgroup (for Retry Policy).
+
+
+6. **Update:** On `onChange`, update `selectedNode.data.config`.
+
+
+
+---
+
+## 5. UI/UX Design System
+
+* **Layout:**
+* **Sidebar (Left):** Fixed width `w-64`. Light gray background.
+* **Canvas (Center):** `flex-1`. Dot pattern background.
+* **Panel (Right):** Fixed width `w-80`. Border-left.
+
+
+* **Colors (Semantic):**
+* Trigger: Purple (`bg-purple-500`)
+* Action: Blue (`bg-blue-500`)
+* Wait: Amber (`bg-amber-500`)
+* Decision: Gray (`bg-slate-500`)
+* AI: Gradient or Indigo (`bg-indigo-500`)
+
+
+* **Interaction:**
+* Drag from sidebar -> Drop on canvas -> **Inject Schema into Node Data**.
+
+
+
+---
+
+## 6. Detailed Step-by-Step Implementation Plan
+
+**Step 1: Scaffolding**
+
+1. Initialize React + Vite + Tailwind.
+2. Install `@xyflow/react` and `lucide-react`.
+3. Create the `src` folder structure defined in Section 2.
+
+**Step 2: The Mock Data Layer**
+
+1. Create `src/config/nodeSchemas.js`.
+2. Paste the schema object from Section 3A. **This is critical**—without this, the UI has nothing to render.
+
+**Step 3: The Canvas & Nodes**
+
+1. Create `GenericNode.jsx`. Style it as a clean card.
+2. Create `DecisionNode.jsx` with two output handles.
+3. Set up the React Flow instance in `App.jsx` with `nodeTypes={ { generic: GenericNode, decision: DecisionNode } }`.
+
+**Step 4: Drag and Drop Logic**
+
+1. In `Sidebar.jsx`, use `onDragStart` to pass the "type" (e.g., "action", "wait").
+2. In `App.jsx` (Canvas), use `onDrop`.
+3. **The Magic Logic:** When dropping, look up the schema from `nodeSchemas.js` and initialize the new node with:
+```javascript
+data: { 
+  label: schema.label, 
+  config: {}, // Empty config to start
+  schema: schema // Store reference for the Panel to read
+}
+
+```
+
+
+
+**Step 5: The Property Panel**
+
+1. Build `PropertyPanel.jsx`.
+2. Make it read `selectedNode.data.schema.fields`.
+3. Implement the inputs to write to `selectedNode.data.config`.
+
+**Step 6: Output**
+
+1. Create a "Publish" button in the header.
+2. Log the clean JSON structure (Section 3B) to the console.
+
+---
+
+**Instruction to AI:**
+Start by generating the file structure and the `nodeSchemas.js` file, as these are the dependencies for everything else. Then, build the `GenericNode` component. Use Tailwind for all styling. Mock all backend calls.

@@ -1,0 +1,141 @@
+{
+    "_comment": "Flow — HR to Vapi Call. Extracts users from HR module and initiates a Vapi web call passing assistantOverrides.",
+    "nodes": [
+        {
+            "id": "trigger_1",
+            "type": "trigger",
+            "name": "Manual Trigger",
+            "position": {
+                "x": 60,
+                "y": 240
+            },
+            "config": {
+                "trigger_type": "manual",
+                "event_name": "start_hr_calling_campaign",
+                "description": "Trigger to extract HR users and start outbound Vapi calls"
+            }
+        },
+        {
+            "id": "hr_1",
+            "type": "hr",
+            "name": "HR — Get Employee 1",
+            "position": {
+                "x": 380,
+                "y": 100
+            },
+            "config": {
+                "operation": "get_employee",
+                "entityId": "emp_001"
+            }
+        },
+        {
+            "id": "vapi_1",
+            "type": "vapi",
+            "name": "Vapi — Call Employee 1",
+            "position": {
+                "x": 700,
+                "y": 100
+            },
+            "config": {
+                "operation": "create_call",
+                "assistantId": "asst_hr_agent_123",
+                "phoneNumberId": "phone_company_main",
+                "customer": {
+                    "number": "{{hr_1.employee.phone}}"
+                },
+                "assistantOverrides": {
+                    "variableValues": {
+                        "leadName": "{{hr_1.employee.name}}",
+                        "company": "Flow Hub",
+                        "repName": "General Purpose HR Agent",
+                        "offer": "update on remote work policies",
+                        "source": "HR Database",
+                        "notes": "{{hr_1.employee.notes}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "hr_2",
+            "type": "hr",
+            "name": "HR — Get Employee 2",
+            "position": {
+                "x": 380,
+                "y": 380
+            },
+            "config": {
+                "operation": "get_employee",
+                "entityId": "emp_002"
+            }
+        },
+        {
+            "id": "vapi_2",
+            "type": "vapi",
+            "name": "Vapi — Call Employee 2",
+            "position": {
+                "x": 700,
+                "y": 380
+            },
+            "config": {
+                "operation": "create_call",
+                "assistantId": "asst_hr_agent_123",
+                "phoneNumberId": "phone_company_main",
+                "customer": {
+                    "number": "{{hr_2.employee.phone}}"
+                },
+                "assistantOverrides": {
+                    "variableValues": {
+                        "leadName": "{{hr_2.employee.name}}",
+                        "company": "Flow Hub",
+                        "repName": "General Purpose HR Agent",
+                        "offer": "benefits and payroll review",
+                        "source": "HR Database",
+                        "notes": "{{hr_2.employee.notes}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "end_1",
+            "type": "end",
+            "name": "Done — HR Calls Initiated",
+            "position": {
+                "x": 1000,
+                "y": 240
+            },
+            "config": {}
+        }
+    ],
+    "edges": [
+        {
+            "id": "e_trigger_hr1",
+            "source": "trigger_1",
+            "target": "hr_1"
+        },
+        {
+            "id": "e_trigger_hr2",
+            "source": "trigger_1",
+            "target": "hr_2"
+        },
+        {
+            "id": "e_hr1_vapi1",
+            "source": "hr_1",
+            "target": "vapi_1"
+        },
+        {
+            "id": "e_hr2_vapi2",
+            "source": "hr_2",
+            "target": "vapi_2"
+        },
+        {
+            "id": "e_vapi1_end",
+            "source": "vapi_1",
+            "target": "end_1"
+        },
+        {
+            "id": "e_vapi2_end",
+            "source": "vapi_2",
+            "target": "end_1"
+        }
+    ]
+}

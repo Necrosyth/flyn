@@ -1,0 +1,15 @@
+# Root-level Netlify config.
+# Tells Netlify to build from the frontend subdirectory regardless of
+# what base directory is configured in the Netlify project dashboard.
+[build]
+  base    = "flyn-platform/frontend"
+  command = "npm run build"
+  publish = "flyn-platform/frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

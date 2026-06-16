@@ -1,0 +1,1127 @@
+🎟️ Event Creation & Design Enhancements
+✅ Beautiful Event Pages & Themes
+
+Let organizers create visually striking event pages with:
+●​ Cover images
+●​ Custom layouts
+●​ Seasonal or category templates
+FLYN AI Add-On
+●​ Library of customizable themes (confetti, formal, seasonal)
+●​ Color and brand alignment
+●​ Event visuals that match the organization’s brand​
+
+Why it matters: Higher engagement and legitimacy.App Store
+
+✅ Event Visibility & Privacy Controls
+Luma shows whether events are:
+●​ Public
+●​ Private
+●​ Members only
+FLYN AI Add-On
+●​ Visibility flags
+●​ RSVP approval controls
+●​ Password-protected events
+
+Why it matters: Enables layered access for community and private events.App Store
+
+📣 Invite & RSVP Management
+✅ Invites via Email, SMS, Push
+Luma enables:
+
+●​
+●​
+●​
+●​
+
+Email invites
+SMS invites
+Push notification invites
+Contact sync (import from Google / phone)
+
+FLYN AI Add-On
+●​ Multi-channel invites
+●​ Contacts integration (Google, CSV)
+●​ RSVP links and calendar adds
+Why it matters: Multi-touch outreach increases attendance.help.luma.com
+
+✅ Guest Registration & RSVP Handling
+●​ Accept / decline responses
+●​ Auto RSVP reminders
+●​ Post-invite automation
+FLYN AI Add-On
+●​ RSVP tracking with statuses
+●​ Waitlists
+●​ Auto-reminders via SMS/WhatsApp/email
+
+Why it matters: Improves data quality and reduces no-shows.help.luma.com
+
+✅ Add vs Invite Logic
+Luma differentiates:
+
+●​ Invited guests (need to accept)
+●​ Added guests (auto confirmed + calendar invite)
+FLYN AI Add-On
+●​ Option to add VIPs directly
+●​ Auto calendar integration
+Why it matters: Useful for formal and high-control events.help.luma.com
+
+🎟️ Ticketing & Payments
+✅ Sell Tickets & Accept Payments
+
+Luma supports:
+●​
+●​
+●​
+●​
+
+Ticket setup
+Payments
+Bank account connection
+Next-day payouts
+
+FLYN AI Add-On
+●​
+●​
+●​
+●​
+
+Flexible ticket types (free / paid / sliding scale)
+Promo codes, tiers, group pricing
+Direct payouts
+Wallet / pass integration
+
+Why it matters: Monetize events and reduce friction for paid experiences.App Store
+
+📍 Check-In & Attendance Tracking
+✅ QR Code Based Check-In
+Luma includes:
+●​ QR check-in
+●​ Guest lookup by name/email
+●​ Cofhost check-in roles
+FLYN AI Add-On
+●​ QR check-in integration
+●​ Attendance reports
+●​ Multiple check-in portals
+Why it matters: Professional in-person event flow.App Store
+
+💬 Social Features
+✅ Guest Chat / Networking
+Luma enables attendees to:
+●​ Chat with other guests
+●​ Connect beyond events
+
+FLYN AI Add-On
+●​ Event-specific chat channels
+●​ Give users the option to track contacts
+●​ Integrate community engagement within events
+Why it matters: Boosts retention through social engagement.App Store
+
+📅 Discover & Calendar Integration
+✅ Events Discovery
+Users can find:
+●​ Local events
+●​ Recommended community events
+FLYN AI Add-On (Optional)
+●​ Public event directory
+●​ Geo-based event suggestions
+
+Why it matters: Increases reach when events are open to broader audiences.App Store
+
+✅ Calendar Sync
+Luma supports:
+
+●​ Add to Apple/Google Calendar
+●​ Local Calendar subscriptions
+FLYN AI Add-On
+●​ One–click calendar adds
+●​ Multi-calendar links
+●​ Dynamic calendar feed for groups
+Why it matters: Reduces friction and improves reminders.help.lu.ma
+
+🔔 Notifications & Engagement Tools
+✅ Automated Event Reminders
+
+Push/Email/SMS reminders for:
+●​ Upcoming events
+●​ Registration confirmations
+●​ Changes/updates
+FLYN AI Add-On
+●​ Configurable auto reminders
+●​ Custom templates
+●​ Attendance nudges
+Why it matters: Reduces forgetfulness and boosts attendance.App Store
+
+📊 Analytics & Insights
+
+✅ Event Performance Metrics (implied)
+Although less explicit in Luma’s listing, many event platforms track:
+●​ Registrations over time
+●​ Engagement & conversion rates
+FLYN AI Add-On
+●​ RSVP trend charts
+●​ Registration sources
+●​ Channel conversion insights
+Why it matters: Data-driven improvement of future events.help.luma.com
+
+✨ UX & Content Enhancements
+✅ Custom Event Themes & Visuals
+Luma allows:
+●​ Pre-made visuals and templates
+●​ Custom cover images
+FLYN AI Add-On
+●​ Theme library with seasonal designs
+
+●​ Custom branding upload
+●​ Event microsite builder
+Why it matters: Express personality and boost credibility.help.lu.ma
+
+📌 Optional but High-Impact Additions (inspired by broader trends)
+🗣 AI-Powered Invite Personalization
+
+Like emerging smart systems (including Apple Ai invites), use:
+●​ Personalized invite copy
+●​ Smart send timing
+●​ Guest segmentation
+FLYN AI Add-On
+●​ AI invite suggestions
+●​ Predictive engagement timing
+●​ Social channel tailoring
+Why it matters: Increases open & RSVP rates.The National
+
+🧠 Dynamic Guest Data Sync
+Auto sync guest user data into CRM:
+
+●​ Tag based on responses
+●​ Add to follow-up sequences
+●​ Convert RSVP to contact record
+Why it matters: Converts events into CRM pipeline activity.
+
+🎯
+
+Strategic Feature Map for FLYN AI’s Events Module
+Feature Category
+
+Luma Core
+
+FLYN AI Add-On
+
+Priority
+
+Event Page Builder
+
+✔
+
+✔ Enhanced
+
+High
+
+Ticketing & Payments
+
+✔
+
+✔ Enhanced
+
+High
+
+Invites (Email/SMS/Push)
+
+✔
+
+✔ + AI
+
+High
+
+RSVP Tracking
+
+✔
+
+✔
+
+High
+
+Contact Sync
+
+✔
+
+✔
+
+High
+
+QR Check-In
+
+✔
+
+✔
+
+High
+
+Guest Chat
+
+✔
+
+✔ Community
+
+Medium
+
+Event Directory
+
+✔
+
+Optional
+
+Medium
+
+Calendar Sync
+
+✔
+
+✔ Integrated
+
+High
+
+Analytics
+
+implied
+
+✔ Full
+
+High
+
+Multi-Theme UI
+
+✔
+
+✔
+
+Medium
+
+🧠 Why These Extensions Matter
+✔ Professional event lifecycle: From invite → RSVP → check-in → follow-up​
+✔ Multi-channel reach: Email + SMS + push + WhatsApp​
+✔ Data flow into CRM: Converts attendees into long-term contacts​
+✔ AI engagement boosters: Personalized invites & reminders​
+✔ Branding & experience: Custom pages & visuals enhance trust
+
+Below is the FINAL, ENGINEERING-READY ENTITLEMENT TABLE for FLYN AI — Events
+Module, aligned with Luma-grade UX, your pricing philosophy, cost-control, and enterprise
+scalability.
+This is written as a single source of truth for:
+●​
+●​
+●​
+●​
+
+Product
+Engineering
+Sales
+Billing / Feature Flags
+
+No ambiguity. No overlap. No future refactors.
+
+🎟️ FLYN AI — Events Module Pricing
+Feature Entitlement by Plan
+
+1️⃣ Core Event Creation & Pages
+Feature
+
+⭐
+
+Free Trial
+
+Starter
+
+✅
+
+✅
+
+✅
+
+✅
+
+✅
+
+Event Page Builder
+
+Demo
+
+Basic
+
+Advanced
+
+Advanced
+
+Custom
+
+Cover Images & Themes
+
+Demo
+
+Limited
+
+Full
+
+Full
+
+Custom
+
+Branding (Logo/Colors)
+
+Preview
+
+Basic
+
+Full
+
+Full
+
+Full
+White-Label
+
+Event Visibility
+(Public/Private)
+
+Demo
+
+Basic
+
+Full
+
+Full
+
+Full
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+Event Creation (UI)
+
+Preview
+
+Password-Protected
+Events
+
+Multi-Day Events
+
+Growth
+
+Pro /
+Business
+
+Enterprise
+
+2️⃣ Invites, RSVPs & Registration
+Feature
+
+Free
+Trial
+
+Starter
+
+Growth
+
+⭐
+
+Pro /
+Business
+
+Enterpris
+e
+
+✅
+
+✅
+
+✅
+
+✅
+
+UI Only
+
+Limited
+
+Medium
+
+High
+
+Custom
+
+RSVP Tracking
+
+Demo
+
+Basic
+
+Advanced
+
+Advanced
+
+Advanced
+
+RSVP Statuses
+(Yes/No/Maybe)
+
+Demo
+
+✅
+
+✅
+
+✅
+
+✅
+
+Waitlists
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+Auto RSVP Reminders
+
+❌
+
+Limited
+
+✅
+
+✅
+
+Custom
+
+Demo
+
+✅
+
+✅
+
+✅
+
+✅
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+Free Trial
+
+Starter
+
+Growth
+
+Pro /
+Business
+
+Enterprise
+
+Demo
+
+✅
+
+✅
+
+Email Invites
+
+Simulate
+d
+
+SMS / WhatsApp Invites
+
+Calendar Sync
+(Google/Apple)
+
+Add Guest (Auto-Confirmed)
+
+3️⃣ Ticketing & Payments
+Feature
+
+Free Events
+
+⭐
+
+✅
+
+✅
+
+Paid Tickets
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+Ticket Types (General/VIP)
+
+❌
+
+❌
+
+Limited
+
+Full
+
+Custom
+
+Promo Codes
+
+❌
+
+❌
+
+❌
+
+✅
+
+✅
+
+Group / Bulk Pricing
+
+❌
+
+❌
+
+❌
+
+✅
+
+✅
+
+Refund Management
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+Payouts
+
+❌
+
+❌
+
+Standard
+
+Standard
+
+Custom
+
+Pro /
+Business
+
+Enterprise
+
+4️⃣ Check-In & Attendance
+
+⭐
+
+Free Trial
+
+Starter
+
+Growth
+
+Manual Check-In
+
+Demo
+
+✅
+
+✅
+
+✅
+
+✅
+
+QR Code Check-In
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+Multiple Check-In Staff
+
+❌
+
+❌
+
+Limited
+
+Full
+
+Custom
+
+Attendance Reports
+
+Demo
+
+Basic
+
+Advanced
+
+Advanced
+
+Custom
+
+Feature
+
+Badge / Pass Printing
+
+❌
+
+❌
+
+❌
+
+Optional
+
+Optional
+
+5️⃣ Communication & Engagement
+Feature
+
+Event Announcements
+
+Free
+Trial
+
+Starter
+
+Growth
+
+⭐
+
+Pro /
+Business
+
+Enterprise
+
+Omnichann
+el
+
+Demo
+
+Email
+Only
+
+Omnichann
+el
+
+Omnichannel
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+Post-Event Follow-Ups
+
+Demo
+
+Basic
+
+Advanced
+
+Advanced
+
+Custom
+
+Feedback / Surveys
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+Event Chat /
+Community
+
+6️⃣ Automation & AI
+Feature
+
+Free Trial
+
+Starter
+
+Growth
+
+⭐
+
+Pro /
+Business
+
+Enterpris
+e
+
+Event Workflow Builder
+
+Simulation Basic
+
+Advanced
+
+Advanced
+
+Custom
+
+Auto-Reminder Logic
+
+❌
+
+✅
+
+✅
+
+Custom
+
+Limited
+
+AI Invite Copy
+
+Preview
+
+Limited
+
+✅
+
+Advanced
+
+Custom
+
+AI Send-Time Optimization
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+AI Attendance Prediction
+
+❌
+
+❌
+
+❌
+
+❌
+
+Optional
+
+7️⃣ Analytics & Insights
+
+⭐
+
+Feature
+
+Free
+Trial
+
+Starte
+r
+
+Growth
+
+Registration Trends
+
+Demo
+
+Basic
+
+Advanced
+
+Advanced
+
+Custom
+
+Channel Performance
+
+❌
+
+❌
+
+Limited
+
+Full
+
+Custom
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+Data Export
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+Cross-Event Insights
+
+❌
+
+❌
+
+❌
+
+❌
+
+✅
+
+Conversion Funnel (Invite →
+Attend)
+
+8️⃣ CRM & Platform Integration
+
+Pro /
+Business
+
+Enterpris
+e
+
+Feature
+
+Free
+Trial
+
+⭐
+
+Starte
+r
+
+Growth
+
+Pro /
+Business
+
+Enterpris
+e
+
+Sync Attendees to CRM
+
+Demo
+
+✅
+
+✅
+
+✅
+
+✅
+
+Tagging & Segmentation
+
+❌
+
+❌
+
+✅
+
+✅
+
+✅
+
+❌
+
+❌
+
+Limited
+
+Full
+
+Full
+
+❌
+
+Limited
+
+Full
+
+Custom
+
+❌
+
+❌
+
+Full
+
+Full
+
+Pro /
+Business
+
+Enterprise
+
+Workflow Triggers
+(Event-based)
+
+API Access
+
+Docs
+Only
+
+❌
+
+Webhooks
+
+9️⃣ Governance & Enterprise Controls
+
+⭐
+
+Free Trial
+
+Starter
+
+Growth
+
+Role-Based Access
+
+❌
+
+❌
+
+✅
+
+Advanced
+
+Advanced
+
+Audit Logs
+
+❌
+
+❌
+
+❌
+
+✅
+
+Extended
+
+Multi-Region Hosting
+
+❌
+
+❌
+
+❌
+
+✅
+
+Custom
+
+Feature
+
+SLA
+
+❌
+
+❌
+
+❌
+
+❌
+
+Custom
+
+Dedicated CSM
+
+❌
+
+❌
+
+❌
+
+❌
+
+✅
+
+🔐 Cost-Control & Guardrails (Global Rules)
+• Free Trial → UI only, zero paid channels
+• Starter → low caps, no automation scale
+• Growth → monetization + automation unlock
+• Pro → intelligence, omnichannel depth
+• Enterprise → custom limits, no hard caps
+
+🎯 Strategic Positioning
+●​
+●​
+●​
+●​
+●​
+
+Free Trial: Experience flow, no cost to FLYN
+Starter: Small teams, real events
+Growth: Monetization + automation (sweet spot)
+Pro: Intelligence + omnichannel engagement
+Enterprise: Operating system for events​
+
+

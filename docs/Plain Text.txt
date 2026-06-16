@@ -1,0 +1,18 @@
+
+Need to include multi tenancy,
+Dashbord logic with modular approach - schema, entities and relations, analyitcs and stats. - we chose these specifics for modular approach instead of going with rigid and everything will be interconnected.
+
+Workflow builder is made in a way that only core semantics will be defined, and dashboards will connect like plugin way
+
+The schema will is inspired from odoo, for better interconnectivity and better integrations with external dashboards, as odoo is an universal standard.
+
+Serverless for calls. As other portions are deterministic so budget management will be easier due to server setups. But calls sessions as we discussed can scale vertically so yeah serverless.
+
+Unified inbox - 1 instance per tenant? Will be running all the time.
+
+D1 -
+Multi tenant core
+aws docker reverse proxy setup for microservices
+Whwtsapp and other inboxes linked with inbox
+Functional backend for the given frontend
+Ai orchestrator, event bus and core semantics (trigger, decision, and all)

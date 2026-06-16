@@ -1,0 +1,151 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    # The volume mount below is commented out to prevent the host directory
+    # from overwriting the built 'dist' folder inside the container.
+    # volumes:
+    #   - ./backend:/usr/src/app
+    #   - /usr/src/app/node_modules # Don't mount node_modules from host
+
+  frontend:
+    build:
+      context: ./frontend
+    # Ports are exposed via the reverse-proxy, not directly
+    # Volumes are not needed for the final Nginx image
+
+  db:
+    image: pgvector/pgvector:pg15
+    environment:
+      - POSTGRES_USER=chatwoot
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=chatwoot
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  reverse-proxy:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+      - frontend
+
+  redis:
+    image: redis:6.2-alpine
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+
+  chatwoot:
+    image: chatwoot/chatwoot:latest
+    env_file: chatwoot.env
+    environment:
+      - RACK_TIMEOUT_SERVICE_TIMEOUT=60
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./setup_chatwoot.sh:/app/setup_chatwoot.sh
+      - ./chatwoot.env:/app/chatwoot.env
+    command: sh /app/setup_chatwoot.sh
+
+  # Dedicated PostgreSQL instance for NocoBase (keeps it isolated from chatwoot DB)
+  nocobase-db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=nocobase
+      - POSTGRES_PASSWORD=nocobase_password
+      - POSTGRES_DB=nocobase
+    volumes:
+      - nocobase_db_data:/var/lib/postgresql/data
+
+  nocobase:
+    image: nocobase/nocobase:latest
+    restart: unless-stopped
+    ports:
+      - "13000:80"
+    depends_on:
+      - nocobase-db
+    environment:
+      - APP_ENV=production
+      - APP_KEY=flyn-nocobase-secret-key-change-me
+      - DB_DIALECT=postgres
+      - DB_HOST=nocobase-db
+      - DB_PORT=5432
+      - DB_DATABASE=nocobase
+      - DB_USER=nocobase
+      - DB_PASSWORD=nocobase_password
+      - TZ=Asia/Kolkata
+    volumes:
+      - nocobase_storage:/app/nocobase/storage
+
+  # ============================================================================
+  # USER DATABASE PLUGINS — for workflow automation nodes
+  # ============================================================================
+
+  # PostgreSQL instance for user workflows
+  flyn-postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=flyn
+      - POSTGRES_PASSWORD=flyn_pg_password
+      - POSTGRES_DB=flyn_data
+    ports:
+      - "5434:5432"
+    volumes:
+      - flyn_postgres_data:/var/lib/postgresql/data
+
+  # MySQL instance for user workflows
+  flyn-mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=flyn_mysql_root
+      - MYSQL_DATABASE=flyn_data
+      - MYSQL_USER=flyn
+      - MYSQL_PASSWORD=flyn_mysql_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - flyn_mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  # MongoDB instance for user workflows
+  flyn-mongo:
+    image: mongo:7.0
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=flyn
+      - MONGO_INITDB_ROOT_PASSWORD=flyn_mongo_password
+      - MONGO_INITDB_DATABASE=flyn_workflow_demo
+    ports:
+      - "27017:27017"
+    volumes:
+      - flyn_mongo_data:/data/db
+
+volumes:
+  postgres_data:
+  redis_data:
+  nocobase_storage:
+  nocobase_db_data:
+  flyn_postgres_data:
+  flyn_mysql_data:
+  flyn_mongo_data:

@@ -1,0 +1,197 @@
+
+Requirements Document (PRD)
+1. Product Overview
+Its is an AI-driven business operations platform designed to automate CRM,
+HR, communications, and specialized workflows for multiple verticals (HR, Churches,
+Freelancers, Coaches, Events).​
+It unifies communication (voice, WhatsApp, SMS, social), automations, and AI agents in one
+ecosystem.
+
+2. System Architecture Overview
+Tech Stack
+●​ Backend: Node.js (NestJS/Fastify), PostgreSQL, Redis, BullMQ, Docker​
+●​ Frontend: React + TypeScript, React Query, Tailwind/MUI​
+●​ Hosting: Hostinger VPS (NGINX reverse proxy, Docker containers)​
+●​ AI Providers: OpenAI, Anthropic, Deepgram, ElevenLabs, Google, Azure, etc.​
+●​ Integrations: WhatsApp Cloud API, Twilio, SendGrid, Meta Graph API, SMTP, etc.​
+
+3. EPICS, USER STORIES & TICKETS
+
+🧩 Epic 1: Multi-Tenant Core Infrastructure
+User Stories
+
+●​ As an org admin, I can create an organization and invite users.​
+●​ As a user, I log in securely via JWT and manage resources within my
+organization_id.​
+●​ As an admin, I can manage roles and permissions (RBAC).​
+
+Developer Tickets
+1.​ DB Design: Create multi-tenant schema (organizations, users, roles,
+permissions).​
+2.​ Auth Service: JWT + refresh tokens; organization scoping middleware.​
+3.​ RBAC Middleware: Role check per route (Admin, Manager, Agent, Viewer).​
+4.​ Org Setup API: /api/v1/organizations CRUD endpoints.​
+5.​ User Invites API: Create user invites, email confirmation flow.​
+6.​ Tenant Isolation: Implement Postgres row-level security (RLS) by organization_id.​
+7.​ Audit Logs: Track changes for workflows, campaigns, agents, and settings.​
+
+⚙️ Epic 2: Automation Engine
+User Stories
+●​ As a user, I can create automation workflows with triggers, conditions, and actions.​
+●​ As an admin, I can view automation logs and success/failure reports.​
+
+Developer Tickets
+1.​ Workflow DB: workflows, workflow_nodes, workflow_runs, workflow_logs.​
+2.​ Triggers: Events (contact created, call ended, message received, etc.).​
+3.​ Actions: Send message, call AI agent, move pipeline, webhook, etc.​
+4.​ Logic Nodes: If/Else, Delay, Split test, Loop.​
+5.​ Engine Service: Node worker executing queued jobs (BullMQ).​
+6.​ Frontend: Drag-and-drop workflow builder (React Flow).​
+7.​ Logs API: /api/v1/workflows/:id/logs for visibility.​
+
+🧠 Epic 3: AI Orchestrator
+User Stories
+●​ As an admin, I can select preferred AI providers per organization.​
+●​ As an AI agent, I can process tasks using language, voice, or image inputs.​
+
+Developer Tickets
+1.​ AI Router Service: Route tasks to provider (OpenAI, Anthropic, etc.).​
+2.​ Config Table: Store per-org AI settings (model, provider, tokens).​
+3.​ LLM Wrapper: Unified function for text, speech-to-text, text-to-speech, embeddings.​
+4.​ Fallback Logic: Retry on failed provider.​
+5.​ AI Agents Table: ai_agents with persona, prompt, language list.​
+6.​ Tool Use Layer: Agents can call CRM/HR APIs via function-calling schema.​
+7.​ SDK: /api/v1/ai/execute endpoint.​
+
+📞 Epic 4: Communication & Telephony Layer
+User Stories
+●​ As a user, I can make and receive voice calls.​
+●​ As a user, I can manage WhatsApp, SMS, and email messages in one inbox.​
+●​ As an admin, I can view call recordings and message histories.​
+
+Developer Tickets
+1.​ Channel Adapters: WhatsApp (Cloud API), Twilio (Voice/SMS), SMTP, Meta Graph
+API.​
+2.​ Call Service: Outbound campaigns, inbound routing, recording, voicemail.​
+
+3.​ Message Sync Service: Unified inbox aggregator.​
+4.​ Interactions Table: interactions (organization_id, contact_id,
+channel, direction, ai_agent_id, transcript_url).​
+5.​ Realtime WebSocket: Live conversation updates.​
+6.​ Frontend Inbox UI: Filters, tags, search, AI suggestions.​
+7.​ Call Summary AI: Transcription + sentiment + summary.​
+
+📊 Epic 5: CRM Core
+User Stories
+●​ As a user, I can create contacts, companies, and deals.​
+●​ As a user, I can manage pipelines and track deals.​
+
+Developer Tickets
+1.​ Entities: contacts, companies, deals, pipelines, activities.​
+2.​ API: /api/v1/contacts, /deals, /pipelines.​
+3.​ Custom Fields: JSONB structure per organization.​
+4.​ Timeline API: Full activity feed per contact.​
+5.​ Frontend: Table/grid + Kanban views.​
+6.​ AI Enrichment: Auto-fill company details and contact context.​
+
+💬 Epic 6: AI Agents & Assistants
+User Stories
+●​ As a user, I can deploy AI Agents (Marketing, Front Desk, Social, HR, etc.).​
+●​ As an admin, I can configure personalities, channels, and permissions for each agent.​
+
+Developer Tickets
+1.​ Agent Framework: Table + model loader.​
+2.​ Agent Actions: send message, call API, schedule meeting, etc.​
+3.​ Voice AI Integration: ElevenLabs, OpenAI TTS, Whisper.​
+4.​ Frontend Agent UI: Create / train / assign to workflows.​
+5.​ Agent Logs: Conversation transcripts + actions taken.​
+6.​ Multilingual NLP Layer: auto-translate per contact language.​
+
+👥 Epic 7: HR System Module
+User Stories
+●​ As an HR manager, I can manage employees, attendance, and payroll.​
+●​ As a user, I can request leave and view payslips.​
+
+Developer Tickets
+1.​ Entities: employees, leaves, payroll, positions.​
+2.​ Attendance Engine: Manual or automated (biometric/Geo).​
+3.​ Payroll Engine: Simple salary structure + slip generation.​
+4.​ AI HR Assistant: Q&A + policy drafting + reminders.​
+5.​ Frontend: HR dashboard + employee self-service portal.​
+
+⛪ Epic 8: Church Management Module
+User Stories
+●​ As a church admin, I can manage members, donations, and groups.​
+●​ As a pastor, I can send follow-ups and plan services.​
+
+Developer Tickets
+1.​ Entities: members, groups, donations, events.​
+2.​ Automation: Visitor → follow-up → nurture sequence.​
+3.​ Payment Gateway: Stripe/Paystack for donations.​
+4.​ AI Sermon Assistant: Suggest topics, generate posts.​
+5.​ Frontend: Member directory, attendance logs.​
+
+💼 Epic 9: Freelancers Module
+User Stories
+●​ As a freelancer, I can manage gigs, proposals, and clients.​
+●​ As a client, I can pay and rate freelancers.​
+
+Developer Tickets
+1.​ Entities: freelancers, clients, contracts, invoices, payments.​
+2.​ AI Proposal Generator: Suggest proposals from job posts.​
+3.​ Payment Integration: Stripe/Paystack.​
+4.​ Frontend: Dashboard with job tracking and invoices.​
+
+🎟 Epic 10: Event & Coach Modules
+User Stories
+●​ As an event organizer, I can manage registrations and send campaigns.​
+●​ As a coach, I can create sessions and courses.​
+
+Developer Tickets
+
+1.​ Entities: events, tickets, coaches, programs, sessions.​
+2.​ Booking Flow: AI assistant schedules meetings.​
+3.​ Reminder Workflows: integrated with Automation Engine.​
+4.​ Frontend: Registration & session scheduling UI.​
+
+⚡ Epic 11: Developer Portal
+User Stories
+●​ As a developer, I can register my app and get API keys.​
+●​ As an admin, I can monitor usage and manage SDK docs.​
+
+Developer Tickets
+1.​ API Key Management: CRUD + JWT scope signing.​
+2.​ Webhook Management: Config + test events.​
+3.​ Docs Portal: Swagger UI + Postman JSON export.​
+4.​ SDKs: @pulsebridge/sdk for Node, Python, PHP.​
+5.​ Usage Analytics: Per org key usage logs.​
+
+📈 Epic 12: Analytics & BI
+User Stories
+●​ As an admin, I can view campaign and agent performance insights.​
+●​ As a manager, I can export reports or view dashboards.​
+
+Developer Tickets
+1.​ Data Warehouse Schema: Aggregated metrics per module.​
+
+2.​ API: /analytics/:module/:metric.​
+3.​ AI Insights: LLM-generated summaries (“Your campaign open rate rose 15% this
+week”).​
+4.​ Frontend: Dashboard builder (charts, KPIs, filters).​
+
+🔐 Epic 13: Security & Compliance
+1.​ Implement HTTPS, CORS, Helmet, rate limiting.​
+2.​ Encrypt PII fields in Postgres.​
+3.​ Access logging.​
+4.​ GDPR / CCPA compliance mode.​
+5.​ Role-based secret management (e.g. for API tokens).​
+
+🌍 Epic 14: Deployment & DevOps
+1.​ Dockerize all services.​
+2.​ NGINX reverse proxy setup.​
+3.​ PM2 or systemd process management.​
+4.​ Continuous deployment (GitHub Actions).​
+5.​ Backup scripts for PostgreSQL & Redis.​
+6.​ Monitoring (UptimeRobot / Grafana / Loki).​
+
+

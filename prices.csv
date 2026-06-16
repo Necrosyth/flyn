@@ -1,0 +1,6 @@
+Price ID,Product ID,Product Name,Product Statement Descriptor,Product Tax Code,Description,Created (UTC),Amount,Currency,Interval,Interval Count,Usage Type,Aggregate Usage,Billing Scheme,Trial Period Days,Tax Behavior
+price_1TBeL4RoEyrOM4ERI0P4bGVw,prod_U9yH8eGfdv1K5j,Enterprise,,txcd_10000000,,2026-03-16 16:49,120.00,usd,month,1,licensed,,per_unit,,unspecified
+price_1TBeKIRoEyrOM4ERj2KtNJoO,prod_U9yG3X4WrbBTEV,Pro,,txcd_10000000,,2026-03-16 16:49,90.00,usd,month,1,licensed,,per_unit,,unspecified
+price_1TBeJ1RoEyrOM4ERnxj9t2pz,prod_U9yFebxaCHQy9K,Growth,,txcd_10000000,,2026-03-16 16:47,60.00,usd,month,1,licensed,,per_unit,,unspecified
+price_1TBeICRoEyrOM4ERojoOsvFY,prod_U9yEzW4V1hqHDm,Starter,,txcd_10000000,,2026-03-16 16:47,30.00,usd,month,1,licensed,,per_unit,,unspecified
+price_1T8ZqfRoEyrOM4ERHLMo9Xt9,prod_U6nRZsPY4OkTIh,AI Chat Bot,,txcd_10000000,,2026-03-08 05:25,500.00,usd,,,,,per_unit,,unspecified

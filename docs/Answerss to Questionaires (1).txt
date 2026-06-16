@@ -1,0 +1,566 @@
+30.1 — AI & LLM CONFIGURATION
+1. Which AI providers should we use?
+Primary: OpenAI GPT-5.1 / GPT-4.1​
+Secondary (fallback): Anthropic Claude 3.5 / 3 Opus​
+Routing logic:
+●​ Default to OpenAI
+●​ Auto-fallback to Claude when:
+○​ Latency > 2.5s
+○​ 5xx API errors
+○​ Token limit exceeded​
+●​ Optional: Azure OpenAI for enterprise clients requiring data residency.
+
+2. AI Provider scope — Per Organization or Per Agent?
+Hybrid Model:
+●​ Per-organization default provider (set at subscription level)
+●​ Per-agent override for specialized use cases:
+○​ Voice agents → OpenAI Realtime / ElevenLabs
+○​ Research agents → Claude
+○​ Support agents → OpenAI​
+
+This maximizes flexibility without creating operational overhead.
+
+3. How should AI Agent memory work?
+Use a three-tier memory hierarchy:
+Tier
+
+Purpose
+
+Retention
+
+Session Memory
+
+Context for the active conversation
+only
+
+Clears after session
+
+Contact-Level Memory
+
+Customer preferences / history
+
+6–12 months
+
+Organization-Level
+Memory
+
+Knowledge base, rules, SOPs
+
+Permanent (until
+edited)
+
+4. Knowledge Base format & sources
+Support multi-source ingestion:
+●​
+●​
+●​
+●​
+●​
+
+PDF uploads
+FAQ database (internal CMS)
+Website crawler (scheduled sync)
+API integrations to CRM / HR / Events
+Vector embeddings stored in Pinecone or PostgreSQL pgvector​
+
+5. Should agents store/recall personal preferences?
+Yes — but only non-PII preferences, e.g.:
+●​
+●​
+●​
+●​
+●​
+
+Language
+Time zone
+Favorite services
+Recent purchases
+Industry preferences
+
+Exclude: IDs, card numbers, sensitive documents, health info.
+
+6. Max token limits per conversation?
+Soft cap: 40k tokens​
+Hard cap: 120k tokens per thread​
+Usage and cost monitored per organization.
+
+7. AI response caching strategy?
+Cache common static responses (FAQs, pricing, hours, onboarding steps):
+●​ Cache TTL: 24 hours
+●​ Auto-invalidate when KB updates
+●​ Per-organization cache segmentation
+
+30.2 — AI AGENT PERMISSIONS & SAFETY
+1. Can AI agents perform transactions autonomously?
+Yes — but controlled by permission tiers.
+
+Tier
+
+AI Capabilities
+
+Tier 0
+
+No transactions; information-only
+
+Tier 1
+
+Appointment booking, ticket reservations
+
+Tier 2
+
+Discounts ≤ 10%, refunds ≤ $50
+
+Tier 3
+
+Full refund, invoice creation, subscription changes (requires organization
+approval)
+
+2. Forbidden topics?
+Mandatory global restrictions:
+●​
+●​
+●​
+●​
+●​
+●​
+
+Competitor benchmarking
+Legal advice
+Medical advice
+Financial investment advice
+Anti-policy or hate speech content
+Internal pricing strategy
+
+3. What actions require human approval?
+●​
+●​
+●​
+●​
+●​
+●​
+
+Refunds above organization-configured threshold (e.g., $99)
+Contract creation / document signing
+Custom quotes
+HR disciplinary actions
+High-value transactions
+Bulk communications
+
+4. Confidence threshold for auto-responses?
+Minimum confidence: 0.78 (78%)​
+Below threshold → escalate to human operator.
+
+5. Handling sensitive customer data?
+Policies:
+●​
+●​
+●​
+●​
+
+Mask all PII before sending to LLM
+Do not store: passport, ID numbers, health records
+Redact PII in logs and history
+Organization-level toggle for security strictness.
+
+6. AI response review before sending?
+Enable Draft Mode for:
+●​
+●​
+●​
+●​
+●​
+
+Legal topics
+High-value quotes
+Refunds
+HR responses
+Church & coaching guidance (to avoid misinterpretation)
+
+Operator has Approve / Edit / Reject options.
+
+30.3 — VOICE & TELEPHONY
+1. Voice provider preference?
+Dual-provider architecture:
+●​ Primary: Twilio Voice (global numbers, SIP, IVR)
+●​ Secondary: SIP trunk integration for enterprise clients
+
+2. Concurrent call capacity needed?
+Base plan: 10 simultaneous calls per organization​
+Enterprise plans: up to 250 simultaneous calls, scalable via autoscaling workers.
+
+3. Call recording requirements?
+●​
+●​
+●​
+●​
+
+Optional per organization
+Recording with consent popup
+Retention: 30 / 90 / 365 days depending on plan
+Storage: AWS S3 + encryption at rest (AES-256)
+
+4. IVR menu requirements?
+Support both:
+●​ AI-only IVR (conversational routing)
+●​ Traditional DTMF IVR for enterprises with legacy expectations
+
+5. Voicemail handling?
+●​ Speech-to-text transcription
+●​ AI-written summary
+
+●​ Automatic follow-up call or SMS
+
+30.4 — MODULE-SPECIFIC QUESTIONS
+1. HR: Biometric attendance integration?
+Support:
+●​
+●​
+●​
+●​
+●​
+
+ZKTeco
+Anviz
+Suprema
+Face/fingerprint scanners
+Hardware API/SDK integration via secure webhook bridge​
+
+2. HR: Payroll integration or standalone?
+Hybrid model:
+●​ Native payroll engine (US + Middle East compliant)
+●​ Integrations for external payroll: Gusto, ADP, SAP
+
+3. Events: Payment gateway for ticketing?
+Support:
+●​
+●​
+●​
+●​
+
+Stripe
+PayPal
+Paystack / Flutterwave for Africa
+Tap / Paymob for GCC
+
+4. Events: QR code check-in?
+Yes — mobile and kiosk mode:
+●​ iOS / Android scanner app
+●​ Offline-capable check-in for poor network environments​
+
+5. Coaches: Video session integration?
+Support all options:
+●​ Zoom SDK
+
+●​ Google Meet API
+●​ Built-in WebRTC (premium tier)
+●​ Recorded sessions stored in S3
+
+6. Content: SEO optimization features?
+●​
+●​
+●​
+●​
+●​
+●​
+
+Keyword scoring
+Readability score
+Auto meta tags
+Schema markup suggestions
+AI rewrite for SEO
+One-click publish to website
+
+7. Social Media: Platform support?
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+
+Facebook
+Instagram
+LinkedIn
+Telegram
+TikTok
+X (Twitter)
+YouTube Shorts & long-form​
+
+30.5 — ADDITIONAL RECOMMENDATION QUESTIONS
+1. White-label requirements?
+Yes → Full white-label engine:
+●​
+●​
+●​
+●​
+
+Custom domain
+Custom colors & branding
+Custom email templates
+AI personality per organization
+
+2. Mobile app requirements?
+Native iOS & Android + PWA fallback​
+Features:
+●​ Offline mode
+●​ Push notifications
+●​ In-app chat
+
+●​ Call handoff
+●​ Event check-in scanner
+
+3. SSO/SAML requirements?
+Yes → Enterprise tier:
+●​ SAML 2.0
+●​ OAuth2
+●​ Google Workspace
+
+4. Data export formats?
+Support:
+●​
+●​
+●​
+●​
+●​
+
+CSV
+Word
+JSON
+PDF reports (templated)
+API feed export
+
+5. Notification preferences?
+Channels:
+●​
+●​
+●​
+●​
+●​
+
+Email
+SMS
+WhatsApp (via API)
+In-app notifications
+Push notifications
+
+6. Localization?
+Languages supported initially:
+●​
+●​
+●​
+●​
+●​
+●​
+
+English
+Arabic (RTL)
+French
+Spanish
+Akan (Ghana)
+Swahili
+
+7. Offline capability?
+Yes for:
+
+●​
+●​
+●​
+●​
+
+Mobile app
+Event check-in
+Basic CRM actions
+Ticket scanning
+
+Data syncs on reconnect.
+
+8. API rate limits per plan?
+Plan
+
+Limit
+
+Free
+
+20 req/min
+
+Pro
+
+200 req/min
+
+Business
+
+800 req/min
+
+Enterprise Custom SLA
+
+9. Backup & disaster recovery?
+●​
+●​
+●​
+●​
+
+Automated backups every 6 hours
+Retention: 30 days
+RPO (Recovery Point): 15 minutes
+RTO (Recovery Time): < 1 hour
+
+31 — NEXT STEPS & ACTION ITEMS
+1. Foundation Model Providers (LLMs & Multimodal AI)
+These are the core engines for text, image, audio, and agent intelligence.
+
+Top Tier
+●​
+●​
+●​
+●​
+●​
+
+OpenAI (GPT-5, o4, Sora, Whisper)
+Anthropic (Claude 3.5 Sonnet / Opus / Haiku)
+Google DeepMind (Gemini 1.5, Gemini Nano, Imagen)
+Meta AI (Llama 3.1 / 3.2)
+Mistral AI (Mistral Large, Mixtral)​
+
+●​ xAI (Grok-2)
+●​ Cohere (Command, Embed)
+
+●​ AI21 Labs (Jamba, Jurassic)
+●​ Huawei / Peng Cheng (PanGu, Wudao multimodal)​
+
+2. Vision AI Providers (Images, Video, OCR)
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+
+OpenAI (Vision, Sora video model)
+Google Vision AI
+AWS Rekognition
+Meta Segment Anything (SAM)
+Stability AI (Stable Diffusion)
+Runway ML (Gen-2 video)
+Pika Labs (video generation)
+ReFace AI (face swap)
+Synthesia (AI video presenters)
+Luma AI (3D + NeRF models)​
+
+3. Speech AI Providers (TTS, STT, Voice Cloning)
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+
+OpenAI Whisper (speech-to-text)
+OpenAI TTS (voice generation)
+Google Speech-to-Text / Text-to-Speech
+Amazon Polly
+Microsoft Azure Speech
+ElevenLabs (realistic TTS + voice cloning)
+Speechmatics
+AssemblyAI (speech intelligence)
+Deepgram (enterprise STT)
+Rev AI
+
+4. Agent & Automation AI Providers
+These power full AI agents, workflows, and automation.
+●​
+●​
+●​
+●​
+●​
+●​
+
+OpenAI Agents API
+Anthropic Workflows
+Google Vertex AI Agents
+Microsoft Copilot Stack
+LangChain (framework for multi-agent orchestration)
+LlamaIndex (data ingestion + retrieval agents)
+
+●​ AutoGPT / BabyAGI (open-source agent frameworks)
+●​ CrewAI (multi-agent collaboration)​
+
+5. Embeddings, Search & Vector Databases (AI memory)
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+●​
+
+OpenAI Embeddings
+Cohere Embed
+Google Vertex Embeddings
+Pinecone (vector DB)
+Weaviate
+Milvus
+Qdrant
+Elasticsearch w/ vector mode
+
+8. Image Generation / Branding / Creative AI
+●​
+●​
+●​
+●​
+●​
+●​
+
+DALL·E (OpenAI)
+Midjourney
+Stable Diffusion
+Adobe Firefly
+Leonardo AI
+Canva AI
+
+9. Code Generation AI
+●​
+●​
+●​
+●​
+●​
+
+OpenAI o1 / o3 / GPT-5 Code
+Github Copilot
+Amazon CodeWhisperer
+Replit Code
+Claude 3.5 Code generation​
+
+10. Telecom AI Providers (for telephony engine)
+●​
+●​
+●​
+●​
+●​
+
+Twilio AI Assist
+Vonage AI
+Nexmo
+TeleSign
+Plivo
+
+●​ Kaleyra
+●​ Bandwidth AI
+●​ Google Voice AI (limited features)​
+
+Telephony AI
+Twilio, TeleSign, Plivo, Vonage, Google voice,etc
+
+For Email and SMS verification/authentication
+Firebase and Twilio
+
+

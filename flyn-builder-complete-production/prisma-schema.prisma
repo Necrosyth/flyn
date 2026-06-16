@@ -1,0 +1,230 @@
+// prisma/schema.prisma
+/**
+ * FlyNAI Builder Database Schema
+ * Prisma ORM configuration
+ */
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * Builder Project
+ * Represents a single builder project (website, app, community, etc.)
+ */
+model BuilderProject {
+  id                String     @id @default(cuid())
+  name              String
+  mode              String     // 'website' | 'community' | 'marketplace' | 'membership' | 'blank' | 'app'
+  template          String?
+  domain            String?
+  primaryColor      String     @default("#6366f1")
+  primaryTextColor  String     @default("#000000")
+  logoUrl           String?
+  currency          String     @default("USD")
+  timezone          String     @default("UTC")
+  cmsProjectId      String?    // Links to CMS system
+  
+  // Relations
+  userId            String
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pages             BuilderPage[]
+  features          FeatureConfig[]
+  
+  metadata          Json       @default("{}")
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([userId])
+  @@index([cmsProjectId])
+}
+
+/**
+ * Builder Page
+ * Represents a page within a project
+ */
+model BuilderPage {
+  id                String     @id @default(cuid())
+  name              String
+  slug              String
+  status            String     @default("draft") // 'draft' | 'published'
+  projectId         String
+  cmsPageId         String?    // Links to CMS page
+  
+  sections          Json       @default("[]")  // SectionConfig[]
+  components        BuilderComponent[]
+  seoMetadata       Json       @default("{}")
+  
+  project           BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([projectId])
+  @@index([cmsPageId])
+}
+
+/**
+ * Builder Component
+ * Individual component on a page
+ */
+model BuilderComponent {
+  id                String     @id @default(cuid())
+  name              String
+  type              String
+  pageId            String
+  cmComponentId     String?    // Links to CMS component
+  
+  props             Json       @default("{}")
+  styles            Json       @default("{}")
+  content           Json       @default("{}")
+  events            Json       @default("{}")
+  
+  page              BuilderPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([pageId])
+  @@index([cmComponentId])
+}
+
+/**
+ * Feature Configuration
+ * Enables/disables features per project
+ */
+model FeatureConfig {
+  id                String     @id @default(cuid())
+  featureName       String
+  enabled           Boolean    @default(true)
+  config            Json       @default("{}")
+  projectId         String
+  
+  project           BuilderProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([projectId])
+  @@unique([projectId, featureName])
+}
+
+/**
+ * Deployment History
+ * Track all deployments
+ */
+model Deployment {
+  id                String     @id @default(cuid())
+  projectId         String
+  platform          String     // 'cloudflare' | 'vercel' | 'aws' | etc.
+  domain            String?
+  status            String     // 'success' | 'error' | 'pending'
+  url               String?
+  error             String?
+  buildTime         Int?       // milliseconds
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([projectId])
+  @@index([createdAt])
+}
+
+/**
+ * Code Generation History
+ * Track generated code
+ */
+model CodeGeneration {
+  id                String     @id @default(cuid())
+  projectId         String
+  framework         String     // 'nextjs' | 'vue' | 'html' | etc.
+  language          String
+  code              String     @db.Text
+  
+  createdAt         DateTime   @default(now())
+  
+  @@index([projectId])
+  @@index([createdAt])
+}
+
+/**
+ * Template
+ * Reusable project templates
+ */
+model Template {
+  id                String     @id @default(cuid())
+  name              String
+  description       String?
+  mode              String
+  category          String
+  thumbnail         String?
+  isPublic          Boolean    @default(true)
+  
+  pages             Json       @default("[]")  // BuilderPage[]
+  components        Json       @default("[]")  // BuilderComponent[]
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([mode])
+  @@index([category])
+}
+
+/**
+ * User (from your existing auth system)
+ */
+model User {
+  id                String     @id @default(cuid())
+  email             String     @unique
+  name              String?
+  
+  projects          BuilderProject[]
+  
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+
+/**
+ * CMS Sync Log
+ * Track CMS synchronization
+ */
+model CMSSyncLog {
+  id                String     @id @default(cuid())
+  projectId         String?
+  action            String
+  status            String     // 'success' | 'error'
+  message           String?
+  payload           Json?
+  error             String?
+  
+  createdAt         DateTime   @default(now())
+  
+  @@index([projectId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+/**
+ * Preview Sync Log
+ * Track preview iframe updates
+ */
+model PreviewSyncLog {
+  id                String     @id @default(cuid())
+  projectId         String
+  pageId            String
+  updateType        String
+  clientCount       Int        @default(0)
+  status            String     // 'success' | 'error'
+  message           String?
+  
+  createdAt         DateTime   @default(now())
+  
+  @@index([projectId])
+  @@index([pageId])
+  @@index([createdAt])
+}

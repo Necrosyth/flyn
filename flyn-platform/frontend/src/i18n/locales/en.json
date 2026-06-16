@@ -1,0 +1,770 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "back": "Back",
+        "next": "Next",
+        "continue": "Continue",
+        "submit": "Submit",
+        "search": "Search",
+        "filter": "Filter",
+        "viewAll": "View All",
+        "reset": "Reset",
+        "preview": "Preview",
+        "exitPreview": "Exit Preview",
+        "call": "Call",
+        "vsLastWeek": "vs last week",
+        "language": "Language",
+        "export": "Export",
+        "all": "All",
+        "active": "Active",
+        "pending": "Pending"
+    },
+    "auth": {
+        "welcomeBack": "Welcome back",
+        "signInTo": "Sign in to your {{appName}} workspace",
+        "email": "Email",
+        "password": "Password",
+        "signIn": "Sign in",
+        "signingIn": "Signing in...",
+        "noAccount": "Don't have an account?",
+        "getStarted": "Get started",
+        "invalidCredentials": "Invalid credentials",
+        "loginFailed": "Login failed. Please try again.",
+        "createAccount": "Create your account",
+        "startJourney": "Start your journey with Flyn",
+        "companyName": "Company Name",
+        "companyPlaceholder": "Your Company",
+        "emailPlaceholder": "you@company.com",
+        "creatingAccount": "Creating account...",
+        "signupFailed": "Signup failed. Please try again.",
+        "alreadyHaveAccount": "Already have an account?",
+        "signInLink": "Sign in",
+        "firebaseNotConfigured": "Firebase is not configured. Set VITE_FIREBASE_* env vars (see .env.example) and restart the dev server."
+    },
+    "onboarding": {
+        "getStarted": "Get Started With FLYN",
+        "setupSteps": "Let's set up your new workspace with some quick steps.",
+        "createWorkspace": "Create Workspace",
+        "workspaceDescription": "Give your workspace a name and specify your local time zone.",
+        "workspaceName": "Workspace Name",
+        "workspacePlaceholder": "Your Workspace",
+        "timeZone": "Time Zone",
+        "chooseIndustry": "Choose Your Industry",
+        "industryDescription": "This helps us recommend the best templates and automations.",
+        "connectIntegrations": "Connect Integrations",
+        "integrationsDescription": "Link the apps you use. You can add more any time.",
+        "chooseAgents": "Choose AI Agents",
+        "agentsDescription": "Select the AI agents to assist with your business activities.",
+        "completeSetup": "Complete Setup",
+        "skipForNow": "Skip for now",
+        "industries": {
+            "ecommerce": "E-commerce",
+            "saas": "SaaS",
+            "realestate": "Real Estate",
+            "healthcare": "Healthcare",
+            "education": "Education",
+            "hospitality": "Hospitality",
+            "nonprofit": "Nonprofit",
+            "legal": "Legal",
+            "finance": "Finance"
+        },
+        "agents": {
+            "emailAssistant": "Email Assistant",
+            "emailAssistantDesc": "Automate email responses and follow-ups",
+            "voiceAgent": "Voice Agent",
+            "voiceAgentDesc": "Handle incoming calls and schedule callbacks",
+            "chatBot": "Chat Bot",
+            "chatBotDesc": "24/7 customer support on your website",
+            "schedulingAgent": "Scheduling Agent",
+            "schedulingAgentDesc": "Manage appointments and meetings",
+            "documentAgent": "Document Agent",
+            "documentAgentDesc": "Generate proposals and contracts",
+            "crmAgent": "CRM Agent",
+            "crmAgentDesc": "Update contacts and track interactions"
+        }
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "sandboxSubtitle": "Explore the platform — all actions are simulated.",
+        "welcomeSubtitle": "Welcome back! Here's your business at a glance.",
+        "yourApps": "Your Apps",
+        "usageThisMonth": "Usage This Month",
+        "stats": {
+            "activeConversations": "Active Conversations",
+            "callsToday": "Calls Today",
+            "automationsRun": "Automations Run",
+            "responseTime": "Response Time"
+        },
+        "modules": {
+            "crm": "CRM",
+            "crmDesc": "Contacts, deals & pipelines",
+            "events": "Events",
+            "eventsDesc": "Event management & RSVPs",
+            "hr": "HR",
+            "hrDesc": "Team & employee management",
+            "church": "Church",
+            "churchDesc": "Ministry & congregation tools",
+            "coaches": "Coaches",
+            "coachesDesc": "Coaching & client sessions",
+            "freelancers": "Freelancers",
+            "freelancersDesc": "Projects & invoicing",
+            "accounting": "Accounting",
+            "accountingDesc": "Invoices, expenses & financials"
+        },
+        "quickActions": {
+            "openInbox": "Open Inbox",
+            "startCall": "Start Call",
+            "aiAgents": "AI Agents",
+            "automations": "Automations",
+            "whatsappCrm": "WhatsApp CRM"
+        }
+    },
+    "sidebar": {
+        "communication": "Communication",
+        "searchPlaceholder": "Search features...",
+        "modules": "Modules",
+        "intelligence": "Intelligence",
+        "inbox": "Inbox",
+        "approvals": "Approvals",
+        "dialer": "Dialer",
+        "dashboard": "Dashboard",
+        "crm": "CRM",
+        "phonebook": "Phonebook",
+        "crmDashboard": "CRM Dashboard",
+        "events": "Events",
+        "hr": "HR",
+        "church": "Church",
+        "coaches": "Coaches",
+        "freelancers": "Freelancers",
+        "accounting": "Accounting",
+        "calendars": "Calendars",
+        "aiAgents": "AI Agents",
+        "automations": "Automations",
+        "plugins": "Plugins",
+        "whatsappCrm": "WhatsApp CRM",
+        "telegram": "Telegram",
+        "developer": "Developer",
+        "documentation": "Documentation",
+        "developerPortal": "Developer Portal",
+        "aiMarketing": "AI Marketing",
+        "aiContent": "AI Content",
+        "aiSocial": "AI Social Media",
+        "aiFrontDesk": "AI Front Desk / Support",
+        "dataSources": "Data Sources",
+        "whiteLabel": "White Label",
+        "settings": "Settings",
+        "logout": "Logout",
+        "currentPlan": "Current Plan",
+        "exploreModeActive": "Explore Mode Active",
+        "lastSynced": "Last synced {{time}} ago",
+        "availableOn": "Available on {{plan}}+",
+        "used": "{{percent}}% used",
+        "resources": "Resources",
+        "tasks": "Tasks",
+        "files": "Asset Hub",
+        "knowledge": "Knowledge Hub"
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your workspace preferences",
+        "profile": "Profile",
+        "profileDesc": "Manage your account settings",
+        "teamManagement": "Team Management",
+        "teamManagementDesc": "Manage team members and permissions",
+        "notifications": "Notifications",
+        "notificationsDesc": "Configure alerts and updates",
+        "security": "Security",
+        "securityDesc": "Password and 2FA settings",
+        "appearance": "Appearance",
+        "appearanceDesc": "Theme and display options",
+        "integrations": "Integrations",
+        "integrationsDesc": "Connect external services",
+        "billing": "Billing",
+        "billingDesc": "Plans and payment methods",
+        "whiteLabel": "White Label",
+        "whiteLabelDesc": "Custom branding, colors, and domain",
+        "quickSettings": "Quick Settings",
+        "emailNotifications": "Email Notifications",
+        "emailNotificationsDesc": "Receive email updates",
+        "desktopNotifications": "Desktop Notifications",
+        "desktopNotificationsDesc": "Show browser notifications",
+        "aiSuggestions": "AI Suggestions",
+        "aiSuggestionsDesc": "Enable AI-powered recommendations"
+    },
+    "billing": {
+        "title": "Billing",
+        "subscription": "Subscription",
+        "invoices": "Invoices",
+        "usage": "Usage",
+        "paymentMethod": "Payment Method",
+        "upgradePlan": "Upgrade Plan",
+        "invoiceId": "Invoice ID",
+        "date": "Date",
+        "status": "Status",
+        "amount": "Amount",
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "contacts": "contacts",
+        "perMonth": "/mo"
+    },
+    "team": {
+        "title": "Team Management",
+        "permissions": "Role Permissions",
+        "inviteUser": "Invite User",
+        "inviteTeamMember": "Invite Team Member",
+        "inviteDescription": "Send an invitation to join your workspace.",
+        "emailAddress": "Email Address",
+        "role": "Role",
+        "teamLabel": "Team",
+        "sendInvitation": "Send Invitation",
+        "teamMembers": "Team Members",
+        "teams": "Teams",
+        "accessCRM": "Access CRM",
+        "manageUsers": "Manage Users",
+        "editSettings": "Edit Settings",
+        "admin": "Admin",
+        "manager": "Manager",
+        "member": "Member",
+        "selectTeam": "Select team"
+    },
+    "aiAgents": {
+        "title": "AI Agents",
+        "subtitle": "Configure and manage your AI workforce",
+        "createAgent": "Create Agent",
+        "viewAgent": "View Agent",
+        "createNewAgent": "Create New Agent",
+        "createNewAgentDesc": "Build a custom AI agent for your needs"
+    },
+    "whiteLabel": {
+        "title": "White Label",
+        "subtitle": "Customize branding to match your organization",
+        "branding": "Branding",
+        "colors": "Colors",
+        "domain": "Domain",
+        "email": "Email",
+        "logo": "Logo",
+        "logoDesc": "Upload your organization's logo (PNG, SVG recommended)",
+        "clickToUploadLogo": "Click to upload logo",
+        "removeLogo": "Remove Logo",
+        "logoUploaded": "Logo uploaded successfully",
+        "faviconUploaded": "Favicon uploaded successfully",
+        "brandingReset": "Branding reset to defaults",
+        "exitPreview": "Exit Preview",
+        "preview": "Preview",
+        "appIdentity": "App Identity",
+        "appIdentityDesc": "Configure your app's name and text branding",
+        "appName": "App Name",
+        "logoText": "Logo Text (when no logo image)",
+        "fontFamily": "Font Family",
+        "favicon": "Favicon",
+        "faviconDesc": "Browser tab icon (32x32 or 64x64 recommended)",
+        "uploadFavicon": "Upload favicon",
+        "visibility": "Visibility",
+        "visibilityDesc": "Control branding visibility options",
+        "showPoweredBy": "Show \"Powered by Flyn\"",
+        "showPoweredByDesc": "Display attribution in footer",
+        "colorPresets": "Color Presets",
+        "colorPresetsDesc": "Choose a preset or customize your own colors",
+        "primaryColor": "Primary Color",
+        "accentColor": "Accent Color",
+        "sidebarBackground": "Sidebar Background",
+        "livePreview": "Live Preview",
+        "primaryButton": "Primary Button",
+        "secondaryButton": "Secondary Button",
+        "highlightedCard": "Highlighted Card",
+        "sidebarPreview": "Sidebar Preview",
+        "customDomain": "Custom Domain",
+        "customDomainDesc": "Configure your custom domain for white-label access",
+        "cnameInstruction": "Point your domain's CNAME record to our servers to activate",
+        "dnsConfiguration": "DNS Configuration",
+        "type": "Type",
+        "name": "Name",
+        "value": "Value",
+        "domainGrowthPlan": "Custom domains are available on Growth plan and above",
+        "emailBranding": "Email Branding",
+        "emailBrandingDesc": "Customize emails sent from your workspace",
+        "fromName": "From Name",
+        "fromNameDesc": "Appears as the sender name in recipient's inbox",
+        "emailFooter": "Email Footer Text",
+        "emailPreview": "Email Preview",
+        "emailHello": "Hello,",
+        "emailPreviewText": "This is a preview of how your branded emails will look.",
+        "callToAction": "Call to Action",
+        "changesSaved": "Changes saved automatically"
+    },
+    "dialer": {
+        "title": "Dialer",
+        "subtitle": "Make and receive calls with AI-powered insights",
+        "enterPhoneNumber": "Enter phone number",
+        "recentCalls": "Recent Calls",
+        "callInProgress": "Call in progress",
+        "aiVoiceAgent": "AI Voice Agent",
+        "aiVoiceAgentDesc": "AI-powered call assistance with real-time transcription and insights",
+        "aiAgentReady": "AI Agent • Ready",
+        "outgoing": "outgoing",
+        "incoming": "incoming",
+        "missed": "missed"
+    },
+    "inbox": {
+        "title": "Unified Inbox",
+        "subtitle": "All your conversations in one place",
+        "searchPlaceholder": "Search conversations..."
+    },
+    "notFound": {
+        "title": "404",
+        "message": "Oops! Page not found",
+        "goHome": "Return to Home"
+    },
+    "upgrade": {
+        "title": "Upgrade Required",
+        "description": "This feature requires a higher plan.",
+        "upgradePlan": "Upgrade Plan",
+        "upgradeTo": "Upgrade to {{plan}}",
+        "featureAvailableOn": "This feature is available on {{plan}} and above. Upgrade to unlock full capabilities.",
+        "planName": "{{plan}} Plan",
+        "customPricing": "Custom pricing",
+        "liveMessaging": "Live messaging enabled",
+        "aiAutomation": "AI automation & agents",
+        "advancedAnalytics": "Advanced analytics",
+        "maybeLater": "Maybe Later",
+        "upgradeNow": "Upgrade Now",
+        "noCharges": "No charges beyond your plan. You're always in control."
+    },
+    "usageMeter": {
+        "messages": "Messages",
+        "callMinutes": "Call Minutes",
+        "aiTokens": "AI Tokens",
+        "webchatSessions": "Webchat Sessions",
+        "storageGB": "Storage (GB)",
+        "whatsappConversations": "WhatsApp Conversations",
+        "limitReached": "Limit reached — actions paused",
+        "approachingLimit": "Approaching limit — consider upgrading",
+        "warningUsed": "80% used — no action required yet",
+        "runningNormally": "50% used — running normally"
+    },
+    "automations": {
+        "components": "Components",
+        "dragToCanvas": "Drag to canvas",
+        "workflowBuilder": "Workflow Builder",
+        "visualDesigner": "Visual automation designer",
+        "unsaved": "Unsaved",
+        "nodes": "Nodes",
+        "connections": "Connections",
+        "stop": "Stop",
+        "test": "Test",
+        "publish": "Publish",
+        "startBuilding": "Start Building",
+        "startBuildingDesc": "Drag components from the left panel to create your automation workflow",
+        "nodeAdded": "Node Added",
+        "nodeAddedDesc": "{{label}} added to canvas",
+        "validationFailed": "Validation Failed",
+        "workflowSaved": "Workflow Saved",
+        "nodesSaved": "{{count}} nodes saved",
+        "cannotPublish": "Cannot Publish",
+        "publishedSuccessfully": "Published Successfully",
+        "publishFailed": "Publish Failed",
+        "noNodes": "No Nodes",
+        "addNodesToTest": "Add nodes to test the workflow",
+        "testStopped": "Test Stopped",
+        "testRunning": "Test Running",
+        "watchNodes": "Watch nodes execute in sequence"
+    },
+    "admin": {
+        "title": "Marketing & Growth Dashboard",
+        "subtitle": "Manage leads, campaigns, content, and landing page — all in one place",
+        "hero": "Hero",
+        "pricing": "Pricing",
+        "modules": "Modules",
+        "contact": "Contact",
+        "stripe": "Stripe",
+        "overview": "Overview",
+        "leads": "Leads",
+        "campaigns": "Campaigns",
+        "onboarding": "Onboarding",
+        "content": "Content",
+        "aiAutomation": "AI & Automation",
+        "salesRevenue": "Sales & Revenue"
+    },
+    "dashboardModule": {
+        "searchPlaceholder": "Search {{title}}..."
+    },
+    "crmDashboard": {
+        "subtitle": "Manage contacts, deals, and activities",
+        "demoMode": "Demo Mode",
+        "live": "Live",
+        "seedData": "Seed Demo Data",
+        "refresh": "Refresh",
+        "addContact": "Add Contact",
+        "kpi": {
+            "totalContacts": "Total Contacts",
+            "qualifiedLeads": "Qualified Leads",
+            "leadsTotal": "{{count}} total leads",
+            "dealsWonValue": "Deals Won Value",
+            "dealsClosed": "{{count}} deals closed",
+            "conversionRate": "Conversion Rate",
+            "leadsToCustomers": "Leads → Customers"
+        },
+        "pipeline": {
+            "title": "Deal Pipeline",
+            "summary": "{{count}} deals · {{value}} total",
+            "stages": {
+                "new": "New",
+                "qualified": "Qualified",
+                "proposal": "Proposal",
+                "negotiation": "Negotiation",
+                "won": "Won",
+                "lost": "Lost"
+            }
+        },
+        "sources": {
+            "title": "Lead Sources"
+        },
+        "contacts": {
+            "title": "Contacts",
+            "total": "{{count}} total",
+            "searchPlaceholder": "Search contacts...",
+            "filterAll": "All Status",
+            "status": {
+                "lead": "Lead",
+                "qualified": "Qualified",
+                "customer": "Customer",
+                "churned": "Churned",
+                "inactive": "Inactive"
+            },
+            "table": {
+                "name": "Name",
+                "company": "Company",
+                "status": "Status",
+                "score": "Score",
+                "source": "Source",
+                "noContacts": "No contacts found",
+                "connectMongo": "Connect to MongoDB to see live data. Click \"Seed Demo Data\" to get started."
+            },
+            "pagination": {
+                "pageInfo": "Page {{page}} of {{total}}",
+                "prev": "Prev",
+                "next": "Next"
+            }
+        },
+        "activity": {
+            "title": "Recent Activity",
+            "empty": "No recent activities"
+        }
+    },
+    "moduleConfig": {
+        "crm": {
+            "title": "CRM",
+            "description": "Manage contacts, deals, and pipelines",
+            "kpis": {
+                "leads": "Total Leads",
+                "qualified": "Qualified",
+                "deals": "Deals Won",
+                "conversion": "Conversion"
+            },
+            "actions": {
+                "addLead": "Add Lead",
+                "import": "Import",
+                "aiSuggest": "AI Suggestions"
+            },
+            "table": {
+                "title": "Leads",
+                "columns": {
+                    "name": "Name",
+                    "status": "Status",
+                    "company": "Company",
+                    "email": "Email",
+                    "lastContact": "Last Contact"
+                }
+            },
+            "analytics": {
+                "pipeline": "Pipeline Value",
+                "sources": "Lead Sources",
+                "activity": "Activity This Week"
+            },
+            "aiInsights": {
+                "followUp": "Follow up with lead",
+                "followUpDesc": "Last contact was several days ago. Engagement score is high.",
+                "conversionTrend": "Conversion rate trending up",
+                "conversionTrendDesc": "Your conversion rate increased compared to last month.",
+                "attentionNeeded": "Leads need attention",
+                "attentionNeededDesc": "These leads haven't been contacted in several days."
+            },
+            "systemEvents": {
+                "emailed": "Lead was emailed",
+                "newLead": "New lead added",
+                "dealClosed": "Deal closed",
+                "statusUpdated": "Lead status updated"
+            }
+        },
+        "hr": {
+            "title": "HR",
+            "description": "Team and employee management",
+            "kpis": {
+                "employees": "Employees",
+                "attendance": "Attendance",
+                "leave": "Leave Requests",
+                "positions": "Open Positions"
+            },
+            "actions": {
+                "addEmployee": "Add Employee",
+                "payroll": "Run Payroll",
+                "smartSchedule": "Smart Schedule"
+            },
+            "table": {
+                "title": "Employees",
+                "columns": {
+                    "employee": "Employee",
+                    "department": "Department",
+                    "status": "Status",
+                    "role": "Role"
+                }
+            },
+            "analytics": {
+                "payrollTrend": "Payroll Trend",
+                "byDepartment": "By Department",
+                "attendanceRate": "Attendance Rate"
+            },
+            "aiInsights": {
+                "schedulingConflict": "Scheduling conflict detected",
+                "schedulingConflictDesc": "Team members are scheduled for the same meeting slot.",
+                "reviewsDue": "Performance reviews due",
+                "reviewsDueDesc": "Employees have reviews due this week."
+            },
+            "systemEvents": {
+                "trainingScheduled": "New training session scheduled",
+                "leaveApproved": "Leave request approved",
+                "policyUpdated": "Policy document updated"
+            }
+        },
+        "events": {
+            "title": "Events",
+            "description": "Conversion funnel and real-time registration tracking",
+            "kpis": {
+                "registrations": "Total Registrations",
+                "conversion": "Conversion Rate",
+                "revenue": "Event Revenue",
+                "checkedIn": "Checked-in Guests"
+            },
+            "actions": {
+                "createEvent": "Create Event",
+                "inviteGuests": "Invite Guests",
+                "exportList": "Export Attendee List",
+                "draftDescription": "Draft Event Description"
+            },
+            "table": {
+                "title": "Upcoming Events",
+                "columns": {
+                    "eventName": "Event Name",
+                    "dateTime": "Date/Time",
+                    "capacity": "Capacity Status",
+                    "visibility": "Visibility"
+                }
+            },
+            "analytics": {
+                "funnel": "Registration Funnel",
+                "channels": "Channel Performance",
+                "velocity": "Daily Registration Velocity"
+            },
+            "aiInsights": {
+                "lowRsvp": "Low RSVP rate for event",
+                "lowRsvpDesc": "Suggesting an SMS reminder blast to boost registrations.",
+                "attendanceEst": "Estimated final attendance",
+                "attendanceEstDesc": "Based on current RSVP trends and historical show-up rates.",
+                "optimalTime": "Optimal send time identified",
+                "optimalTimeDesc": "Reminders sent at peak times get higher open rates."
+            },
+            "systemEvents": {
+                "newRsvp": "New RSVP received",
+                "paymentConfirmed": "Payment confirmed",
+                "feedbackSubmitted": "Feedback submitted",
+                "bulkInvite": "Bulk invitation sent"
+            }
+        },
+        "church": {
+            "title": "Church & Community",
+            "description": "Member engagement hub for ministry and congregation",
+            "kpis": {
+                "members": "Total Members",
+                "attendance": "Attendance Rate",
+                "donations": "Monthly Donations",
+                "engagement": "Ministry Engagement"
+            },
+            "actions": {
+                "addMember": "Add Member",
+                "broadcast": "Send Broadcast",
+                "createEvent": "Create Event",
+                "engagementReport": "Generate Engagement Report"
+            },
+            "table": {
+                "title": "Member Directory",
+                "columns": {
+                    "name": "Name",
+                    "status": "Status",
+                    "discipleship": "Discipleship Stage",
+                    "ministryTier": "Ministry Tier",
+                    "lastAttendance": "Last Attendance",
+                    "givingScore": "Giving Score"
+                }
+            },
+            "analytics": {
+                "growth": "Growth Trends",
+                "giving": "Giving Capacity vs Actual",
+                "smallGroups": "Small Group Attendance"
+            },
+            "aiInsights": {
+                "atRisk": "Members at risk of disengaging",
+                "atRiskDesc": "Based on attendance patterns, some members haven't attended in several weeks.",
+                "predictedGiving": "Predicted giving for next month",
+                "predictedGivingDesc": "Based on historical trends and current engagement levels.",
+                "highCapacity": "High giving capacity identified",
+                "highCapacityDesc": "Consider targeted stewardship outreach for these households.",
+                "youthGrowth": "Youth ministry growing",
+                "youthGrowthDesc": "Youth attendance is up. Consider expanding programs."
+            },
+            "systemEvents": {
+                "prayerRequest": "New prayer request received",
+                "donationReceived": "Donation received",
+                "newMember": "New member sign-up",
+                "titheReport": "Weekly tithe report generated"
+            }
+        },
+        "coaches": {
+            "title": "Coaches",
+            "description": "Coaching operating system for revenue, retention, and sessions",
+            "kpis": {
+                "clients": "Active Clients",
+                "sessions": "Sessions Completed",
+                "revenue": "Total Revenue",
+                "health": "Coach Health Score"
+            },
+            "actions": {
+                "createProgram": "Create Program",
+                "bookSession": "Book Session",
+                "messageClient": "Message Client",
+                "workloadBalancing": "Coach Workload Balancing"
+            },
+            "table": {
+                "title": "Coach & Client Roster",
+                "columns": {
+                    "coachName": "Coach Name",
+                    "health": "Health",
+                    "activePrograms": "Active Programs",
+                    "successProb": "Client Success Probability",
+                    "nextSession": "Next Scheduled Session"
+                }
+            },
+            "analytics": {
+                "capacity": "Session Volume vs Capacity",
+                "completion": "Program Completion Rates",
+                "revenue": "Revenue Trends"
+            },
+            "aiInsights": {
+                "lowSuccess": "Client has low success probability",
+                "lowSuccessDesc": "Client shows declining engagement. Suggest immediate follow-up.",
+                "capacityWarning": "Coach at high capacity",
+                "capacityWarningDesc": "Consider redistributing clients to maintain quality of service.",
+                "highPerformer": "High performer identified",
+                "highPerformerDesc": "Excellent client success rate and retention."
+            },
+            "systemEvents": {
+                "notesUpdated": "Session notes updated",
+                "milestone": "Milestone achieved",
+                "newEnrollment": "New program enrollment",
+                "feedback": "Session feedback submitted"
+            }
+        },
+        "freelancers": {
+            "title": "Freelancers",
+            "description": "Projects and invoicing",
+            "kpis": {
+                "projects": "Active Projects",
+                "clients": "Total Clients",
+                "revenue": "Revenue MTD",
+                "invoices": "Pending Invoices"
+            },
+            "actions": {
+                "newProject": "New Project",
+                "createInvoice": "Create Invoice",
+                "aiEstimate": "AI Estimate"
+            },
+            "table": {
+                "title": "Projects",
+                "columns": {
+                    "project": "Project",
+                    "client": "Client",
+                    "status": "Status",
+                    "budget": "Budget",
+                    "deadline": "Deadline"
+                }
+            },
+            "analytics": {
+                "income": "Income This Year",
+                "projectStatus": "Project Status"
+            },
+            "aiInsights": {
+                "invoiceReminder": "Invoice reminder",
+                "invoiceReminderDesc": "Invoice is overdue. Consider sending a reminder.",
+                "timelineRisk": "Project timeline at risk",
+                "timelineRiskDesc": "Project deadline is approaching with work remaining."
+            },
+            "systemEvents": {
+                "paymentReceived": "Payment received",
+                "invoiceSent": "Invoice sent",
+                "projectCreated": "New project created"
+            }
+        },
+        "accounting": {
+            "title": "Accounting",
+            "description": "Financial backbone — invoices, expenses, payroll & reporting across all modules",
+            "kpis": {
+                "revenue": "Revenue MTD",
+                "outstanding": "Outstanding",
+                "expenses": "Expenses MTD",
+                "netProfit": "Net Profit"
+            },
+            "actions": {
+                "newInvoice": "New Invoice",
+                "export": "Export",
+                "newExpense": "New Expense",
+                "aiInvoice": "AI Smart Invoice"
+            },
+            "table": {
+                "title": "Invoices",
+                "columns": {
+                    "invoice": "Invoice #",
+                    "client": "Client",
+                    "amount": "Amount",
+                    "status": "Status",
+                    "dueDate": "Due Date",
+                    "source": "Source",
+                    "actions": "Actions"
+                }
+            },
+            "analytics": {
+                "revenueTrend": "Revenue Trend",
+                "revenueByModule": "Revenue by Module",
+                "arAging": "AR Aging"
+            },
+            "aiInsights": {
+                "overdueAlert": "Overdue invoices detected",
+                "overdueAlertDesc": "Invoices are overdue. Automated reminders can be sent.",
+                "cashFlowForecast": "Cash flow forecast available",
+                "cashFlowForecastDesc": "Projected inflows vs outflows based on current data.",
+                "taxDeadline": "Tax deadline approaching",
+                "taxDeadlineDesc": "Tax summary report is ready for export.",
+                "topClient": "Client revenue growing",
+                "topClientDesc": "Client revenue is up this quarter."
+            },
+            "systemEvents": {
+                "paymentReceived": "Payment received from client",
+                "invoiceSent": "Invoice sent to client",
+                "expenseLogged": "Expense logged",
+                "overdueEscalated": "Overdue escalation sent"
+            }
+        }
+    }
+}

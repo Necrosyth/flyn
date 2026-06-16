@@ -1,0 +1,981 @@
+FLYN
+Empty
+Empty
+March 7, 2026
+Empty
+Empty
+In progress
+December 22, 2025
+Empty
+📌 Project Brief
+
+    Describe the context, client needs, and purpose of the project.
+
+It’s a full stack AI based Business OS app
+📦 Deliverables
+
+    What you need to deliver at the end of the project.
+
+AI Orchestrator 
+Event Bus
+Visual Builder frontend and backend 
+Business OS
+Unified Inbox
+Notifications, pricing
+AWS architecture
+Desktop App with brand kit
+Plug-ins
+Telephony
+🧠 Notes & Constraints
+
+    Open these toggles to understand the development plan
+
+App’s UX/UI wireframing - need to find github for business OS, and unified Inbox and marketing service (startup reference)
+Tech Stack 
+Automation Engine is the core brain
+Deterministic execution
+Event-driven
+Plugin-based
+Workflow builder is declarative
+UI builds intent
+Compiler generates executable graph
+Execution semantics are centralized
+wait / resume
+approval
+retries
+branching
+Domain logic is fully pluggable
+voice
+CRM
+AI
+HR
+AI agents are executors, not orchestrators
+Telephony is an event source, not a workflow engine
+Layer
+	
+Tech
+UI
+	
+React + xyflow
+API
+	
+NestJS + TS
+DB
+	
+PostgreSQL
+Cache / Queue
+	
+Redis + BullMQ
+Orchestration
+	
+Custom engine
+AI
+	
+OpenAI + Anthropic
+Voice
+	
+Twilio
+Infra
+	
+Docker + NGINX
+Rough architecture understanding
+1️⃣ Core Design Philosophy
+FLYN is not:
+A CRM
+A telephony system
+A vertical product
+FLYN is:
+
+    A durable workflow orchestration platform with a visual builder, deterministic runtime, and pluggable executors.
+
+Everything else plugs into it.
+2️⃣ Core Modules (Top-Level)
+FLYN Platform
+├─ WorkflowBuilder(UI)
+├─ Workflow Compiler
+├─ Automation Orchestrator
+├─ Execution Workers
+├─ Event Bus & Resume System
+├─ PluginSystem(future)
+└─ Observability & Replay
+
+
+​
+3️⃣ Workflow Builder (Visual Layer) - FSD2
+🔹 Based on: React Flow (xyflow/xyflow)
+Responsibilities
+Visual node graph creation
+Node placement & connections
+Edge conditions
+Node configuration UI
+Versioning (draft vs published)
+Outputs
+Canonical Workflow JSON
+{
+"nodes":[...],
+"edges":[...],
+"metadata":{"version":3}
+}
+
+
+​
+What it does NOT do
+No execution
+No retries
+No waiting logic
+📌 Purely visual & declarative
+4️⃣ Workflow Compiler (Determinism Gate) - FSD2
+Purpose
+Turn visual JSON → execution-safe definition
+This is inspired by Temporal’s determinism requirement.
+Responsibilities
+Validate graph correctness
+Enforce:
+No cycles without loop nodes
+Valid wait/resume nodes
+Allowed node transitions
+Attach execution metadata
+Output
+{
+"compiled_nodes":[...],
+"compiled_edges":[...],
+"execution_plan":{...}
+}
+
+
+​
+📌 Once compiled, workflow is immutable (important).
+5️⃣ Automation Orchestrator (THE BRAIN) - FSD1
+This is the central module you asked about earlier.
+It combines:
+Temporal execution semantics
+n8n node execution model
+bpmn-engine graph traversal
+5.1 Workflow Runtime (Temporal-Inspired)
+Responsibilities
+Create workflow_run
+Maintain deterministic state machine
+Persist execution history
+Resume from events
+Concepts:
+Workflow Instance
+Execution History
+Timers
+Signals
+workflow_run = durable, long-lived process
+
+
+​
+5.2 Graph Traversal Engine (bpmn-engine-Inspired)
+Responsibilities
+Move execution tokens through graph
+Handle:
+Parallel paths
+Conditional routing
+Join semantics
+Key concept:
+Execution Tokens
+
+
+​
+Each token represents one active path.
+5.3 Node Executor Registry (n8n-Inspired)
+Responsibilities
+Registry of node executors
+Isolation of node logic
+Input → output contract
+NodeExecutorRegistry.get(node.type)
+
+
+​
+Executors are plugins, not core logic.
+5.4 WAIT / RESUME System (Temporal Signals)
+Responsibilities
+Pause workflow execution
+Register resume conditions
+Resume from:
+Time
+External event
+Human approval
+WAIT → persist state → RESUME via signal
+
+
+​
+No polling. No cron hacks.
+5.5 Approval Gates (Human-in-the-Loop)
+Responsibilities
+Pause execution
+Create approval task
+Resume on approve / reject
+Approval is just a special WAIT state.
+5.6 AI Confidence Routing
+Responsibilities
+Evaluate AI output confidence
+Decide next path
+Trigger fallback / human gate
+This is routing logic, not AI logic.
+6️⃣ Execution Workers (Side-Effect Layer) - FSD2
+Based on: Temporal Activities + n8n Executors
+Responsibilities
+Execute node side effects
+Idempotent execution
+Retry & backoff
+Report results back
+Workers never decide flow — only execute.
+7️⃣ Event Bus & Resume System - FSD1
+Purpose
+Enable event-driven resumption
+Sources
+Webhooks
+Timers
+UI actions
+External systems (future plugins)
+Flow
+Event →Match waitcondition → Resume workflow
+
+
+​
+This is mandatory for long-running workflows.
+8️⃣ Plugin System (Deferred, Not Designed Yet) - FSD2
+CRM, HR, Voice, Payments, etc. will later be:
+Plugin = Node Executors + Event Producers
+
+
+​
+But core FLYN does not depend on them.
+9️⃣ Observability & Replay (Critical)
+Inspired by Temporal + n8n execution logs.
+Capabilities
+Full execution timeline
+Per-node logs
+Retry history
+Replay from node X
+This is non-optional.
+🔁 End-to-End Flow (Simplified)
+User builds workflow (React Flow)
+        ↓
+Workflow Compiler
+        ↓
+Publish workflow
+        ↓
+Triggerevent
+        ↓
+Workflow Runtime creates workflow_run
+        ↓
+Graph Traversal Engine selectsnext node
+        ↓
+Node Executor executes side effect
+        ↓
+WAIT /RESUMEif needed
+        ↓
+Continueuntil COMPLETED
+
+
+​
+🧩 Responsibility Matrix (Very Important)
+Layer
+	
+Responsibility
+Builder
+	
+Graph & config
+Compiler
+	
+Safety & determinism
+Runtime
+	
+Lifecycle & state
+Traversal
+	
+Routing
+Executors
+	
+Side effects
+WAIT/RESUME
+	
+Pausing
+Plugins
+	
+Domain logic
+Reference from github to consider for micro architectures
+Temporal - Execution Semantics (NOT graph, NOT UI)
+Temporal is not a visual workflow system. It is a durable execution runtime.
+What Temporal CONTAINS (conceptually)
+From Temporal docs & architecture, it contains:
+A. Workflow Instance (Core Concept)
+A long-lived workflow instance
+Has a unique workflow ID
+Persists state automatically
+Can run for days, months, years
+In PulseBridge terms:
+workflow_run
+
+
+​
+B. Deterministic Execution Model
+Workflow code must be deterministic
+State is reconstructed from event history
+No side effects inside workflow logic
+For PulseBridge:
+Your workflow runtime must be replayable
+Node transitions must be deterministic
+Side effects move to executors
+C. Activities (Side-Effect Isolation)
+Temporal separates:
+Workflow logic (pure)
+Activities (side effects: API calls, DB writes)
+For PulseBridge:
+Workflow runtime  →  Node executors
+
+
+​
+D. Signals (WAIT / RESUME)
+Temporal supports:
+External signals to resume workflows
+Human input
+External events
+Timers
+👉 This directly maps to:
+WhatsApp reply
+Call ended
+Approval click
+Payment success
+E. Timers & Delays
+Durable timers
+No cron hacks
+Survive crashes & restarts
+👉 For PulseBridge:
+Delay nodes
+SLA timers
+Follow-up reminders
+F. Retries, Timeouts, Backoff
+Per activity retry policy
+Per workflow timeout
+Automatic backoff
+👉 For PulseBridge:
+Node-level retry
+Action-specific failure handling
+What Temporal DOES NOT contain
+❌ Visual graph
+❌ Node editor
+❌ Domain semantics
+❌ AI confidence logic
+What you TAKE from Temporal
+✅ Workflow-run lifecycle
+✅ WAIT / RESUME semantics
+✅ Durable execution
+✅ Retry & timeout model
+2️⃣ n8n — Node Execution Model (NOT durable runtime)
+n8n is a node-based automation system with short-lived execution.
+What n8n CONTAINS
+A. Node Definition Contract
+Each node defines:
+Inputs
+Outputs
+Config schema
+Execute function
+👉 PulseBridge equivalent:
+interfaceNodeExecutor {
+execute(input, context):NodeResult
+}
+
+
+​
+B. Node Isolation
+Each node executes independently
+Clear input/output contract
+Execution metadata tracked
+👉 PulseBridge:
+Node-level audit logs
+Node retries
+Node error state
+C. Execution Context
+Shared execution context object
+Variables passed between nodes
+👉 PulseBridge:
+workflow_run.context
+
+
+​
+D. Error Handling Per Node
+Continue on fail
+Stop workflow
+Fallback logic
+👉 PulseBridge:
+Per-node failure policies
+Escalation paths
+E. Node Registry
+Nodes are registered centrally
+Each node type maps to an executor
+👉 PulseBridge:
+NodeExecutorRegistry.get(type)
+
+
+​
+What n8n DOES NOT contain
+❌ True WAIT / RESUME from external events
+❌ Long-running durability
+❌ Human approval semantics
+❌ AI confidence gating
+What you TAKE from n8n
+✅ Node execution contract
+✅ Executor registry pattern
+✅ Node-level logging & metadata
+3️⃣ bpmn-engine — Graph Traversal & State Tokens
+bpmn-engine is about moving through a graph correctly.
+What bpmn-engine CONTAINS
+A. Token-Based Graph Execution
+Tokens move through nodes
+Supports:
+Parallel paths
+Joins
+Conditional routing
+👉 PulseBridge:
+Multiple next nodes
+Parallel campaigns
+Split testing
+B. Condition Evaluation
+Edge conditions decide next path
+Evaluated after node execution
+👉 PulseBridge:
+AI confidence ≥ threshold
+Language == Arabic
+Tag exists
+C. Node Completion Semantics
+Node must complete before token moves
+Supports WAIT-like states internally
+👉 PulseBridge:
+Node completion required before transition
+D. Execution State Tracking
+Tracks active tokens
+Tracks completed nodes
+👉 PulseBridge:
+workflow_node_runs
+current_nodes[]
+What bpmn-engine DOES NOT contain
+❌ Durable persistence across crashes
+❌ External event resumption
+❌ SaaS multi-tenancy
+❌ AI/human semantics
+What you TAKE from bpmn-engine
+✅ Graph traversal logic
+✅ Conditional routing
+✅ Parallel branch handling
+🔑 Summary Table (Very Important)
+System
+	
+Contains
+	
+You Use It For
+Temporal
+	
+Durable runtime, WAIT/RESUME, retries
+	
+Execution semantics
+n8n
+	
+Node execution contracts
+	
+Node executor design
+bpmn-engine
+	
+Graph traversal logic
+	
+Flow routing
+None of them alone is sufficient.
+Together, they give you everything.
+rough idea of architectural use-cases
+5.1: Workflow Runtime (Temporal-Inspired) 
+This is the "brain" that ensures PulseBridge is a durable, long-lived process. Instead of simple scripts that die if a server reboots, the Runtime maintains a Deterministic State Machine.
+Real-World Example: A Church Management "30-Day New Member Journey".
+Workflow Instance: A unique, persistent process is created for a new member, "John Doe".
+Execution History: Every single action—sent WhatsApp, waited 3 days, assigned to a small group—is recorded in the database.
+Timers: If the system needs to wait 48 hours before sending a follow-up, the Runtime manages that "sleep" state without losing progress.
+5.2: Graph Traversal Engine (BPMN-Inspired)
+This manages the movement of Execution Tokens through your logic branches, handling parallel paths and conditional routing.
+Real-World Example: An AI Marketing Agent launches a campaign.
+Execution Tokens: The engine creates Token A to send a WhatsApp message and simultaneously creates Token B to update the contact's "Marketing Segment" in the CRM.
+Join Semantics: The engine ensures the workflow only moves to the "Final Offer" node once both tokens have completed their respective tasks.
+5.3: Node Executor Registry (n8n-Inspired)
+This registry isolates node logic from the core engine, allowing you to plug in new capabilities like "voice flows" or "HR triggers" as plugins.
+Real-World Example: A Freelancer sets up a "Contract Signed" automation.
+When the engine hits a "Generate Invoice" node, it simply calls NodeExecutorRegistry.get('invoice_generator')
+.
+This modularity allows you to update Stripe or PayPal payment logic without ever touching the core workflow engine code.
+5.4: WAIT / RESUME System (Temporal Signals)
+This replaces inefficient "cron hacks" or polling with a system that pauses execution until a specific Signal is received.
+Real-World Example: The AI Front Desk schedules a demo.
+The workflow enters a WAIT state: "Pause until 2 hours before the appointment".
+The system persists the state to the DB and "wakes up" only when the Signal (the designated time or a user confirmation) is triggered.
+5.5: Approval Gates (Human-in-the-Loop)
+In PulseBridge, an approval is just a specialized WAIT state that requires a human signal to resume.
+Real-World Example: An AI HR Co-pilot drafts a disciplinary letter.
+The workflow pauses at an Approval Gate because high-stakes HR actions require human review.
+An HR Manager reviews the draft in the dashboard; once they click "Approve," a Signal is sent to RESUME the workflow and send the letter.
+5.6: AI Confidence Routing
+This logic evaluates the AI's output confidence (e.g., your 78% threshold) to decide the next path in the graph.
+Real-World Example: A customer asks a Coaching Assistant a complex question about lesson plans.
+If the AI Orchestrator returns a confidence score lower than 0.78, the routing logic automatically moves the Execution Token to the "Human Support Escalation" node instead of replying.
+6: Execution Workers (Side-Effect Layer) 
+Workers are the "muscles" that execute side effects like sending messages or placing calls; they are designed to be Idempotent to prevent duplicate actions.
+Real-World Example: An AI Call Center campaign is placing 100 outbound calls.
+Retry & Backoff: If a call fails due to a network error, the worker automatically retries in 30 seconds.
+Idempotency: Because the worker reports results back to the execution history, it ensures that if a task is accidentally retried, the customer isn't called twice for the same step.
+7: Event Bus & Resume System 
+The Event Bus is the mandatory listener for long-running workflows, matching external events (webhooks, UI actions) to paused instances to trigger a Resume.
+Real-World Example: An Event Management "Feedback Campaign".
+The workflow is "Waiting for attendee check-in".
+The Event Bus receives a Webhook from a physical QR scanner at the venue.
+The Bus identifies the matching Workflow Instance for that attendee and triggers the Resume Workflow command to immediately send a "Welcome" WhatsApp message.
+visual builder
+Backend
+a UI workflow builder
+a core execution engine
+plugin-based domain capabilities
+1️⃣ How USERS Think (This Drives the Architecture)
+Users think in intent, not systems.
+They think like:
+
+    “When something happens, do something,
+    then wait,
+    then decide,
+    then continue.”
+
+They do not think in:
+threads
+queues
+workers
+retries
+callbacks
+So the architecture must:
+hide execution mechanics
+expose intent
+stay composable
+stay domain-agnostic
+Everything that follows exists to support this.
+2️⃣ Core Product Abstraction: Workflow = Nodes + Connections
+A workflow is not code.
+A workflow is structured intent.
+Users build workflows by connecting node types.
+3️⃣ Critical Architectural Rule
+❌ We do NOT create predefined workflows
+✅ We create predefined NODE TYPES
+This is the most important rule in the system.
+We never hardcode:
+“Call workflow”
+“CRM workflow”
+“HR workflow”
+We only define:
+Trigger nodes
+Action nodes
+Condition nodes
+Wait nodes
+Approval nodes
+Users compose everything visually.
+4️⃣ What Is a “Node Type” (System-Wide Contract)
+A Node Type is the smallest unit of capability in FLYN.
+Architecturally, every node type must define 3 things:
+UIDefinition
+ExecutionContract
+RuntimeSemantics
+
+
+​
+If one is missing, the node type is invalid.
+5️⃣ Node Type Registry (Core System)
+All node types are registered centrally in the Node Type Registry.
+This registry lives in the core backend, not plugins.
+Example structure:
+NodeType {
+type:"voice.call",
+category:"action",
+ui_schema: {},
+input_schema: {},
+output_schema: {},
+runtime_semantics: {}
+}
+
+
+​
+This registry is the source of truth for:
+the UI
+the compiler
+the orchestrator
+6️⃣ Layer 1 — UI Definition (User-Facing)
+This layer exists only to make the system usable.
+What the user sees
+Forms, labels, dropdowns — not logic.
+Example:
+
+    “Call this phone number
+    Wait for the call to end
+    Continue after call finishes”
+
+This comes from ui_schema
+.
+The UI workflow builder:
+reads node types
+renders forms
+outputs workflow JSON
+The UI never executes anything.
+7️⃣ Layer 2 — Execution Contract (System-Facing)
+This defines how nodes execute, independent of domain.
+All nodes — regardless of what they do — follow the same contract:
+execute(input, context) →NodeResult
+
+
+​
+Where NodeResult
+ is always one of:
+COMPLETED// move forward immediately
+WAIT// pause workflow
+FAILED// stop or retry
+
+
+​
+This contract is identical for all node types.
+This is what allows:
+plugins
+retries
+logging
+orchestration
+8️⃣ Layer 3 — Runtime Semantics (Core Logic)
+Runtime semantics tell the orchestrator how to treat a node.
+This is not plugin logic.
+This is core system behavior.
+Examples:
+Node Type
+	
+Runtime Meaning
+Trigger
+	
+Creates a new workflow run
+Action
+	
+Executes immediately
+Condition
+	
+Routes execution
+Wait
+	
+Pauses workflow
+Approval
+	
+Pauses + waits for human
+These rules are enforced by the Automation Orchestrator.
+9️⃣ Domain Capabilities (Now Explained Properly)
+What is a Domain Capability?
+A Domain Capability is:
+
+    Something the system can do in the real world.
+
+Examples:
+Make a call
+Send a message
+Run AI analysis
+Create CRM lead
+These are NOT core workflow logic.
+10️⃣ Where Domain Capabilities Live (Backend)
+Domain capabilities live as:
+NodeExecutors
+= Plugins
+
+
+​
+They are completely outside the core engine.
+11️⃣ How Domain Capabilities Connect to the Core
+The connection is intentionally simple:
+Automation Orchestrator
+   ↓
+Node Executor Registry
+   ↓
+DomainExecutor(Plugin)
+
+
+​
+The core system never knows:
+what CRM is used
+how calling works
+which AI model is used
+The core only knows:
+“execute this node”
+“pause”
+“resume”
+“route next”
+This keeps the system scalable.
+domain capabilites will be built in later development phases
+Frontend
+The Core Insight (Read This First)
+
+    Flexibility is an implementation detail.
+    Enterprises buy clarity, predictability, and intent.
+
+n8n exposes capabilities.
+You need to expose outcomes.
+So the visualiser should not show everything as primitive nodes, even if the backend supports it.
+How the Visualiser Should Think (Product-Level)
+End users think in sentences, not graphs.
+They think like:
+“If no reply in 2 days, follow up”
+“If AI is unsure, ask a human”
+“Try again up to 3 times”
+“Do this weekly”
+“Escalate if failed”
+So your visualiser must:
+hide low-level mechanics (wait, resume, retry)
+surface business intent
+guide users through templates
+The Right Mental Model for the Visualiser
+You should design the visualiser around 3 layers:
+1. Intent Templates (what users pick)
+2. Visual Blocks (what they connect)
+3. Hidden Execution Semantics (what runs)
+
+
+​
+Users mostly interact with Layer 1 & 2.
+Layer 3 is invisible.
+1️⃣ Intent Templates (THIS is what n8n lacks)
+Instead of starting with a blank canvas, users start with templates.
+Examples of templates
+“Follow-up automation”
+“Outbound calling workflow”
+“Approval-based process”
+“AI-assisted routing”
+“Scheduled campaign”
+Each template:
+pre-arranges nodes
+locks or simplifies logic
+exposes only relevant knobs
+This instantly makes it enterprise-friendly.
+2️⃣ Visual Blocks (Not Primitive Nodes)
+❌ What n8n does
+Shows raw nodes: IF, WAIT, FUNCTION, MERGE
+✅ What you should do
+Expose semantic blocks, not primitives.
+Example blocks users see
+User Block
+	
+Internally maps to
+“Wait for response”
+	
+WAIT + RESUME
+“Decision”
+	
+Condition node
+“AI decision”
+	
+AI + threshold + routing
+“Approval step”
+	
+WAIT + approval event
+“Retry logic”
+	
+Loop + counter
+Users don’t see loops or tokens.
+Now Let’s Answer Your Specific Questions
+🕒 How will WAIT / RESUME appear to end users?
+What user sees
+A simple configuration, not a node type.
+Example UI:
+
+    Wait until
+    ☐ User replies
+    ☐ Call ends
+    ☐ 2 days pass
+    ☐ Approval is given
+
+This is one block: “Wait”
+Behind the scenes
+Creates WAIT node
+Registers resume conditions
+Uses event bus + timers
+User never sees “resume”.
+🤖 How will AI thresholds appear?
+❌ Don’t expose numbers by default
+Enterprises don’t want to think:
+
+    “Set confidence ≥ 0.73”
+
+✅ Expose meaningful choices
+Example UI:
+
+    If AI is:
+    ○ Confident → continue automatically
+    ○ Unsure → ask a human
+    ○ Low confidence → escalate
+
+Optionally allow Advanced mode:
+
+    Confidence threshold: 0.8
+
+Internally
+AI node outputs confidence
+Condition routing uses thresholds
+Same execution engine
+🔀 How will IF / ELSE work?
+What user sees
+A Decision block with readable rules:
+
+    If
+    • Call was answered
+    • AI confidence is high
+    • User replied within 24h
+
+    Then → Path A
+    Else → Path B
+
+No boolean expressions.
+No code.
+Internally
+Condition node
+Graph traversal
+Token routing
+🔁 How will LOOP / RETRY work?
+This is where enterprise UX matters most.
+❌ Don’t expose “Loop” nodes
+✅ Expose Retry policies
+Example UI:
+
+    Retry this step
+    ☐ Up to 3 times
+    ☐ Wait 1 day between attempts
+    ☐ Escalate if still unsuccessful
+
+This feels like configuration, not programming.
+Internally
+Loop semantics
+Counter in workflow context
+WAIT nodes between retries
+🧱 How workflow building should feel (Key Design Choice)
+Mode 1: Guided (default)
+Start from template
+Restricted blocks
+Opinionated flow
+Enterprise-safe
+Mode 2: Advanced (optional)
+More blocks
+More freedom
+Power users
+This dual-mode approach is how:
+Zapier
+ServiceNow
+Salesforce Flow
+all work.
+What the Visualiser ACTUALLY Contains (Concrete)
+Your React Flow–based visualiser should contain:
+Visible blocks
+Trigger
+Action
+Decision
+Wait
+Approval
+AI Decision (special)
+Hidden mechanics
+WAIT / RESUME
+Timers
+Event matching
+Loop counters
+Retry logic
+Tokens
+Mapping Table (This is Important)
+User-facing Block
+	
+Internal Representation
+Wait for reply
+	
+WAIT + event
+AI decision
+	
+AI node + condition
+Approval step
+	
+WAIT + approval
+Retry logic
+	
+Loop + wait
+Scheduled workflow
+	
+Trigger + timer
+Why This Is “Enterprise Automation Style”
+Because:
+Users start from intent
+Templates encode best practices
+System prevents bad workflows
+Complexity is progressive
+Execution is reliable and auditable
+This is very different from developer tools.
+for frontend, the pre-built templates will come in later development phase, and the core semantic execution blocks like wait, ai decision and all need to work, domain related blocks like make a call can be just visual placeholders. 
+rough notes for me
+Basic Build : 
+Firebase database (or something else cuz offline too) → Org → users → clients - HC, EC, FC, 
+database : provider selection, templates, objects like tickets and all
+crm/hr/events → AI orchestrator → templates (will be controlled by visual builder) → langflow chatbots / ai agents → open source/ 3rd party (telephony)
+AWS
+microservice based 
+ lets start with architecture→ microservices → coding and other decisions → frontend in 10 days.
+Then in the next 20 → build the above given. - this will be used for my startup and denicx branding odoo style
+Then in the next 30 → custom slices - events? -will be plugins
+what will plugins contain - see in odoo
+Need to find template based automation github - JSON will be used by workflow automation - event driven, queue driven -  this is where i will need “Full stack developer 1” will design the durable (long running, if/else, event driven, non-linear orchestrator that can work with xyflow + FSD2 will design the JSONs and databases + agents model relying on xyflow (through Node Executor Registry). 
++ AND/ OR
+Need to find visualiser based workflow automation - xyflow will create JSON
+need to get inspired from odoo, for plugin based dashboards and their database designs + objects database design what objects need their table and what should be the attributes.
+JSON schema design ??? something related to AI orchestrator needs. 
+(this whole part will be shown on 15th)
+
+Session related workflows, these need a session in which alot of tools are being used in a session. That session will be loaded with the template. OR Individual calls? 
+Actually, we dont need sessions or marketing segment for marketing thing, these can be individual calls only just like other segments like hr, freelenace and will share workflow building only.
+We need serverless sessions for voice and telephony
+why serverless for calling, cuz [per tenant useage of app is deterministic and can be handled by individual llm calls or managed/booked server. However,  to make it super realistic and fast or need 3rd party. - (this part will be shown on 15th day mvp)
+template &  visual builder UI/UX
+how will visualiser contain : wait-resume, ai thresholds, workflow building, if/else/loop. - for end users? n8n is good but very generic and developer style (its making it flexible sure), but we need to make it template based enterprise automation style. - FSD2
+ask from client - on 15th 
+dashboards : will contain a table (sort and filter) + buttons (for actions, setting triggers and all + analytics + visual builder (universal) 
+Conditional routing - if/else/loop will happen through here
+5.3 Node Executor Registry
+Input → output contract - just like how wanted my startup app (modules (GS. AS, CS getting loaded through templates) to be designed, input - processing template - context loading - output
+5.4 WAIT / RESUME System (Temporal Signals)
+Register resume conditions - how will these 2 look in visualiser (FSD2 will decide these kind of decisions based on study of xyflow, how will nodeexecuter look, FSD2 will approval gates look, how will workflow build look via connecting 2 nodes, and if/else/loop)
+WAIT → persist state → RESUME via signal -  need to understand the persist state
+No polling. No cron hacks. - whats the benifiting of sleep? its basically just triggering orchestrator when the file gets added?
+Need a business OS github with similiar stack and provides JSON with triggers, automation and all. 
+need a github unified inbox 
+📅 Timeline
+
+    Key milestones or estimated dates.
+
+Milestone
+	
+Target Date
+	
+Status
+MVP Frontend, Architectural plan
+	
+01/01/2026
+	
+🔄 In progress
+First dev delivery
+	
+15/01/2026
+	
+⏳ Not started
+	
+01/02/2026
+	
+⏳ Not started
+	
+15/02/2026
+	
+⏳ Not started
+Final delivery
+	
+07/03/2026
+	
+⏳ Not started
+📎 Links & Resources
+GitHub Repo
+Staging Site
+✅ Tasks Linked
+Use the relation above to connect related tasks for this project.
+

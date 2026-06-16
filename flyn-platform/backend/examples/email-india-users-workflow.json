@@ -1,0 +1,168 @@
+{
+    "id": "email-india-users-workflow",
+    "name": "Email Users in India Above Age 20",
+    "version": 1,
+    "tenantId": "example-tenant",
+    "compiled_nodes": [
+        {
+            "id": "trigger_1",
+            "type": "trigger",
+            "name": "Manual Trigger",
+            "config": {
+                "trigger_type": "manual",
+                "description": "Manually trigger workflow to send emails to users in India above age 20"
+            },
+            "position": {
+                "x": 100,
+                "y": 200
+            }
+        },
+        {
+            "id": "ai_router_1",
+            "type": "ai_router",
+            "name": "Parse Natural Language Query",
+            "config": {
+                "prompt": "Find all users who are located in India and are above the age of 20. I need their email addresses to send them a notification.",
+                "task": "generate_mongo_query",
+                "confidenceThreshold": 0.8,
+                "fallbackAction": "human_review",
+                "context": {
+                    "availableCollections": [
+                        "users",
+                        "profiles",
+                        "accounts"
+                    ]
+                }
+            },
+            "position": {
+                "x": 300,
+                "y": 200
+            }
+        },
+        {
+            "id": "mongodb_1",
+            "type": "mongodb",
+            "name": "Query Users",
+            "config": {
+                "database": "flyn_workflow_demo",
+                "collection": "users",
+                "operation": "find",
+                "useQueryFrom": "ai_router_1.mongoQuery",
+                "limit": 1000
+            },
+            "position": {
+                "x": 500,
+                "y": 200
+            }
+        },
+        {
+            "id": "loop_1",
+            "type": "loop",
+            "name": "For Each User",
+            "config": {
+                "collection": "{{mongodb_1.result}}",
+                "itemVariable": "user",
+                "continueOnError": true
+            },
+            "position": {
+                "x": 700,
+                "y": 200
+            }
+        },
+        {
+            "id": "action_1",
+            "type": "action",
+            "name": "Send Email",
+            "config": {
+                "actionType": "email",
+                "to": "{{user.email}}",
+                "subject": "Special Offer Just For You!",
+                "body": "Hello {{user.name}},\n\nWe have an exclusive offer for you!\n\nBest regards,\nThe FLYN Team"
+            },
+            "position": {
+                "x": 900,
+                "y": 200
+            }
+        },
+        {
+            "id": "end_1",
+            "type": "end",
+            "name": "Workflow Complete",
+            "config": {
+                "message": "All emails sent successfully"
+            },
+            "position": {
+                "x": 1100,
+                "y": 200
+            }
+        }
+    ],
+    "compiled_edges": [
+        {
+            "id": "edge_1",
+            "source": "trigger_1",
+            "target": "ai_router_1"
+        },
+        {
+            "id": "edge_2",
+            "source": "ai_router_1",
+            "target": "mongodb_1",
+            "condition": {
+                "type": "ai_confidence",
+                "threshold": 0.8,
+                "comparisonOperator": ">="
+            }
+        },
+        {
+            "id": "edge_3",
+            "source": "mongodb_1",
+            "target": "loop_1"
+        },
+        {
+            "id": "edge_4",
+            "source": "loop_1",
+            "target": "action_1",
+            "sourceHandle": "loop_body"
+        },
+        {
+            "id": "edge_5",
+            "source": "action_1",
+            "target": "loop_1",
+            "sourceHandle": "next_iteration"
+        },
+        {
+            "id": "edge_6",
+            "source": "loop_1",
+            "target": "end_1",
+            "sourceHandle": "loop_complete"
+        }
+    ],
+    "execution_plan": {
+        "startNodeId": "trigger_1",
+        "endNodeIds": [
+            "end_1"
+        ],
+        "nodeOrder": [
+            "trigger_1",
+            "ai_router_1",
+            "mongodb_1",
+            "loop_1",
+            "action_1",
+            "end_1"
+        ],
+        "parallelPaths": []
+    },
+    "metadata": {
+        "createdAt": "2026-02-08T11:00:00.000Z",
+        "updatedAt": "2026-02-08T11:00:00.000Z",
+        "createdBy": "system",
+        "description": "Example workflow that uses AI to understand a natural language query, generates a MongoDB query, fetches users from India above age 20, and sends them promotional emails.",
+        "tags": [
+            "example",
+            "ai-router",
+            "mongodb",
+            "email",
+            "bulk-operations"
+        ]
+    }
+}

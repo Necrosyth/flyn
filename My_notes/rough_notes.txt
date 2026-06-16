@@ -1,0 +1,62 @@
+Basic Build : 
+
+Firebase database (or something else cuz offline too) → Org → users → clients - HC, EC, FC, 
+
+database : provider selection, templates, objects like tickets and all
+
+crm/hr/events → AI orchestrator → templates (will be controlled by visual builder) → langflow chatbots / ai agents → open source/ 3rd party (telephony)
+
+AWS
+
+microservice based 
+
+ lets start with architecture→ microservices → coding and other decisions → frontend in 10 days.
+
+Then in the next 20 → build the above given. - this will be used for my startup and denicx branding odoo style
+
+Then in the next 30 → custom slices - events? -will be plugins
+
+what will plugins contain - see in odoo
+
+Need to find template based automation github - JSON will be used by workflow automation - event driven, queue driven -  this is where i will need “Full stack developer 1” will design the durable (long running, if/else, event driven, non-linear orchestrator that can work with xyflow + FSD2 will design the JSONs and databases + agents model relying on xyflow (through **Node Executor Registry**). 
++ AND/ OR
+Need to find visualiser based workflow automation - https://github.com/xyflow/xyflow will create JSON
+
+need to get inspired from odoo, for plugin based dashboards and their database designs + objects database design what objects need their table and what should be the attributes.
+
+JSON schema design ??? something related to AI orchestrator needs. 
+
+(this whole part will be shown on 15th)
+
+Session related workflows, these need a session in which alot of tools are being used in a session. That session will be loaded with the template. OR Individual calls? 
+Actually, we dont need sessions or marketing segment for marketing thing, these can be individual calls only just like other segments like hr, freelenace and will share workflow building only.
+
+We need serverless sessions for voice and telephony
+
+why serverless for calling, cuz [per tenant useage of app is deterministic and can be handled by individual llm calls or managed/booked server. However,  to make it super realistic and fast or need 3rd party. - (this part will be shown on 15th day mvp)
+
+template &  visual builder UI/UX
+
+how will visualiser contain : wait-resume, ai thresholds, workflow building, if/else/loop. - for end users? n8n is good but very generic and developer style (its making it flexible sure), but we need to make it template based enterprise automation style. - FSD2
+
+ask from client - on 15th 
+
+dashboards : will contain a table (sort and filter) + buttons (for actions, setting triggers and all + analytics + visual builder (universal) 
+
+Conditional routing - if/else/loop will happen through here
+
+5.3 Node Executor Registry
+
+Input → output contract - just like how wanted my startup app (modules (GS. AS, CS getting loaded through templates) to be designed, input - processing template - context loading - output
+
+5.4 WAIT / RESUME System (Temporal Signals)
+
+Register resume conditions - how will these 2 look in visualiser (FSD2 will decide these kind of decisions based on study of xyflow, how will nodeexecuter look, FSD2 will approval gates look, how will workflow build look via connecting 2 nodes, and if/else/loop)
+
+WAIT → persist state → RESUME via signal -  need to understand the persist state
+
+No polling. No cron hacks. - whats the benifiting of sleep? its basically just triggering orchestrator when the file gets added?
+
+Need a business OS github with similiar stack and provides JSON with triggers, automation and all. 
+
+need a github unified inbox

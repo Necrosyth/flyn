@@ -1,0 +1,209 @@
+# robots.txt for https://myflynai.com/
+# Last updated: April 2026
+
+# -----------------------------------------------
+# Allow major legitimate search engines only
+# -----------------------------------------------
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Social media preview bots (for link sharing)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# -----------------------------------------------
+# Block ALL AI training & scraping bots
+# -----------------------------------------------
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# Google AI / Gemini
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Googlebot-Image
+Disallow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+# Apple
+User-agent: Applebot-Extended
+Disallow: /
+
+# Amazon / Internet Archive
+User-agent: ia_archiver
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Disallow: /
+
+# Common AI dataset crawlers
+User-agent: CCBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+# -----------------------------------------------
+# Block known SEO scrapers & cloning tools
+# -----------------------------------------------
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: SiteAuditBot
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: WebReaper
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: larbin
+Disallow: /
+
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /
+
+User-agent: EmailWolf
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+# -----------------------------------------------
+# Default: block all unrecognized bots
+# -----------------------------------------------
+
+User-agent: *
+Disallow: /
+
+# -----------------------------------------------
+# Disallow private / system paths for allowed bots
+# -----------------------------------------------
+
+User-agent: Googlebot
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /private/
+Disallow: /_next/
+Disallow: /static/chunks/
+Disallow: /login
+Disallow: /signup
+Disallow: /register
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /account/
+Disallow: /settings/
+Disallow: /404
+Disallow: /500
+
+User-agent: Bingbot
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /private/
+Disallow: /login
+Disallow: /signup
+Disallow: /account/
+Disallow: /settings/
+
+# -----------------------------------------------
+# Sitemap
+# -----------------------------------------------
+
+Sitemap: https://myflynai.com/sitemap.xml

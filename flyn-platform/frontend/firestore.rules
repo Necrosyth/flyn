@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /landing/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /landing_content/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    match /leads/{document} {
+      allow read, write: if true;
+    }
+    match /campaigns/{document} {
+      allow read, write: if true;
+    }
+    match /content_assets/{document} {
+      allow read, write: if true;
+    }
+    
+    // Tenant conference sessions — read by authenticated agents for live monitoring
+    match /tenants/{tenantId}/conferences/{confId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Active AI calls — live monitoring + barge-in
+    match /tenants/{tenantId}/activeCalls/{callSid} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Live call transcripts — backend writes via Admin SDK, agents read
+    match /tenants/{tenantId}/activeCalls/{callSid}/transcript/{entryId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Permanent call analytics — written by backend Admin SDK only, read by authenticated agents
+    match /tenants/{tenantId}/callAnalytics/{callSid} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // ── Flyn Voice provisioning ──────────────────────────────────────────────
+    function isPlatformAdmin() {
+      return request.auth != null &&
+        (request.auth.token.role == 'owner' || request.auth.token.role == 'admin');
+    }
+
+    // Platform number pool — admin-only; backend writes via Admin SDK.
+    match /platform_phone_pool/{number} {
+      allow read: if isPlatformAdmin();
+      allow write: if false;
+    }
+
+    // Activation requests — requesting user reads own doc (for live status), admins read all.
+    // All writes go through the backend Admin SDK.
+    match /voice_activation_requests/{tenantId} {
+      allow read: if isPlatformAdmin() ||
+        (request.auth != null && resource.data.requestedBy == request.auth.uid);
+      allow write: if false;
+    }
+
+    // Admin notifications — admin-only; backend writes via Admin SDK.
+    match /admin_notifications/{id} {
+      allow read: if isPlatformAdmin();
+      allow write: if false;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

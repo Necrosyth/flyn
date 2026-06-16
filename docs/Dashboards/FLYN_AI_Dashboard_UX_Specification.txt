@@ -1,0 +1,64 @@
+FLYN AI — Dashboard UX Specification
+This document defines the authoritative UX structure, hierarchy, and behavioral rules for all
+dashboards within the FLYN AI platform. It serves as the single source of truth for product,
+design, and engineering teams.
+
+1. Design Philosophy
+All dashboards in FLYN AI follow a unified, plugin-compatible structure. Modules differ only by
+data, KPIs, and actions — never by layout or interaction principles. This ensures scalability,
+consistency, and minimal cognitive load for users.
+
+2. Universal Dashboard Structure
+2.1 Header KPI Strip
+Purpose: Provide instant operational awareness.
+Rules: 3–6 KPIs maximum, clickable, real or demo data depending on plan.
+Examples: Pipeline Value, Active Calls, Attendance Rate.
+
+2.2 Primary Action Bar
+Purpose: Highlight the most important actions available.
+Rules: One primary action, up to two secondary actions, AI actions grouped visually.
+
+2.3 Core Operational Table
+Purpose: Primary working area of the dashboard.
+Rules: Sortable, filterable, bulk actions enabled, saved views supported.
+
+2.4 Contextual Analytics
+Purpose: Explain performance trends.
+Rules: 3–5 charts maximum, context-sensitive, mandatory time-range selector.
+
+2.5 AI Insight Panel
+Purpose: Provide intelligent, actionable guidance.
+Rules: Collapsible, non-intrusive, clearly labeled as AI-generated.
+
+2.6 Activity & System Feed
+Purpose: Transparency and auditability.
+Rules: Chronological, human-readable, linked to system entities.
+
+3. Dashboard Types & Content Mapping
+Each module defines its KPIs, primary tables, actions, and AI insights while inheriting the
+universal structure.
+- CRM: Deals and Contacts tables, pipeline KPIs, deal intelligence.
+- Unified Inbox: Conversations table, SLA metrics, AI reply assistance.
+- Telephony: Call logs, call analytics, AI summaries.
+- HR: Employee directory, attendance KPIs, attrition insights.
+- Church/Community: Member management, attendance tracking, engagement trends.
+- Freelance/Agency: Client and project tracking, revenue KPIs, workload balance.
+
+4. Role-Based Visibility Rules
+Founder/Admin: Full system visibility including financials, analytics, and governance.
+Manager/Ops: Team-level KPIs and operational analytics.
+Agent/Staff: Task-level views and assigned records only.
+
+5. Plugin Compatibility Rule
+New modules must define only their data schemas, KPIs, actions, and AI insights. All layout,
+permissions, analytics containers, and interactions are inherited automatically.
+
+6. Brand Kit Integration
+The FLYN AI brand kit must include dashboard grid layouts, KPI strip styles, table standards,
+chart usage guidelines, AI panel behavior, and empty or demo state definitions.
+
+7. Governing Principle
+Consistency is a feature. Dashboards must feel instantly familiar across all modules while
+remaining powerful enough to scale to enterprise complexity.
+
+

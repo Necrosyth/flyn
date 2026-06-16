@@ -1,0 +1,107 @@
+- App’s UX/UI wireframing - need to find github for business OS, and unified Inbox and marketing service (startup reference)
+    
+    ### **1. The Core Philosophy: "The Business OS"**
+    
+    - **Landing Experience:** The **Main Dashboard** is the desktop. It is the first thing users see. It offers a high-level health check and acts as a **Launchpad**.
+    - **Navigation Model:** Hub-and-Spoke.
+        - **Hub:** Main Dashboard.
+        - **Spokes:** Unified Inbox, Dialer, Vertical Modules (HR, Events, Church).
+    - **Vertical Module UX:** These are **Operations-Centric**, not Conversation-Centric. When a user enters the "HR Module," they expect to see Tables (Employees), Calendars (Leaves), and HR-specific KPIs, not a chat window.
+    
+    ---
+    
+    ### **2. Updated Navigation Structure**
+    
+    **A. Global Sidebar (The "Taskbar")**
+    This remains persistent to allow quick switching between high-level contexts.
+    
+    - **Top:** Organization Switcher (e.g., "Acme Corp").
+    - **Core Tools:**
+        - 🏠 **Dashboard** (The Home/Launchpad)
+        - 📥 **Unified Inbox** (Global feed: WhatsApp, SMS, Social, Email)
+        - 📞 **Telephony** (Dialer pop-up or full screen)
+        - 👥 **CRM** (Global Contacts & Pipelines)
+        - ⚡ **Global Automations** (Cross-module workflows)
+    - **Your Apps (Verticals):**
+        - *Dynamic List:* Shows only subscribed modules (e.g., 👔 HR, 🎟 Events).
+    - **Bottom:** ⚙️ Settings, 🔌 Developer Portal.
+    
+    ---
+    
+    ### **3. Key Screen Wireframes (Revised)**
+    
+    ### **3.1. The Main Dashboard (The Landing Page)**
+    
+    - **Purpose:** Executive Overview & Navigation.
+    - **Layout:**
+        - **Top Section (The "Command Center"):**
+            - Two massive, distinct buttons (Actionable Cards):
+                1. **Open Unified Inbox** (Badge: "12 unread")
+                2. **Launch Dialer** (Status: "Online - Ready")
+        - **Middle Section (Module Widgets):**
+            - A grid of cards representing active modules.
+            - *HR Card:* Shows "3 Pending Leave Requests," "Headcount: 42". Clicking it opens the full HR Module.
+            - *Events Card:* Shows "Next Event: Tomorrow," "Tickets Sold: 150/200".
+        - **Bottom Section (Health):**
+            - Global Revenue Chart, AI Credit Usage, Recent Activity Log.
+    
+    ### **3.2. The Vertical Module View (e.g., HR System)**
+    
+    - **Context:** The user clicked "HR" from the dashboard.
+    - **Layout Changes:** The main view now focuses purely on HR Ops.
+    - **Sub-Navigation (Tabs at top):**
+        - **Overview (Module Dashboard):** KPI cards (Payroll cost, Absenteeism rate).
+        - **Employees (Table View):** A rich data table (Ag-Grid) with columns: Name, Position, Salary, Status. *Not a chat list.*
+        - **Recruitment (Kanban):** Drag-and-drop board for job applicants (Applied -> Interview -> Hired).
+        - **Workflows (Builder):** HR-specific automation (e.g., "Auto-send offer letter when moved to 'Hired'").
+    - **Where is the Chat?**
+        - If an employee messages HR, it goes to the **Global Unified Inbox**.
+        - *However*, inside the HR Module, clicking an Employee's name opens a **"Profile Slide-over"** which shows their details *and* their chat history.
+    
+    ### **3.3. The Unified Inbox (The Communication Layer)**
+    
+    - **Revised Channel List:** The client specified a massive list of integrations. The UI needs to handle this density.
+    - **Left Sidebar (Channel Filters):**
+        - Instead of just "All," have collapsible sections:
+            - **Messaging:** WhatsApp, SMS, Telegram, Messenger, IG DM.
+            - **Social:** Twitter DM, LinkedIn, TikTok.
+            - **Work:** Slack Connect, Teams.
+            - **Voice:** Voicemail, Call Logs.
+    - **Conversation View:** Standard 3-pane layout (Filters -> Thread List -> Chat).
+    - **Feature:** **"Universal Sync."** A visual indicator showing when the inbox last synced with external APIs (essential for developer trust).
+    
+    ### **3.4. Telephony (The Dialer)**
+    
+    - **Access:** A floating "Fab" (Floating Action Button) or a dedicated menu item.
+    - **UI:**
+        - A clean, modern dialer pad.
+        - **"Active Call" Mode:** When a call is live, it should persist (minimize to bottom right) so the user can browse the CRM or HR module while talking.
+    
+    ---
+    
+    ### **4. Summary for the Design Team**
+    
+    > "The client has confirmed a 'Hub-and-Spoke' OS model.
+    > 
+    > 1. **Home is a Dashboard:** Users land on a high-level executive view with big launcher buttons for 'Inbox' and 'Dialer'.
+    > 2. **Modules are Mini-Apps:** Clicking 'HR' or 'Events' takes the user into a dedicated workspace with its own **Tables, Kanban Boards, and Dashboards**. These modules are for *operations* (managing records), not just chatting.
+    > 3. **Conversations are Centralized:** All chat/voice traffic (from employees, leads, or church members) funnels into **ONE Unified Inbox**. We do not build separate inboxes for every module; we use **Filters/Tags** inside the Global Inbox to distinguish 'HR Request' from 'Sales Lead'."
+    
+    ### UNIFIED INBOX:
+    
+    WhatsApp Business API
+    SMS
+    MMS
+    Voice Calls (Inbound & Outbound PSTN / VoIP)
+    Email (IMAP/SMTP or API-based)
+    Telegram
+    Facebook Messenger
+    Instagram Direct Messages
+    Web Chat / Live Chat Widget
+    Microsoft Teams (External Messaging)
+    Slack Connect (External Channels)
+    Apple Business Chat
+    Google Business Messages
+    Twitter / X Direct Messages
+    TikTok Direct Messages
+    LinkedIn Messaging (Sales-only contexts

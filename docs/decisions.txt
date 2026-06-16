@@ -1,0 +1,112 @@
+# Architectural Decisions & Core Principles (Expanded)
+
+## 1. Core Philosophy: The Business OS
+
+PulseBridge is not a single-purpose application; it is a durable workflow orchestration platform designed to act as a central "Business OS." The core product is the automation engine itself. All other functionalities—CRM, Telephony, HR, Events—are treated as domain-specific plugins or vertical modules that plug into this central brain.
+
+The architecture is driven by user intent, exposing business outcomes over technical primitives. Users build workflows by composing predefined, intent-focused node types, not by writing code.
+
+---
+
+## 2. Overarching Architectural Principles
+
+- **Separation of Concerns**: Each component has a single, well-defined responsibility. This is the most critical principle for maintaining a scalable and maintainable system.
+  - **Visual Builder**: Declares user intent visually. It has no execution logic.
+  - **Compiler**: Acts as a determinism gate, validating the visual graph and producing an immutable, execution-safe plan.
+  - **Orchestrator**: The brain. Manages the lifecycle, state, and durable execution of a workflow run (wait, resume, retry).
+  - **Executors (Plugins)**: The hands. Isolated components that perform all side-effects (API calls, database writes, sending messages).
+
+- **Event-Driven Asynchronicity**: The entire system is asynchronous. The Event Bus enables long-running workflows and decouples the orchestrator from external event sources (e.g., webhooks, timers, UI actions).
+
+- **Multi-Tenancy by Default**: The system is architected for multi-tenancy from the ground up. Data isolation is enforced at the API gateway, service layer, and database level (via `tenant_id` and RLS).
+
+- **Durability & Determinism**: Inspired by Temporal, workflow state is durable and can survive crashes and restarts. The execution logic is deterministic, meaning it can be reliably replayed from its event history.
+
+- **Cost-Safe Execution**: Before any action with a cost implication is executed, the orchestrator performs guards for billing status, feature entitlements, and usage limits.
+
+---
+
+## 3. System Architecture Breakdown
+
+### 3.1. Visual Builder (UI Layer)
+
+- **Technology**: React with `React Flow` (`xyflow`).
+- **Responsibility**: Provides a UI for users to declare intent by connecting visual blocks. It renders forms based on a central `Node Type Registry`.
+- **Philosophy**: Expose semantic, intent-focused blocks ("Wait for Response," "AI Decision") rather than technical primitives ("If," "Loop," "Wait"). Users interact with templates and guided configurations by default, with an optional advanced mode.
+- **Output**: A declarative `Workflow JSON` that describes the visual graph.
+
+### 3.2. Workflow Compiler (Determinism Gate)
+
+- **Responsibility**: Transforms the visual `Workflow JSON` into an immutable, execution-safe `Compiled Workflow` artifact. It validates graph connectivity, enforces allowed transitions, and attaches execution metadata (e.g., retry policies).
+- **Importance**: This step ensures that once a workflow is published, its execution is predictable and auditable. It is the safety gate between user intent and system execution.
+
+### 3.3. Automation Orchestrator (The Brain)
+
+This is a custom-built engine that synthesizes concepts from three best-in-class systems:
+
+- **Durable Execution (Temporal-Inspired)**:
+  - Manages the lifecycle of a `workflow_run` as a long-lived, durable instance.
+  - Implements `WAIT/RESUME` semantics via signals from the Event Bus, enabling workflows that last for days or months without polling.
+  - Handles durable timers, node-level retries, and timeouts.
+
+- **Graph Traversal (bpmn-engine-Inspired)**:
+  - Uses a token-based model to manage the flow of execution through the compiled graph.
+  - Natively supports parallel branches, conditional routing (based on edge conditions), and joins.
+
+- **Node Execution Contract (n8n-Inspired)**:
+  - Manages a central `Node Executor Registry` to map a node type to its implementation.
+  - Passes a shared context object between nodes and tracks the state of each node run (inputs, outputs, status, attempts).
+
+### 3.4. Node Executors (Plugin Layer)
+
+- **Responsibility**: To execute all side-effects. This is where all interaction with the outside world happens (e.g., calling the Twilio API, querying OpenAI, updating a CRM).
+- **Contract**: Every executor adheres to a strict contract: `execute(input, context) -> { COMPLETED | WAIT | FAILED }`.
+- **Isolation**: Executors are stateless and idempotent. They are completely decoupled from the core orchestration logic, allowing new capabilities (Voice, CRM, Payments) to be added as plugins without modifying the core engine.
+
+### 3.5. Event Bus & Resume System
+
+- **Technology**: Redis with BullMQ.
+- **Responsibility**: The central nervous system for all asynchronous events.
+  - Ingests events from any source (webhooks, timers, UI actions, other services).
+  - Persists and deduplicates events.
+  - Matches incoming events against active `wait_conditions` from paused workflows.
+  - Triggers the Orchestrator to resume the correct workflow run with the event payload.
+
+---
+
+## 4. Key Technical Decisions & Stack
+
+- **Core Tech Stack**:
+  - **Backend**: NestJS (TypeScript)
+  - **Frontend**: React (TypeScript) with Vite and `xyflow`
+  - **Database**: PostgreSQL (for relational data and RLS)
+  - **Cache & Queues**: Redis (for caching and BullMQ for the Event Bus)
+  - **Infrastructure**: Docker, AWS (ECS Fargate, Lambda, Aurora)
+
+- **Compute Strategy**: A hybrid approach for cost and performance optimization.
+  - **Core Services (Orchestrator, Event Bus, API Gateway)**: Run as containerized applications on ECS Fargate for predictable, steady-state workloads.
+  - **Real-time & Variable Loads (e.g., Voice Calls)**: Handled by serverless functions (AWS Lambda) to scale on demand and manage costs for unpredictable traffic.
+
+- **Database & Schema Strategy (Odoo-Inspired)**:
+  - **Modularity**: The database schema is designed to be modular, similar to Odoo. This allows new vertical modules (HR, Events) to be added with their own tables that relate back to the core entities (`tenants`, `users`).
+  - **BI & Analytics Integration**: This approach avoids a monolithic, rigid schema, making it easier to connect external Business Intelligence (BI) tools and build custom dashboards.
+
+---
+
+## 5. User Experience (UX) Philosophy
+
+- **Hub-and-Spoke Model**: The application is structured like an operating system.
+  - **Hub**: The main dashboard, which acts as a high-level launchpad.
+  - **Spokes**: Core tools (Unified Inbox, Dialer, CRM) and vertical modules.
+
+- **Unified Inbox**: All conversations, regardless of channel (WhatsApp, SMS, Voice, Social), are funneled into a single, global Unified Inbox. There are no separate inboxes per module; filtering and tagging are used for organization.
+
+- **Verticals as Mini-Apps**: A vertical module like "HR" is an operations-centric workspace with its own tables, kanban boards, and dashboards. It is not just a filtered view of a chat inbox.
+
+---
+
+## 6. Phased Implementation Plan
+
+- **Phase 1 (Core MVP)**: Focus exclusively on building the core, domain-agnostic engine: the Node Type Registry, the Compiler, the Orchestrator (with time/event waits), the Event Bus, and a simple AI text execution plugin. This phase proves the durable execution and `WAIT/RESUME` capabilities.
+
+- **Phase 2 & Beyond**: Layer on user-facing features and domain plugins. This includes the human approvals UI, advanced retry policies, streaming AI/telephony services, and a rich library of plugins for CRM, messaging, and other domains.

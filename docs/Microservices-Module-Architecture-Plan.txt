@@ -1,0 +1,323 @@
+PulseBridge / FLYN — Microservices Module Architecture Plan (2026-01-06)
+
+Purpose
+- Define the service decomposition, boundaries, data ownership, and communication patterns for a microservice-first backend, aligned with multi-tenant SaaS, unified inbox (Chatwoot), telephony, AI orchestration, automations, dashboards, and cost-safe metering.
+- Complements: docs/AWS-Architecture-Plan.txt. This document focuses on service design and module layout.
+
+Guiding Principles
+- Single responsibility per service; database-per-service (logically) with clear ownership.
+- Multi-tenant by default. Every service enforces `organization_id` and plan entitlements.
+- Event-driven. Prefer async via EventBridge/SQS; sync only when necessary.
+- Backward-compatible contracts with versioned schemas and idempotency.
+- Cost-safe. Usage metering before execution; hard caps enforced by plan.
+
+High-Level Service Map
+- Edge & Gateways
+  - api-gateway (BFF): Frontend-facing REST/GraphQL. Routes to internal services; aggregates for UI.
+  - realtime-gateway: WebSocket gateway for live updates (notifications, inbox events, call status).
+  - webhooks-gateway: Ingress for external providers (telephony, messaging, payments). Validates signatures, rate-limits, enqueues jobs.
+
+- Foundation
+  - identity-service: Auth (Cognito integration), SSO, RBAC, API key issuance, session management.
+  - tenants-service: Organizations CRUD, regions, lifecycle events, tenant-level configs.
+  - billing-service: Plans, subscriptions, invoices, payments, webhooks from billing provider.
+  - entitlements-service: Feature flags per plan + tenant overrides. Single source for entitlement checks.
+  - usage-metering-service: Atomic counters for messages, calls.minutes, ai.tokens, webchat.sessions.
+  - audit-service: Immutable audit logs for governance and troubleshooting.
+
+- Core Data Services
+  - crm-service: Contacts, companies, pipelines, deals, activities, tags, segments.
+  - files-service: Uploads, media, recordings, transcripts; S3 lifecycle + signed URLs.
+  - search-service: Full-text and semantic search (OpenSearch optional; fallback to Postgres indices).
+
+- Communications & Telephony
+  - channels-service: Messaging channels (WhatsApp, SMS, Email, Webchat, Social). Template mgmt, delivery, receipts.
+  - telephony-service: Inbound/outbound voice, IVR, call control, recordings, media streaming.
+  - inbox-provisioner-service: Orchestrates Chatwoot accounts/inboxes per tenant; manages webhooks to platform.
+  - inbox-sync-service: Consumes Chatwoot webhooks and syncs conversations to `interactions` domain.
+
+- AI & Automation
+  - ai-orchestrator-service: Routes AI tasks to providers (LLM, STT, TTS, embeddings). Fallbacks, quotas.
+  - automation-service: Triggers, actions, conditions, workflow runs; long-running orchestration via workers/Step Functions.
+  - summarizer-service: Post-call/message summarization, sentiment, QA scoring, diarization pipelines.
+
+- Product UX Layers
+  - notifications-service: In-app/email notifications per event and plan; i18n; tone variants.
+  - dashboards-service: KPIs/metrics aggregation for UI dashboards; pre-computed tiles.
+  - developer-portal-service: API keys, webhooks test, logs, SDK docs.
+  - admin-service: Platform admin tools (tenant impersonation, feature flags, quotas, incident toggles).
+
+- Vertical Modules (pluggable, per plan)
+  - hr-service: Employees, leaves, payroll, policies, attendance integrations.
+  - church-service: Members, families, groups, donations, events.
+  - events-service: Registrations, tickets, coupons, check-ins.
+  - coaching-service: Programs, sessions, courses, client progress.
+
+Data Ownership & Storage (per service)
+- Each service owns its data store. Early-phase optimization: one Aurora cluster with separate schemas; evolve to clusters-per-critical domain when needed.
+- Postgres (Aurora) with RLS on `organization_id` where applicable.
+- DynamoDB for high-rate counters (usage-metering-service).
+- Redis for ephemeral state, rate limits, and caches.
+- S3 for media, transcripts, exports; strict KMS encryption + lifecycle policies.
+
+Contracts & APIs
+- REST (JSON) default. Versioned under /api/v1/...
+- Event contracts via EventBridge with schema registry; domain events are immutable facts.
+- Idempotency: `Idempotency-Key` header for POST/PUT; dedupe table per service or Redis key with TTL.
+- Tenancy: `x-organization-id` claim in JWT and enforced at the gateway and service guards.
+
+Example REST Surface (selected)
+- tenants-service
+  - POST /api/v1/tenants
+  - GET /api/v1/tenants/:id
+  - POST /api/v1/tenants/:id/provision-inbox
+- entitlements-service
+  - GET /api/v1/entitlements/:tenantId
+- usage-metering-service
+  - POST /api/v1/usage/reserve { tenantId, metric_key, delta, period }
+  - GET /api/v1/usage/:tenantId/:metric_key?period=YYYY-MM
+- channels-service
+  - POST /api/v1/channels/whatsapp/messages
+  - POST /api/v1/email/send
+- telephony-service
+  - POST /api/v1/call/outbound
+  - GET /api/v1/call/:id
+- ai-orchestrator-service
+  - POST /api/v1/ai/execute
+- automation-service
+  - POST /api/v1/workflows
+  - POST /api/v1/workflows/:id/run
+- dashboards-service
+  - GET /api/v1/dashboards/overview?tenantId=...
+
+Canonical Domain Events (EventBridge)
+- organization.created, organization.provisioned, plan.changed
+- contact.created, deal.stage.changed
+- whatsapp.message.received, whatsapp.message.sent, email.sent, sms.sent
+- call.started, call.media.started, call.recording.available, call.ended
+- ai.task.completed, transcript.ready, summary.ready, sentiment.scored
+- workflow.run.started, workflow.run.completed, workflow.action.failed
+- usage.threshold.80, usage.threshold.100
+
+Service-to-Service Sync Calls (minimal)
+- api-gateway -> services (UI aggregation)
+- channels-service -> ai-orchestrator-service (generate reply content)
+- telephony-service -> ai-orchestrator-service (live hints, TTS)
+
+Async Patterns
+- webhooks-gateway validates provider requests -> enqueues SQS -> respective service processes -> emits domain events.
+- summarizer-service subscribes to call.recording.available -> generates transcript/summary -> emits transcript.ready/summary.ready.
+- dashboards-service consumes domain events and writes aggregated metrics.
+
+Unified Inbox (Chatwoot) Integration
+- Pooled regional Chatwoot cluster (Rails + Sidekiq) runs in ECS. Tenants mapped to Chatwoot Accounts/Inboxes.
+- inbox-provisioner-service:
+  - Creates Chatwoot Account/Inbox per tenant, users, channels, and webhook subscriptions.
+  - Stores tokens/config in Secrets Manager.
+- inbox-sync-service:
+  - Receives Chatwoot webhooks via webhooks-gateway.
+  - Normalizes to `interactions` domain and publishes events for analytics and automations.
+
+Dashboards-Service Responsibilities
+- Pre-aggregated KPIs: volumes, SLAs, queue times, agent occupancy, campaign metrics.
+- Data sources: S3 (logs/transcripts), Postgres (facts), optional Redshift/Athena for heavy queries.
+- Exposes fast-read API for UI tiles; schedules ETL via EventBridge.
+
+Automation-Service Responsibilities
+- Workflow definitions (triggers/conditions/actions) + versioning.
+- Runs via workers; long-running via Step Functions when necessary.
+- Emits detailed run logs and metrics; integrates with entitlements and usage-metering guards.
+
+AI-Orchestrator-Service Responsibilities
+- Provider routing (text, tools, STT, TTS, embeddings).
+- Token accounting; per-request caps; retries/fallbacks.
+- Caches static responses; stores embeddings when needed.
+
+Telephony-Service Responsibilities
+- Inbound/outbound call control, IVR, media streaming.
+- Recording lifecycle -> S3 -> events for post-processing.
+- Compliance features per plan: recording retention, region-based rules.
+
+Channels-Service Responsibilities
+- Messaging adapters (WhatsApp, SMS, Email, Webchat, Social).
+- Rate limiting, template management, delivery receipts.
+- Emits interactions; drives notifications when needed.
+
+Entitlements & Metering (Guards Sequence)
+1) billing-service: tenant.status == active
+2) entitlements-service: entitled(feature_key)
+3) usage-metering-service: ensure usage < cap (reserve on success)
+4) execute action -> finalize usage (if variable length like voice minutes)
+
+Data Access Patterns
+- Read models per service. For cross-service read, subscribe to events and maintain local projections (CQRS light) to avoid chatty sync calls.
+- Example: dashboards-service materializes metrics from events rather than querying multiple services live.
+
+Deployment & Scaling (per service)
+- ECS Fargate services with auto-scaling rules.
+  - api-gateway: ALB target-based on latency/CPU.
+  - realtime-gateway: concurrent connections & p95 latency.
+  - webhooks-gateway: request rate; integrate WAF IP rules and signature verify.
+  - workers (automation, inbox-sync, summarizer): SQS depth.
+- Separate ECR repository per service; independent CI/CD.
+
+Observability
+- Structured JSON logs with trace IDs; OTel tracing to X-Ray.
+- CloudWatch dashboards per domain; alarms for 5xx, queue backlog, latency, and provider error spikes.
+- Synthetics for public endpoints and provider webhooks.
+
+Security & Compliance
+- JWT with org claims; per-route RBAC.
+- WAF on ALB/API Gateway; rate limits + IP allowlists on webhooks-gateway.
+- KMS for S3, RDS, logs; Secrets Manager for tokens.
+- Audit trails for admin and config actions.
+
+Suggested Repository Layout (monorepo)
+- services/
+  - api-gateway/
+  - realtime-gateway/
+  - webhooks-gateway/
+  - identity-service/
+  - tenants-service/
+  - billing-service/
+  - entitlements-service/
+  - usage-metering-service/
+  - crm-service/
+  - files-service/
+  - search-service/
+  - channels-service/
+  - telephony-service/
+  - inbox-provisioner-service/
+  - inbox-sync-service/
+  - ai-orchestrator-service/
+  - automation-service/
+  - summarizer-service/
+  - notifications-service/
+  - dashboards-service/
+  - developer-portal-service/
+  - admin-service/
+  - audit-service/
+- shared/
+  - libs/ (DTOs, validation schemas, tracing utils, auth middleware)
+  - contracts/ (OpenAPI, Event schemas)
+  - infra/ (CDK stacks per service)
+
+Reference Diagrams (Mermaid)
+
+System Map
+```mermaid
+flowchart TD
+  CF[CloudFront] --> ALB(ALB - API)
+  CF --> S3F[S3 - Frontend]
+  ALB --> APIGW[api-gateway]
+  WS[API GW WebSocket] --> RT[realtime-gateway]
+  WH[API GW REST - Webhooks] --> WGX[webhooks-gateway]
+
+  APIGW --> ID[identity-service]
+  APIGW --> TEN[tenants-service]
+  APIGW --> ENT[entitlements-service]
+  APIGW --> CRM[crm-service]
+  APIGW --> CHN[channels-service]
+  APIGW --> TEL[telephony-service]
+  APIGW --> AI[ai-orchestrator-service]
+  APIGW --> AUT[automation-service]
+  APIGW --> NOTIF[notifications-service]
+  APIGW --> DASH[dashboards-service]
+
+  WGX --> SQS[SQS]
+  SQS --> CHN
+  SQS --> TEL
+  SQS --> INBS[inbox-sync-service]
+
+  subgraph Inbox
+    CWW[Chatwoot Cluster]
+    INBP[inbox-provisioner-service]
+    INBS
+  end
+  TEN --> INBP
+  CWW --> WGX
+
+  subgraph Data
+    RDS[(Aurora Postgres)]
+    DDB[(DynamoDB - usage)]
+    REDIS[(ElastiCache Redis)]
+    S3[(S3 - media/logs)]
+  end
+
+  CRM --> RDS
+  CHN --> RDS
+  TEL --> RDS
+  ENT --> RDS
+  TEN --> RDS
+  AI --> RDS
+  AUT --> RDS
+  DASH --> RDS
+  usage-metering-service -.-> DDB
+  CHN --> REDIS
+  TEL --> S3
+  INBS --> RDS
+```
+
+Provider Webhook Flow
+```mermaid
+sequenceDiagram
+  participant P as Provider
+  participant WH as webhooks-gateway
+  participant Q as SQS
+  participant S as Domain Service
+  participant EB as EventBridge
+
+  P->>WH: webhook (signed)
+  WH->>WH: verify signature + rate limit + auth
+  WH->>Q: enqueue event payload
+  Q->>S: process job (idempotent)
+  S->>EB: emit domain event (e.g., message.received)
+```
+
+Automation Flow
+```mermaid
+sequenceDiagram
+  participant T as Trigger (event)
+  participant AUT as automation-service
+  participant WRK as Worker
+  participant EB as EventBridge
+
+  T-->>AUT: domain event (e.g., whatsapp.message.received)
+  AUT->>WRK: enqueue workflow run
+  WRK->>EB: actions emit events (message.sent, deal.updated)
+```
+
+Dashboards ETL
+```mermaid
+flowchart LR
+  EV[EventBridge] --> ETL[ETL Jobs]
+  ETL --> S3[S3 curated]
+  ETL --> RDS[(Metrics tables)]
+  DASH[dashboards-service] --> RDS
+  DASH --> S3
+```
+
+Phased Migration Plan
+- Phase 0: Modular monolith (current NestJS) emits domain events. Introduce webhooks-gateway and SQS; shift background jobs to workers per domain.
+- Phase 1: Extract telephony-service and channels-service. Stand up inbox-provisioner and inbox-sync around Chatwoot.
+- Phase 2: Extract ai-orchestrator-service and automation-service. Implement usage-metering-service and entitlements-service as shared guards.
+- Phase 3: Extract dashboards-service and notifications-service. Add vertical modules (hr, church, events, coaching) as independent services.
+
+SLOs (initial targets)
+- api-gateway: p95 < 200ms; 99.9% monthly uptime.
+- realtime-gateway: connect success > 99%; message fanout p95 < 150ms.
+- telephony-service: call setup < 500ms; media path uptime 99.95%.
+- channels-service: message enqueue to provider p95 < 300ms.
+- dashboards-service: tile refresh < 5s for live; < 15m for heavy aggregates.
+
+Risk & Mitigation
+- Service sprawl: Start with core 6–8 services; split further when justified.
+- Data consistency: Event-driven projections; reconciliation jobs; strong idempotency.
+- Cost: Scale workers on SQS depth; use shared Aurora with schemas; optional OpenSearch later.
+
+Actionable Next Steps
+- Stand up `webhooks-gateway`, `telephony-service`, `channels-service`, `inbox-provisioner-service`, `inbox-sync-service` as the first extractions.
+- Implement `entitlements-service` and `usage-metering-service` with guards used by telephony/channels.
+- Add `dashboards-service` skeleton with a minimal ETL job consuming domain events for daily KPIs.
+
+This microservice plan provides clear boundaries, data ownership, and event-driven seams, ready to evolve from the current modules to independently scalable services while preserving multi-tenant guardrails and cost safety.

@@ -1,0 +1,10 @@
+# Generated from live App Runner env — contains secret values, never commit.
+container-env.auto.tfvars.json
+terraform.tfvars
+
+# Terraform state + local cache
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log

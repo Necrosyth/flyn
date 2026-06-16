@@ -1,0 +1,449 @@
+================================================================================
+FLYN VISUAL WORKFLOW BUILDER - COMPLETE IMPLEMENTATION GUIDE
+================================================================================
+
+Project: FLYN Business OS - Visual Workflow Builder
+Role: FSD2 (Frontend System Design)
+Target: MVP with Schema-Driven Architecture
+Stack: React (Vite), React Flow (xyflow), Tailwind CSS, Zustand, Lucide React
+
+================================================================================
+SECTION 1: CURRENT STATE ANALYSIS
+================================================================================
+
+What Exists:
+- React Flow canvas with @xyflow/react v12.10.0
+- 6 hardcoded node components (TriggerNode, ActionNode, WaitNode, etc.)
+- Basic node palette sidebar (visual only, no drag-drop logic)
+- Demo workflow with hardcoded nodes/edges
+- No property panel
+- No schema system
+- No JSON export/compiler
+
+What's Missing:
+- Schema-driven node architecture
+- GenericNode component (single component for all node types)
+- PropertyPanel with dynamic form rendering
+- Atomic input components (Text, Select, Toggle, Slider, Section)
+- useFlowStore (Zustand state management)
+- flowCompiler (sanitization + validation + export)
+- Proper drag-and-drop with schema injection
+
+================================================================================
+SECTION 2: FILE STRUCTURE (TARGET)
+================================================================================
+
+src/
+├── config/
+│   └── nodeSchemas.ts         # Step 1 - Schema definitions
+├── nodes/
+│   ├── GenericNode.tsx        # Step 2 - Universal node component
+│   ├── DecisionNode.tsx       # Step 2 - Dual-handle node
+│   └── index.ts               # Node type exports
+├── components/
+│   └── panel/
+│       ├── PropertyPanel.tsx  # Step 4 - Dynamic form panel
+│       └── inputs/
+│           ├── index.ts       # Step 3 - Input exports
+│           ├── TextInput.tsx
+│           ├── SelectInput.tsx
+│           ├── TextareaInput.tsx
+│           ├── ToggleInput.tsx
+│           ├── NumberInput.tsx
+│           ├── SliderInput.tsx
+│           └── SectionInput.tsx
+├── hooks/
+│   └── useFlowStore.ts        # Step 5 - Zustand store
+├── utils/
+│   └── flowCompiler.ts        # Step 7 - Export utility
+└── pages/
+    └── Automations.tsx        # Step 6 - Updated with drag-drop
+
+================================================================================
+SECTION 3: IMPLEMENTATION STEPS
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 1: CREATE SCHEMA REGISTRY (src/config/nodeSchemas.ts)
+--------------------------------------------------------------------------------
+
+Purpose: 
+- Acts as "Mock Database" for node definitions
+- Isolated file that can later be swapped for API hook
+- Single source of truth for all node types
+
+Schema Structure:
+{
+  type: string,           // Unique identifier (e.g., 'action', 'wait')
+  label: string,          // Display name
+  icon: string,           // Lucide icon name
+  color: string,          // Tailwind gradient classes
+  category: string,       // For grouping in palette
+  fields: [               // Configuration fields
+    {
+      name: string,       // Field key in config object
+      label: string,      // Display label
+      type: string,       // Input type (text, select, toggle, etc.)
+      required?: boolean, // For validation
+      options?: [],       // For select inputs
+      fields?: [],        // For section inputs (nested)
+      min?: number,       // For slider/number
+      max?: number,
+      default?: any       // Default value
+    }
+  ]
+}
+
+Node Types to Define:
+1. trigger - Workflow entry point (webhook, schedule, manual)
+2. action - Generic worker (email, slack, http, crm)
+3. wait - Pause execution (time duration or signal)
+4. decision - Conditional branching (if/else)
+5. ai_decision - AI-powered routing with confidence threshold
+6. approval - Human-in-the-loop gate
+
+--------------------------------------------------------------------------------
+STEP 2: BUILD NODE COMPONENTS (src/nodes/)
+--------------------------------------------------------------------------------
+
+GenericNode.tsx:
+- MUST be wrapped in React.memo for performance
+- Reads data.schema for visual properties (icon, color, label)
+- Reads data.config for summary text display
+- Single input handle (top), single output handle (bottom)
+- On click, sets selectedNodeId in store
+
+DecisionNode.tsx:
+- Special case with dual output handles
+- Left handle: id="true" (green indicator)
+- Right handle: id="false" (red indicator)
+- Same memo wrapping and store connection
+
+Node Data Structure:
+{
+  id: string,              // Unique: node_${Date.now()}
+  type: 'generic' | 'decision',
+  position: { x, y },
+  data: {
+    label: string,         // From schema
+    nodeType: string,      // Original type (action, wait, etc.)
+    schema: SchemaObject,  // Reference to schema
+    config: {}             // User-configured values
+  }
+}
+
+--------------------------------------------------------------------------------
+STEP 3: CREATE ATOMIC INPUT COMPONENTS (src/components/panel/inputs/)
+--------------------------------------------------------------------------------
+
+Each input component receives:
+- name: string (field key)
+- label: string (display label)
+- value: any (current value from config)
+- onChange: (name, value) => void
+- ...extra props (options, min, max, etc.)
+
+Components to Build:
+
+TextInput.tsx
+- Standard text input
+- Props: name, label, value, onChange, placeholder
+
+SelectInput.tsx
+- Dropdown select
+- Props: name, label, value, onChange, options[]
+
+TextareaInput.tsx
+- Multi-line text
+- Props: name, label, value, onChange, rows
+
+ToggleInput.tsx
+- Boolean switch
+- Props: name, label, value, onChange
+
+NumberInput.tsx
+- Numeric input with validation
+- Props: name, label, value, onChange, min, max
+
+SliderInput.tsx
+- Visual slider for percentages (AI confidence)
+- Props: name, label, value, onChange, min, max, step
+- Display current value as percentage
+
+SectionInput.tsx
+- Groups nested fields visually
+- Props: name, label, fields[], value (object), onChange
+- Renders child inputs recursively
+
+--------------------------------------------------------------------------------
+STEP 4: BUILD PROPERTY PANEL (src/components/panel/PropertyPanel.tsx)
+--------------------------------------------------------------------------------
+
+Logic Flow:
+1. Subscribe to selectedNodeId from useFlowStore
+2. If null, show "Select a node to configure"
+3. If selected, get node from nodes array
+4. Read node.data.schema.fields
+5. Map each field to appropriate input component
+6. On input change, call updateNodeConfig(nodeId, fieldName, value)
+
+Field Type Mapping:
+field.type === 'text'     -> TextInput
+field.type === 'select'   -> SelectInput
+field.type === 'textarea' -> TextareaInput
+field.type === 'toggle'   -> ToggleInput
+field.type === 'checkbox' -> ToggleInput
+field.type === 'number'   -> NumberInput
+field.type === 'slider'   -> SliderInput
+field.type === 'section'  -> SectionInput
+
+Panel Layout:
+- Fixed width: w-80 (320px)
+- Right side of canvas
+- Header: Node type label + icon
+- Body: Scrollable form fields
+- Footer: Delete node button (optional)
+
+--------------------------------------------------------------------------------
+STEP 5: IMPLEMENT ZUSTAND STORE (src/hooks/useFlowStore.ts)
+--------------------------------------------------------------------------------
+
+State Shape:
+{
+  nodes: Node[],
+  edges: Edge[],
+  selectedNodeId: string | null,
+  
+  // Actions
+  setNodes: (nodes) => void,
+  setEdges: (edges) => void,
+  addNode: (node) => void,
+  removeNode: (nodeId) => void,
+  setSelectedNode: (nodeId) => void,
+  updateNodeConfig: (nodeId, fieldName, value) => void,
+  onNodesChange: (changes) => void,
+  onEdgesChange: (changes) => void,
+  onConnect: (connection) => void,
+}
+
+Critical: updateNodeConfig Implementation
+- Must use immer or spread operators correctly
+- Path: nodes[index].data.config[fieldName] = value
+- For nested sections: nodes[index].data.config[section][fieldName] = value
+
+--------------------------------------------------------------------------------
+STEP 6: WIRE DRAG-AND-DROP (src/pages/Automations.tsx)
+--------------------------------------------------------------------------------
+
+Sidebar (Node Palette):
+- Map over NODE_SCHEMAS to render draggable blocks
+- onDragStart: (event, nodeType) => {
+    event.dataTransfer.setData('application/reactflow', nodeType);
+    event.dataTransfer.effectAllowed = 'move';
+  }
+
+Canvas:
+- onDragOver: (event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }
+
+- onDrop: (event) => {
+    const nodeType = event.dataTransfer.getData('application/reactflow');
+    const schema = NODE_SCHEMAS[nodeType];
+    
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+    
+    const newNode = {
+      id: `node_${Date.now()}`,  // UNIQUE ID - CRITICAL
+      type: nodeType === 'decision' ? 'decision' : 'generic',
+      position,
+      data: {
+        label: schema.label,
+        nodeType: nodeType,
+        schema: schema,
+        config: {}  // Empty, user fills via panel
+      }
+    };
+    
+    addNode(newNode);
+  }
+
+Layout Update:
+- Left: Node palette (w-64)
+- Center: React Flow canvas (flex-1)
+- Right: PropertyPanel (w-80)
+
+--------------------------------------------------------------------------------
+STEP 7: CREATE FLOW COMPILER (src/utils/flowCompiler.ts)
+--------------------------------------------------------------------------------
+
+Three Responsibilities:
+
+A. SANITIZE
+- Input: Raw nodes from reactFlowInstance.getNodes()
+- Strip: handles, dragging, selected, measured, internals
+- Keep: id, type, position, data.config, data.nodeType
+
+B. VALIDATE (Pre-Flight Check)
+- Check 1: No orphan nodes (warn if 0 connections)
+- Check 2: No dead ends (non-terminal with no outgoing)
+- Check 3: Required fields filled (block save if empty)
+- Check 4: Trigger has outgoing edge
+
+Return: { valid: boolean, errors: string[], warnings: string[] }
+
+C. COMPILE
+- Generate workflow_id: `wf_${Date.now()}`
+- Transform nodes to clean format
+- Transform edges to clean format
+
+Output Format:
+{
+  workflow_id: "wf_1706745600000",
+  version: 1,
+  nodes: [
+    {
+      id: "node_1706745500000",
+      type: "action",
+      position: { x: 100, y: 200 },
+      config: {
+        action_type: "email",
+        target: "user@example.com",
+        payload: "Hello!"
+      }
+    }
+  ],
+  edges: [
+    {
+      id: "edge_1",
+      source: "node_1",
+      target: "node_2",
+      sourceHandle: "default"  // or "true"/"false" for decision
+    }
+  ]
+}
+
+================================================================================
+SECTION 4: TECHNICAL SPECIFICATIONS
+================================================================================
+
+Node Handle IDs:
+- Generic nodes: input="target", output="source"
+- Decision nodes: input="target", output_true="true", output_false="false"
+
+Color Scheme (Tailwind):
+- Trigger: from-purple-500 to-violet-600
+- Action: from-blue-500 to-cyan-600
+- Wait: from-amber-500 to-orange-600
+- Decision: from-slate-500 to-gray-600
+- AI Decision: from-indigo-500 to-purple-600
+- Approval: from-pink-500 to-rose-600
+
+Required Dependencies:
+- @xyflow/react (already installed)
+- zustand (need to install)
+- lucide-react (already installed)
+
+Performance Rules:
+- All node components MUST use React.memo
+- PropertyPanel should not cause node re-renders
+- Use useCallback for event handlers in canvas
+
+================================================================================
+SECTION 5: VALIDATION RULES
+================================================================================
+
+Structural Validation (Frontend):
+┌─────────────────────┬────────────────────────────────────────────────────┐
+│ Rule                │ Behavior                                           │
+├─────────────────────┼────────────────────────────────────────────────────┤
+│ Orphan Nodes        │ WARN if node has 0 edges (in or out)               │
+│ Dead Ends           │ WARN if non-terminal has no outgoing edge          │
+│ Missing Required    │ BLOCK save, highlight node red, show field name    │
+│ Unconnected Trigger │ WARN if trigger exists but has no outgoing         │
+│ Empty Workflow      │ BLOCK if no nodes at all                           │
+└─────────────────────┴────────────────────────────────────────────────────┘
+
+Logic Validation (Backend - NOT our job):
+- Email address validity
+- API endpoint reachability
+- Permission checks
+
+================================================================================
+SECTION 6: IMPLEMENTATION ORDER
+================================================================================
+
+Phase A - Foundation (Do First):
+1. Install zustand: npm install zustand
+2. Create src/config/nodeSchemas.ts
+3. Create src/hooks/useFlowStore.ts
+
+Phase B - Visual Layer:
+4. Create src/nodes/GenericNode.tsx
+5. Create src/nodes/DecisionNode.tsx
+6. Create src/nodes/index.ts
+
+Phase C - Configuration Layer:
+7. Create src/components/panel/inputs/TextInput.tsx
+8. Create src/components/panel/inputs/SelectInput.tsx
+9. Create src/components/panel/inputs/TextareaInput.tsx
+10. Create src/components/panel/inputs/ToggleInput.tsx
+11. Create src/components/panel/inputs/NumberInput.tsx
+12. Create src/components/panel/inputs/SliderInput.tsx
+13. Create src/components/panel/inputs/SectionInput.tsx
+14. Create src/components/panel/inputs/index.ts
+15. Create src/components/panel/PropertyPanel.tsx
+
+Phase D - Integration:
+16. Update src/pages/Automations.tsx with:
+    - New layout (3-column)
+    - Drag-drop handlers
+    - Store connection
+    - Node type registration
+
+Phase E - Export:
+17. Create src/utils/flowCompiler.ts
+18. Wire Save/Publish buttons to compiler
+
+================================================================================
+SECTION 7: TESTING CHECKLIST
+================================================================================
+
+□ Can drag node from palette to canvas
+□ New node appears with correct icon and color
+□ Clicking node opens PropertyPanel
+□ Changing field updates node.data.config
+□ Summary text updates on node after config change
+□ Decision node has two output handles
+□ Edges connect properly between nodes
+□ Save button triggers validation
+□ Validation errors show correctly
+□ Published JSON matches expected format
+□ Canvas doesn't lag when dragging (memo working)
+□ Deleting node clears selection if it was selected
+
+================================================================================
+SECTION 8: FUTURE EXTENSIBILITY
+================================================================================
+
+Adding New Node Type:
+1. Add entry to NODE_SCHEMAS in nodeSchemas.ts
+2. Done. GenericNode handles it automatically.
+
+Adding New Field Type:
+1. Create new input component in inputs/
+2. Add case to PropertyPanel's field mapper
+3. Export from inputs/index.ts
+
+Swapping to API-Based Schemas:
+1. Create useNodeSchemas() hook that fetches from API
+2. Replace import { NODE_SCHEMAS } with hook usage
+3. Component code remains unchanged
+
+================================================================================
+END OF IMPLEMENTATION GUIDE
+================================================================================

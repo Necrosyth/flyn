@@ -1,0 +1,318 @@
+## 1️⃣ Core Design Philosophy
+
+FLYN is **not**:
+
+- A CRM
+- A telephony system
+- A vertical product
+
+FLYN **is**:
+
+> A durable workflow orchestration platform with a visual builder, deterministic runtime, and pluggable executors.
+> 
+
+Everything else plugs into it.
+
+---
+
+## 2️⃣ Core Modules (Top-Level)
+
+```
+FLYN Platform
+├─ WorkflowBuilder(UI)
+├─ Workflow Compiler
+├─ Automation Orchestrator
+├─ Execution Workers
+├─ Event Bus & Resume System
+├─ PluginSystem(future)
+└─ Observability & Replay
+
+```
+
+---
+
+## 3️⃣ Workflow Builder (Visual Layer) - FSD2
+
+### 🔹 Based on: **React Flow (xyflow/xyflow)**
+
+**Responsibilities**
+
+- Visual node graph creation
+- Node placement & connections
+- Edge conditions
+- Node configuration UI
+- Versioning (draft vs published)
+
+**Outputs**
+
+- Canonical **Workflow JSON**
+
+```json
+{
+"nodes":[...],
+"edges":[...],
+"metadata":{"version":3}
+}
+
+```
+
+**What it does NOT do**
+
+- No execution
+- No retries
+- No waiting logic
+
+📌 *Purely visual & declarative*
+
+---
+
+## 4️⃣ Workflow Compiler (Determinism Gate) - FSD2
+
+### Purpose
+
+Turn **visual JSON** → **execution-safe definition**
+
+This is inspired by **Temporal’s determinism requirement**.
+
+### Responsibilities
+
+- Validate graph correctness
+- Enforce:
+    - No cycles without loop nodes
+    - Valid wait/resume nodes
+    - Allowed node transitions
+- Attach execution metadata
+
+**Output**
+
+```json
+{
+"compiled_nodes":[...],
+"compiled_edges":[...],
+"execution_plan":{...}
+}
+
+```
+
+📌 Once compiled, **workflow is immutable** (important).
+
+---
+
+## 5️⃣ Automation Orchestrator (THE BRAIN) - FSD1
+
+This is the **central module** you asked about earlier.
+
+It combines:
+
+- **Temporal execution semantics**
+- **n8n node execution model**
+- **bpmn-engine graph traversal**
+
+---
+
+### 5.1 Workflow Runtime (Temporal-Inspired)
+
+**Responsibilities**
+
+- Create **workflow_run**
+- Maintain deterministic state machine
+- Persist execution history
+- Resume from events
+
+Concepts:
+
+- Workflow Instance
+- Execution History
+- Timers
+- Signals
+
+```
+workflow_run = durable, long-lived process
+
+```
+
+---
+
+### 5.2 Graph Traversal Engine (bpmn-engine-Inspired)
+
+**Responsibilities**
+
+- Move execution tokens through graph
+- Handle:
+    - Parallel paths
+    - Conditional routing
+    - Join semantics
+
+Key concept:
+
+```
+Execution Tokens
+
+```
+
+Each token represents **one active path**.
+
+---
+
+### 5.3 Node Executor Registry (n8n-Inspired)
+
+**Responsibilities**
+
+- Registry of node executors
+- Isolation of node logic
+- Input → output contract
+
+```tsx
+NodeExecutorRegistry.get(node.type)
+
+```
+
+Executors are **plugins**, not core logic.
+
+---
+
+### 5.4 WAIT / RESUME System (Temporal Signals)
+
+**Responsibilities**
+
+- Pause workflow execution
+- Register resume conditions
+- Resume from:
+    - Time
+    - External event
+    - Human approval
+
+```
+WAIT → persist state → RESUME via signal
+
+```
+
+No polling. No cron hacks.
+
+---
+
+### 5.5 Approval Gates (Human-in-the-Loop)
+
+**Responsibilities**
+
+- Pause execution
+- Create approval task
+- Resume on approve / reject
+
+Approval is just a **special WAIT state**.
+
+---
+
+### 5.6 AI Confidence Routing
+
+**Responsibilities**
+
+- Evaluate AI output confidence
+- Decide next path
+- Trigger fallback / human gate
+
+This is **routing logic**, not AI logic.
+
+---
+
+## 6️⃣ Execution Workers (Side-Effect Layer) - FSD2
+
+### Based on: **Temporal Activities + n8n Executors**
+
+**Responsibilities**
+
+- Execute node side effects
+- Idempotent execution
+- Retry & backoff
+- Report results back
+
+Workers **never decide flow** — only execute.
+
+---
+
+## 7️⃣ Event Bus & Resume System - FSD1
+
+### Purpose
+
+Enable **event-driven resumption**
+
+**Sources**
+
+- Webhooks
+- Timers
+- UI actions
+- External systems (future plugins)
+
+**Flow**
+
+```
+Event →Match waitcondition → Resume workflow
+
+```
+
+This is **mandatory** for long-running workflows.
+
+---
+
+## 8️⃣ Plugin System (Deferred, Not Designed Yet) - FSD2
+
+CRM, HR, Voice, Payments, etc. will later be:
+
+```
+Plugin = Node Executors + Event Producers
+
+```
+
+But **core FLYN does not depend on them**.
+
+---
+
+## 9️⃣ Observability & Replay (Critical)
+
+Inspired by **Temporal + n8n execution logs**.
+
+### Capabilities
+
+- Full execution timeline
+- Per-node logs
+- Retry history
+- Replay from node X
+
+This is **non-optional**.
+
+---
+
+## 🔁 End-to-End Flow (Simplified)
+
+```
+User builds workflow (React Flow)
+        ↓
+Workflow Compiler
+        ↓
+Publish workflow
+        ↓
+Triggerevent
+        ↓
+Workflow Runtime creates workflow_run
+        ↓
+Graph Traversal Engine selectsnext node
+        ↓
+Node Executor executes side effect
+        ↓
+WAIT /RESUMEif needed
+        ↓
+Continueuntil COMPLETED
+
+```
+
+---
+
+## 🧩 Responsibility Matrix (Very Important)
+Layer	Responsibility
+Builder	Graph & config
+Compiler	Safety & determinism
+Runtime	Lifecycle & state
+Traversal	Routing
+Executors	Side effects
+WAIT/RESUME	Pausing
+Plugins	Domain logic
